@@ -1,45 +1,33 @@
-import { Outlet, createBrowserRouter } from 'react-router-dom'
+import { Outlet, createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
     path: '/',
     lazy: async () => {
-      const Layout = await import('./layouts')
-      return { Component: Layout.default }
+      const Layout = await import('./layouts');
+      return { Component: Layout.default };
     },
     children: [
       {
         index: true,
         lazy: async () => {
-          const Home = await import('./pages/Home')
-          return { Component: Home.default }
+          const Home = await import('./pages/Home');
+          return { Component: Home.default };
+        },
+      },
+      {
+        path: ':slug',
+        lazy: async () => {
+          const ArticleDetails = await import('./pages/ArticleDetails');
+          return { Component: ArticleDetails.default };
         },
       },
       {
         path: ':userId',
-        element: <Outlet />,
-        children: [
-          {
-            index: true,
-            element: <>@profile</>,
-          },
-          {
-            path: 'about',
-            element: <>about</>,
-          },
-          {
-            path: 'followers',
-            element: <>followers</>,
-          },
-          {
-            path: 'following',
-            element: <>following</>,
-          },
-          {
-            path: '*',
-            element: <>404</>,
-          },
-        ],
+        lazy: async () => {
+          const UserDetails = await import('./pages/UserDetails');
+          return { Component: UserDetails.default };
+        },
       },
       {
         path: 'me',
@@ -47,45 +35,79 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <>me</>,
+            lazy: async () => {
+              const UserDetails = await import('./pages/UserDetails');
+              return { Component: UserDetails.default };
+            },
+          },
+          {
+            path: 'favorites',
+            lazy: async () => {
+              const UserFavorites = await import('./pages/UserFavorites');
+              return { Component: UserFavorites.default };
+            },
           },
           {
             path: 'settings',
-            element: <>settings</>,
+            lazy: async () => {
+              const UserSetting = await import('./pages/UserSettings');
+              return { Component: UserSetting.default };
+            },
           },
           {
             path: '*',
-            element: <>404</>,
+            lazy: async () => {
+              const NotFound = await import('./pages/NotFound');
+              return { Component: NotFound.default };
+            },
           },
         ],
       },
       {
-        path: ':slug',
-        element: <>article</>,
-      },
-      {
-        path: 'tags/:tag',
-        element: <>tag</>,
-      },
-      {
         path: '*',
-        element: <>404</>,
+        lazy: async () => {
+          const NotFound = await import('./pages/NotFound');
+          return { Component: NotFound.default };
+        },
       },
     ],
   },
 
   {
     path: '/login',
-    element: <>login</>,
+    lazy: async () => {
+      const SignIn = await import('./pages/SignIn');
+      return { Component: SignIn.default };
+    },
   },
   {
     path: '/register',
-    element: <>register</>,
+    lazy: async () => {
+      const SignUp = await import('./pages/SignUp');
+      return { Component: SignUp.default };
+    },
+  },
+  {
+    path: '/new',
+    lazy: async () => {
+      const FormArticle = await import('./pages/FormArticle');
+      return { Component: FormArticle.default };
+    },
+  },
+  {
+    path: '/:slug/edit',
+    lazy: async () => {
+      const FormArticle = await import('./pages/FormArticle');
+      return { Component: FormArticle.default };
+    },
   },
   {
     path: '*',
-    element: <>404</>,
+    lazy: async () => {
+      const NotFound = await import('./pages/NotFound');
+      return { Component: NotFound.default };
+    },
   },
-])
+]);
 
-export default router
+export default router;
