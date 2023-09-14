@@ -5,8 +5,9 @@ import {
   GetCurrentUser,
   Token,
   PutUpdateUser,
-} from '../models';
-import https from '../https-common';
+} from '../models'
+import https from '../https-common'
+import { getItem } from '.'
 
 export const postLogin: PostLogin = ({ email, password }) => {
   return https.post<IUser>('/users/login', {
@@ -14,8 +15,8 @@ export const postLogin: PostLogin = ({ email, password }) => {
       email,
       password,
     },
-  });
-};
+  })
+}
 
 export const postRegister: PostRegister = ({ username, email, password }) => {
   return https.post<IUser>('/users', {
@@ -24,24 +25,25 @@ export const postRegister: PostRegister = ({ username, email, password }) => {
       email,
       password,
     },
-  });
-};
+  })
+}
 
 export const getCurrentUser: GetCurrentUser = () => {
-  const token: Token = localStorage.getItem('token');
+  const token: Token = getItem('token')
+  if (!token) return
   return https.get<IUser>('/users', {
     headers: {
       Authorization: 'Bearer ' + token,
     },
-  });
-};
+  })
+}
 
 export const putUpdateUser: PutUpdateUser = (user) => {
-  const token: Token = localStorage.getItem('token');
+  const token: Token = getItem('token')
   return https.put<IUser>('/users', {
     user: user,
     headers: {
       Authorization: 'Bearer ' + token,
     },
-  });
-};
+  })
+}

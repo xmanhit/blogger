@@ -1,13 +1,47 @@
-import { Form } from 'react-router-dom';
+import { useState } from 'react'
+import { ISignInProps } from '../../models'
 
-const SignInForn = () => {
+const SignInForm: React.FC<ISignInProps> = ({
+  loginRequest,
+  isActionLoading,
+  errors,
+}) => {
+  const [email, setEmail] = useState('123test@gmail.com')
+  const [password, setPassword] = useState('3534534')
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value)
+  }
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value)
+  }
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
+    loginRequest({ email, password })
+  }
+
   return (
-    <Form method='post'>
-      <input type='email' name='email' defaultValue={'123@gmail.com'} />
-      <input type='text' name='password' defaultValue={'123456'} />
-      <button type='submit'>Login</button>
-    </Form>
-  );
-};
+    <form onSubmit={handleSubmit}>
+      <label>
+        email:
+        <input type='text' value={email} onChange={handleEmailChange} />
+        {errors.email && <span>Email {errors.email}</span>}
+      </label>
+      <label>
+        Password:
+        <input
+          type='password'
+          value={password}
+          onChange={handlePasswordChange}
+        />
+        {errors.password && <span>Password {errors.password}</span>}
+      </label>
+      <button disabled={isActionLoading} type='submit'>
+        Login
+      </button>
+    </form>
+  )
+}
 
-export default SignInForn;
+export default SignInForm
