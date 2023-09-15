@@ -3,7 +3,7 @@ import { Link, useLoaderData } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../store'
 import { setArticlesRequest } from '../../store/slices/article.slice'
-import { getOffset, getPagination } from '../../store/selectors'
+import { getPagination } from '../../store/selectors'
 
 export const articleLatestLoader = ({ request }) => {
   const url = new URL(request.url)
@@ -20,15 +20,17 @@ const ArticleLatest = ({
   total,
   pagination,
 }): JSX.Element => {
-  const pageNumber = useLoaderData()
+  let page = Number(useLoaderData())
 
   useEffect(() => {
-    const newOffset = (Number(pageNumber) - 1 || 0) * limit
+    if (page === 0) page = 1
+    const offset = (page - 1) * limit
+
     setArticlesRequest({
       limit,
-      offset: newOffset,
+      offset,
     })
-  }, [pageNumber])
+  }, [page])
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -50,7 +52,11 @@ const ArticleLatest = ({
       <div>
         {total > limit &&
           pagination.map((pageNumber: number) => (
-            <Link key={pageNumber} to={`/latest?page=${pageNumber}`}>
+            <Link
+              className={pageNumber === page ? 'active' : ''}
+              key={pageNumber}
+              to={`/latest?page=${pageNumber}`}
+            >
               {pageNumber}
             </Link>
           ))}
@@ -64,10 +70,8 @@ export default connect(
     isAuthenticated: state.auth.isAuthenticated,
     isLoading: state.article.isLoading,
     articles: state.article.articles,
-    page: state.article.page,
     limit: state.article.limit,
     total: state.article.total,
-    offset: getOffset(state),
     pagination: getPagination(state),
   }),
   { setArticlesRequest }

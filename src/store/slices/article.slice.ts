@@ -5,10 +5,8 @@ export const initialState = {
   tags: [],
   articles: [],
   articleDetails: {},
-  articleFollowingUsers: [],
   isLoading: false,
   limit: 10,
-  offset: 0,
   total: 0,
   errors: {},
 }
@@ -21,27 +19,24 @@ const articleSlice = createSlice({
       state,
       _action: PayloadAction<IArticleFollowingUsersParams>
     ) => {
+      state.total = 0
+      state.articles = []
       state.isLoading = true
       state.errors = {}
     },
-    setArticleFollowingUsersSuccess: (state, action: PayloadAction<any>) => {
-      state.articleFollowingUsers = action.payload.data.articles
-      state.total = action.payload.data.articlesCount
-      state.offset = action.payload.params.offset
-      state.isLoading = false
-    },
     setArticlesRequest: (state, _action: PayloadAction<IArticlesParams>) => {
+      state.total = 0
+      state.articles = []
       state.isLoading = true
       state.errors = {}
     },
     setArticlesSuccess: (state, action: PayloadAction<any>) => {
-      console.log(action.payload)
-
-      state.articles = action.payload.data.articles
-      state.total = action.payload.data.articlesCount
+      state.articles = action.payload.articles
+      state.total = action.payload.articlesCount
       state.isLoading = false
     },
     setArticlesFailure: (state, action: PayloadAction<any>) => {
+      state.total = 0
       state.errors = action.payload.errors
       state.isLoading = false
     },
@@ -57,7 +52,6 @@ const articleSlice = createSlice({
 
 export const {
   setArticleFollowingUsersRequest,
-  setArticleFollowingUsersSuccess,
   setArticlesRequest,
   setArticlesSuccess,
   setArticlesFailure,

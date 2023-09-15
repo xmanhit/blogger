@@ -4,6 +4,10 @@ import {
   loginRequest,
   registerRequest,
 } from '../store/slices/auth.slice'
+import {
+  setArticleFollowingUsersRequest,
+  setArticlesRequest,
+} from '../store/slices/article.slice'
 
 // token
 export type Token = string | null
@@ -87,9 +91,9 @@ export interface IArticleFollowingUsersParams {
 }
 
 export interface IArticlesParams extends IArticleFollowingUsersParams {
-  tag: string
-  author: string
-  favorited: string
+  tag?: string
+  author?: string
+  favorited?: string
 }
 
 export type GetArticleFollowingUsers = (
@@ -182,7 +186,21 @@ export interface ISignUpProps {
 export interface IRegisterProps extends ISignUpProps {
   isLoading: boolean
   isAuthenticated: boolean
-  // currentUserRequest: typeof currentUserRequest
+}
+
+export interface IHomeProps {
+  isAuthenticated: boolean
+  setArticlesRequest: typeof setArticlesRequest
+  setArticleFollowingUsersRequest: typeof setArticleFollowingUsersRequest
+  isLoading: boolean
+  articles: IArticle[]
+  limit: number
+  total: number
+  pagination: number[]
+}
+
+export interface IArticleProps {
+  article: IArticle
 }
 
 // State

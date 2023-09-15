@@ -11,17 +11,15 @@ const router = createBrowserRouter([
       {
         index: true,
         lazy: async () => {
-          const Home = await import('./pages/Home')
-          return { Component: Home.default }
+          const { homeLoader, default: Home } = await import('./pages/Home')
+          return { loader: homeLoader, Component: Home }
         },
       },
       {
         path: 'latest',
         lazy: async () => {
-          const { articleLatestLoader, default: ArticleLatest } = await import(
-            './pages/ArticleLatest'
-          )
-          return { loader: articleLatestLoader, Component: ArticleLatest }
+          const { homeLoader, default: Home } = await import('./pages/Home')
+          return { loader: homeLoader, Component: Home }
         },
       },
       {

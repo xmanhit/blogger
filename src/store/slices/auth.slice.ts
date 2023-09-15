@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { IAuthState, ILoginCredentials, IUser } from '../../models'
-import { getItem } from '../../services'
+import { getCurrentUser, getItem } from '../../services'
 
 export const initialState: IAuthState = {
-  user: {},
+  user: getCurrentUser(),
   isAuthenticated: getItem('token') ? true : false,
   isActionLoading: false,
   isLoading: false,

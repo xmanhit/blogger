@@ -7,7 +7,6 @@ import {
 } from '../../services/article.service'
 import {
   setArticleFollowingUsersRequest,
-  setArticleFollowingUsersSuccess,
   setArticlesFailure,
   setArticlesRequest,
   setArticlesSuccess,
@@ -23,24 +22,20 @@ function* handleSetArticleFollowingUsers(
         getArticleFollowingUsers,
         action.payload
       )
-    console.log(response.data)
 
-    yield put(setArticleFollowingUsersSuccess(response.data))
+    yield put(setArticlesSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
-    yield put(setArticlesFailure(response?.data))
+    yield put(setArticlesSuccess(response?.data))
   }
 }
 function* handleSetArticles(action: ReturnType<typeof setArticlesRequest>) {
   try {
-    console.log(action.payload)
-
     const response: AxiosResponse<{
       articles: IArticle[]
       articlesCount: number
     }> = yield call<GetArticles>(getArticles, action.payload)
-    const data = response.data
-    yield put(setArticlesSuccess({ data, params: action.payload }))
+    yield put(setArticlesSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
     yield put(setArticlesFailure(response?.data))

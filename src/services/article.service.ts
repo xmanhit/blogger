@@ -13,7 +13,6 @@ export const getArticleFollowingUsers: GetArticleFollowingUsers = (params) => {
 }
 
 export const getArticles: GetArticles = (params) => {
-  console.log(params)
   return https.get('/articles', { params })
 }
 

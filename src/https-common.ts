@@ -41,7 +41,8 @@ axiosPrivate.interceptors.response.use(
     if (currentUser) {
       const token: string = currentUser.token
       if (token) storeItem({ token })
-      storeItem({ currentUser })
+
+      storeItem({ currentUser: JSON.stringify(currentUser) })
     }
     return response
   },
@@ -50,8 +51,10 @@ axiosPrivate.interceptors.response.use(
     console.log(error)
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    clearItem('token')
-    clearItem('currentUser')
+    if (error.response.status === 401) {
+      clearItem('token')
+      clearItem('currentUser')
+    }
     return Promise.reject(error)
   }
 )

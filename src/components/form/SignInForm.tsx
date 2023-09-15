@@ -6,7 +6,7 @@ const SignInForm: React.FC<ISignInProps> = ({
   isActionLoading,
   errors,
 }) => {
-  const [email, setEmail] = useState('123test@gmail.com')
+  const [email, setEmail] = useState('123test1@gmail.com')
   const [password, setPassword] = useState('3534534')
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value)
@@ -23,20 +23,23 @@ const SignInForm: React.FC<ISignInProps> = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        email:
-        <input type='text' value={email} onChange={handleEmailChange} />
-        {errors.email && <span>Email {errors.email}</span>}
-      </label>
-      <label>
-        Password:
-        <input
-          type='password'
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        {errors.password && <span>Password {errors.password}</span>}
-      </label>
+      {errors && <span>{JSON.stringify(errors).replace(/[^\w\s]/g, '')}</span>}
+      <div>
+        <label>
+          email:
+          <input type='text' value={email} onChange={handleEmailChange} />
+        </label>
+      </div>
+      <div>
+        <label>
+          Password:
+          <input
+            type='password'
+            value={password}
+            onChange={handlePasswordChange}
+          />
+        </label>
+      </div>
       <button disabled={isActionLoading} type='submit'>
         Login
       </button>
