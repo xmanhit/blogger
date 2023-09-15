@@ -5,13 +5,7 @@ import {
   setArticleFollowingUsersRequest,
   setArticlesRequest,
 } from '../../store/slices/article.slice'
-import {
-  Link,
-  LoaderFunction,
-  NavLink,
-  useLoaderData,
-  useNavigate,
-} from 'react-router-dom'
+import { Link, LoaderFunction, NavLink, useLoaderData } from 'react-router-dom'
 import { getPagination } from '../../store/selectors'
 import { IArticle, IHomeProps } from '../../models'
 import CardArticle from '../../components/ui/CardArticle'
@@ -94,5 +88,8 @@ export default connect(
     total: state.article.total,
     pagination: getPagination(state),
   }),
-  { setArticlesRequest, setArticleFollowingUsersRequest }
+  {
+    setArticlesRequest,
+    setArticleFollowingUsersRequest,
+  }
 )(Home)

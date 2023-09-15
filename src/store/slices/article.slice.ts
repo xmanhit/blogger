@@ -1,11 +1,17 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { IArticleFollowingUsersParams, IArticlesParams } from '../../models'
+import {
+  IArticle,
+  IArticleFollowingUsersParams,
+  IArticleState,
+  IArticlesParams,
+} from '../../models'
 
-export const initialState = {
+export const initialState: IArticleState = {
   tags: [],
   articles: [],
   articleDetails: {},
   isLoading: false,
+  isActionLoading: '',
   limit: 10,
   total: 0,
   errors: {},
@@ -44,8 +50,44 @@ const articleSlice = createSlice({
     createArticle: (state, action: PayloadAction<any>) => {},
     updateArticle: (state, action: PayloadAction<any>) => {},
     deleteArticle: (state, action: PayloadAction<any>) => {},
-    createArticleFavorite: (state, action: PayloadAction<any>) => {},
-    deleteArticleFavorite: (state, action: PayloadAction<any>) => {},
+    createArticleFavoriteRequest: (state, action: PayloadAction<string>) => {
+      state.isActionLoading = action.payload
+    },
+    createArticleFavoriteSuccess: (
+      state,
+      action: PayloadAction<{ article: IArticle }>
+    ) => {
+      const article = state.articles.find(
+        (p) => p.slug === action.payload.article.slug
+      )
+      if (article) {
+        article.favorited = action.payload.article.favorited
+        article.favoritesCount = action.payload.article.favoritesCount
+      }
+      state.isActionLoading = ''
+    },
+    createArticleFavoriteFailure: (state, _action: PayloadAction<any>) => {
+      state.isActionLoading = ''
+    },
+    deleteArticleFavoriteRequest: (state, action: PayloadAction<string>) => {
+      state.isActionLoading = action.payload
+    },
+    deleteArticleFavoriteSuccess: (
+      state,
+      action: PayloadAction<{ article: IArticle }>
+    ) => {
+      const article = state.articles.find(
+        (p) => p.slug === action.payload.article.slug
+      )
+      if (article) {
+        article.favorited = action.payload.article.favorited
+        article.favoritesCount = action.payload.article.favoritesCount
+      }
+      state.isActionLoading = ''
+    },
+    deleteArticleFavoriteFailure: (state, _action: PayloadAction<any>) => {
+      state.isActionLoading = ''
+    },
     setTags: (state, action: PayloadAction<any>) => {},
   },
 })
@@ -59,6 +101,12 @@ export const {
   createArticle,
   updateArticle,
   deleteArticle,
+  createArticleFavoriteRequest,
+  createArticleFavoriteSuccess,
+  createArticleFavoriteFailure,
+  deleteArticleFavoriteRequest,
+  deleteArticleFavoriteSuccess,
+  deleteArticleFavoriteFailure,
   setTags,
 } = articleSlice.actions
 

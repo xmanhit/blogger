@@ -5,6 +5,8 @@ import {
   registerRequest,
 } from '../store/slices/auth.slice'
 import {
+  createArticleFavoriteRequest,
+  deleteArticleFavoriteRequest,
   setArticleFollowingUsersRequest,
   setArticlesRequest,
 } from '../store/slices/article.slice'
@@ -192,6 +194,9 @@ export interface IHomeProps {
   isAuthenticated: boolean
   setArticlesRequest: typeof setArticlesRequest
   setArticleFollowingUsersRequest: typeof setArticleFollowingUsersRequest
+  createArticleFavoriteRequest: typeof createArticleFavoriteRequest
+  deleteArticleFavoriteRequest: typeof deleteArticleFavoriteRequest
+  isActionLoading: boolean
   isLoading: boolean
   articles: IArticle[]
   limit: number
@@ -201,6 +206,10 @@ export interface IHomeProps {
 
 export interface IArticleProps {
   article: IArticle
+  isAuthenticated: boolean
+  isActionLoading: string
+  createArticleFavoriteRequest: typeof createArticleFavoriteRequest
+  deleteArticleFavoriteRequest: typeof deleteArticleFavoriteRequest
 }
 
 // State
@@ -210,4 +219,15 @@ export interface IAuthState {
   isLoading: boolean
   isActionLoading: boolean
   errors: IErrorCredentials
+}
+
+export interface IArticleState {
+  tags: string[]
+  articles: IArticle[]
+  articleDetails: IArticle | {}
+  isLoading: boolean
+  isActionLoading: string
+  limit: number
+  total: number
+  errors: any
 }

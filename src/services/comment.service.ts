@@ -1,4 +1,4 @@
-import https, { axiosPrivate } from '../https-common'
+import { axiosPrivate } from '../https-common'
 import {
   CreateArticleComment,
   DeleteArticleComment,

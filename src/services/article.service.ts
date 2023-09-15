@@ -13,7 +13,7 @@ export const getArticleFollowingUsers: GetArticleFollowingUsers = (params) => {
 }
 
 export const getArticles: GetArticles = (params) => {
-  return https.get('/articles', { params })
+  return axiosPrivate.get('/articles', { params })
 }
 
 export const createArticle: CreateArticle = (article) => {
@@ -21,7 +21,7 @@ export const createArticle: CreateArticle = (article) => {
 }
 
 export const getArticle: GetArticle = (slug) => {
-  return https.get(`/articles/${slug}`)
+  return axiosPrivate.get(`/articles/${slug}`)
 }
 
 export const updateArticle: UpdateArticle = (slug, article) => {
