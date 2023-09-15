@@ -1,29 +1,31 @@
-import { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { ILoginProps } from '../../models'
+import { Link, redirect, useNavigate } from 'react-router-dom'
 import { RootState } from '../../store'
-import {
-  /*currentUserRequest,*/ loginRequest,
-} from '../../store/slices/auth.slice'
+import { ILoginProps } from '../../models'
+import { loginRequest } from '../../store/slices/auth.slice'
 import SignInForm from '../../components/form/SignInForm'
+import { useEffect } from 'react'
+
+export const loginLoader = () => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    return redirect('/')
+  }
+  return null
+}
 
 const Login: React.FC<ILoginProps> = ({
   isLoading,
-  isActionLoading,
   isAuthenticated,
-  // currentUserRequest,
+  isActionLoading,
   loginRequest,
   errors,
 }) => {
   const navigate = useNavigate()
-  // useEffect(() => {
-  //   currentUserRequest()
-  // }, [])
-
   useEffect(() => {
     if (isAuthenticated) navigate('/')
   }, [isAuthenticated])
+  console.log(isAuthenticated, isLoading)
 
   if (isLoading || isAuthenticated) {
     return <div>Loading...</div>
@@ -31,7 +33,8 @@ const Login: React.FC<ILoginProps> = ({
 
   return (
     <>
-      <h1>Login</h1>
+      <h2>Login</h2>
+      <Link to='/register'>Need an account?</Link>
       <SignInForm
         loginRequest={loginRequest}
         isActionLoading={isActionLoading}
@@ -44,12 +47,11 @@ const Login: React.FC<ILoginProps> = ({
 export default connect(
   (state: RootState) => ({
     isLoading: state.auth.isLoading,
-    isActionLoading: state.auth.isActionLoading,
     isAuthenticated: state.auth.isAuthenticated,
+    isActionLoading: state.auth.isActionLoading,
     errors: state.auth.errors,
   }),
   {
     loginRequest,
-    // currentUserRequest,
   }
 )(Login)

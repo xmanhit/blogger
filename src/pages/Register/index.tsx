@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, redirect, useNavigate } from 'react-router-dom'
 import { IRegisterProps } from '../../models'
 import { RootState } from '../../store'
 import {
@@ -9,18 +9,22 @@ import {
 } from '../../store/slices/auth.slice'
 import SignUpForm from '../../components/form/SignUpForm'
 
+export const registerLoader = () => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    return redirect('/')
+  }
+  return null
+}
+
 const Register: React.FC<IRegisterProps> = ({
   isLoading,
   isActionLoading,
-  // currentUserRequest,
   isAuthenticated,
   registerRequest,
   errors,
 }) => {
   const navigate = useNavigate()
-  // useEffect(() => {
-  //   currentUserRequest()
-  // }, [])
 
   useEffect(() => {
     if (isAuthenticated) navigate('/')
@@ -32,7 +36,8 @@ const Register: React.FC<IRegisterProps> = ({
 
   return (
     <>
-      <div>Register</div>
+      <h2>Register</h2>
+      <Link to='/login'>Have an account?</Link>
       <SignUpForm
         registerRequest={registerRequest}
         isActionLoading={isActionLoading}
@@ -51,6 +56,5 @@ export default connect(
   }),
   {
     registerRequest,
-    // currentUserRequest,
   }
 )(Register)

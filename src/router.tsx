@@ -16,6 +16,15 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: 'latest',
+        lazy: async () => {
+          const { articleLatestLoader, default: ArticleLatest } = await import(
+            './pages/ArticleLatest'
+          )
+          return { loader: articleLatestLoader, Component: ArticleLatest }
+        },
+      },
+      {
         path: ':slug',
         lazy: async () => {
           const ArticleDetails = await import('./pages/ArticleDetails')
@@ -76,15 +85,17 @@ const router = createBrowserRouter([
   {
     path: '/login',
     lazy: async () => {
-      const Login = await import('./pages/Login')
-      return { Component: Login.default }
+      const { loginLoader, default: Login } = await import('./pages/Login')
+      return { loader: loginLoader, Component: Login }
     },
   },
   {
     path: '/register',
     lazy: async () => {
-      const Register = await import('./pages/Register')
-      return { Component: Register.default }
+      const { registerLoader, default: Register } = await import(
+        './pages/Register'
+      )
+      return { loader: registerLoader, Component: Register }
     },
   },
   {

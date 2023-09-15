@@ -150,7 +150,7 @@ export type DeleteArticleFavorite = (
 export type GetTags = () => Promise<AxiosResponse<{ tags: string[] }>>
 
 // localStorage
-export type StoreItem = (item: { token: Token }) => void
+export type StoreItem = (item: { [key: string]: any }) => void
 export type GetItem = (item: string) => string | null
 export type ClearItem = (item: string) => void
 
@@ -171,7 +171,6 @@ export interface ISignInProps {
 export interface ILoginProps extends ISignInProps {
   isLoading: boolean
   isAuthenticated: boolean
-  // currentUserRequest: typeof currentUserRequest
 }
 
 export interface ISignUpProps {

@@ -1,11 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { IAuthState, ILoginCredentials, IUser } from '../../models'
+import { getItem } from '../../services'
 
 export const initialState: IAuthState = {
   user: {},
-  isAuthenticated: false,
+  isAuthenticated: getItem('token') ? true : false,
   isActionLoading: false,
-  isLoading: true,
+  isLoading: false,
   errors: {},
 }
 
@@ -33,7 +34,7 @@ export const authSlice = createSlice({
       state.user = {}
       state.isAuthenticated = false
     },
-    // currentUserRequest: () => {},
+    currentUserRequest: () => {},
     currentUser: (state, action: PayloadAction<IUser>): void => {
       state.user = action.payload
       state.isAuthenticated = true
@@ -78,7 +79,7 @@ export const {
   loginFailure,
   logoutRequest,
   logoutSuccess,
-  // currentUserRequest,
+  currentUserRequest,
   currentUser,
   notCurrentUser,
   registerRequest,

@@ -14,7 +14,7 @@ import {
   logoutSuccess,
   notCurrentUser,
   currentUser,
-  // currentUserRequest,
+  currentUserRequest,
   registerRequest,
   registerSuccess,
   registerFailure,
@@ -22,7 +22,6 @@ import {
   updateFailure,
   updateSuccess,
 } from '../slices/auth.slice'
-import { clearItem, storeItem } from '../../services'
 import { AxiosError, AxiosResponse } from 'axios'
 
 // Actions
@@ -33,9 +32,7 @@ function* handleRegister(action: ReturnType<typeof registerRequest>) {
       action.payload
     )
     const user: IUser = response.data.user
-    const token: string = user.token
     yield put(registerSuccess(user))
-    yield call(storeItem, { token })
   } catch (error) {
     const { response } = error as AxiosError
     yield put(registerFailure(response?.data))
@@ -49,9 +46,7 @@ function* handleLogin(action: ReturnType<typeof loginRequest>) {
       action.payload
     )
     const user: IUser = response.data.user
-    const token: string = user.token
     yield put(loginSuccess(user))
-    yield call(storeItem, { token })
   } catch (error) {
     const { response } = error as AxiosError
     yield put(loginFailure(response?.data))
@@ -63,7 +58,6 @@ function* handlelogout() {
     (state) => state.auth.isAuthenticated
   )
   if (!isAuthenticated) return
-  yield call(clearItem, 'token')
   yield put(logoutSuccess())
 }
 
@@ -85,7 +79,12 @@ export function* handleCurrentUser() {
   try {
     const response: AxiosResponse<{ user: IUser }> = yield call(getCurrentUser)
     const user: IUser = response.data.user
-    yield put(currentUser(user))
+
+    if (!!user) {
+      yield put(currentUser(user))
+    } else {
+      yield put(notCurrentUser())
+    }
   } catch (error) {
     yield put(notCurrentUser())
   }
@@ -104,9 +103,9 @@ export function* watchLogout() {
   yield takeLatest(logoutRequest, handlelogout)
 }
 
-// export function* watchCurrentUser() {
-//   yield takeLatest(currentUserRequest, handleCurrentUser)
-// }
+export function* watchCurrentUser() {
+  yield takeLatest(currentUserRequest, handleCurrentUser)
+}
 
 export function* watchUpdate() {
   yield takeLatest(updateRequest, handleUpdate)

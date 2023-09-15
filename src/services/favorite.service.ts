@@ -1,20 +1,10 @@
-import https from '../https-common';
-import { CreateArticleFavorite, Token } from '../models';
+import { axiosPrivate } from '../https-common'
+import { CreateArticleFavorite } from '../models'
 
 export const PostCreateArticleFavorite: CreateArticleFavorite = (slug) => {
-  const token: Token = localStorage.getItem('token');
-  return https.post(`/articles${slug}/favorites`, {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  });
-};
+  return axiosPrivate.post(`/articles${slug}/favorites`)
+}
 
 export const DeleteArticleFavorite: CreateArticleFavorite = (slug) => {
-  const token: Token = localStorage.getItem('token');
-  return https.delete(`/articles${slug}/favorites`, {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  });
-};
+  return axiosPrivate.delete(`/articles${slug}/favorites`)
+}

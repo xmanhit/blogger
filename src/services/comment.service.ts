@@ -1,21 +1,21 @@
-import https from '../https-common';
+import https, { axiosPrivate } from '../https-common'
 import {
   CreateArticleComment,
   DeleteArticleComment,
   GetArticleComments,
-} from '../models';
+} from '../models'
 
 export const getArticleComments: GetArticleComments = (slug) => {
-  return https.get(`/articles/${slug}/comments`);
-};
+  return axiosPrivate.get(`/articles/${slug}/comments`)
+}
 
 export const postCreateArticleComment: CreateArticleComment = (
   slug,
   comment
 ) => {
-  return https.post(`/articles/${slug}/comments`, { comment });
-};
+  return axiosPrivate.post(`/articles/${slug}/comments`, { comment })
+}
 
 export const deleteArticleComment: DeleteArticleComment = (slug, commentId) => {
-  return https.delete(`/articles/${slug}/comments${commentId}`);
-};
+  return axiosPrivate.delete(`/articles/${slug}/comments${commentId}`)
+}

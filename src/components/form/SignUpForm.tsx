@@ -52,10 +52,10 @@ const SignUpForm: React.FC<ISignUpProps> = ({
           />
           {errors.password && <span>Password {errors.password}</span>}
         </label>
-        <button disabled={isActionLoading} type='submit'>
-          Register
-        </button>
       </div>
+      <button disabled={isActionLoading} type='submit'>
+        Register
+      </button>
     </form>
   )
 }
