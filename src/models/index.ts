@@ -224,7 +224,7 @@ export interface IAuthState {
 export interface IArticleState {
   tags: string[]
   articles: IArticle[]
-  articleDetails: IArticle | {}
+  articleDetails: IArticle
   isLoading: boolean
   isActionLoading: string
   limit: number

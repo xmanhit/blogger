@@ -9,7 +9,23 @@ import {
 export const initialState: IArticleState = {
   tags: [],
   articles: [],
-  articleDetails: {},
+  articleDetails: {
+    slug: '',
+    title: '',
+    description: '',
+    body: '',
+    tagList: [],
+    createdAt: '',
+    updatedAt: '',
+    favorited: false,
+    favoritesCount: 0,
+    author: {
+      username: '',
+      bio: '',
+      image: '',
+      following: false,
+    },
+  },
   isLoading: false,
   isActionLoading: '',
   limit: 10,
@@ -60,9 +76,16 @@ const articleSlice = createSlice({
       const article = state.articles.find(
         (p) => p.slug === action.payload.article.slug
       )
+
       if (article) {
         article.favorited = action.payload.article.favorited
         article.favoritesCount = action.payload.article.favoritesCount
+      }
+
+      if (state.articleDetails.slug === action.payload.article.slug) {
+        state.articleDetails.favorited = action.payload.article.favorited
+        state.articleDetails.favoritesCount =
+          action.payload.article.favoritesCount
       }
       state.isActionLoading = ''
     },
@@ -82,6 +105,12 @@ const articleSlice = createSlice({
       if (article) {
         article.favorited = action.payload.article.favorited
         article.favoritesCount = action.payload.article.favoritesCount
+      }
+
+      if (state.articleDetails.slug === action.payload.article.slug) {
+        state.articleDetails.favorited = action.payload.article.favorited
+        state.articleDetails.favoritesCount =
+          action.payload.article.favoritesCount
       }
       state.isActionLoading = ''
     },
