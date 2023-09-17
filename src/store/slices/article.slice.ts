@@ -2,14 +2,15 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import {
   IArticle,
   IArticleFollowingUsersParams,
+  IArticleResponse,
   IArticleState,
   IArticlesParams,
 } from '../../models'
 
 export const initialState: IArticleState = {
-  tags: [],
+  tagList: [],
   articles: [],
-  articleDetails: {
+  article: {
     slug: '',
     title: '',
     description: '',
@@ -62,7 +63,22 @@ const articleSlice = createSlice({
       state.errors = action.payload.errors
       state.isLoading = false
     },
-    setArticleDetails: (state, action: PayloadAction<any>) => {},
+    setArticleDetailsRequest: (state, _action: PayloadAction<any>) => {
+      state.isLoading = true
+      state.errors = {}
+    },
+    setArticleDetailsSuccess: (
+      state,
+      action: PayloadAction<IArticleResponse>
+    ) => {
+      console.log(action.payload)
+      state.article = action.payload.article
+      state.isLoading = false
+    },
+    setArticleDetailsFailure: (state, action: PayloadAction<any>) => {
+      state.errors = action.payload.errors
+      state.isLoading = false
+    },
     createArticle: (state, action: PayloadAction<any>) => {},
     updateArticle: (state, action: PayloadAction<any>) => {},
     deleteArticle: (state, action: PayloadAction<any>) => {},
@@ -71,7 +87,7 @@ const articleSlice = createSlice({
     },
     createArticleFavoriteSuccess: (
       state,
-      action: PayloadAction<{ article: IArticle }>
+      action: PayloadAction<IArticleResponse>
     ) => {
       const article = state.articles.find(
         (p) => p.slug === action.payload.article.slug
@@ -82,10 +98,9 @@ const articleSlice = createSlice({
         article.favoritesCount = action.payload.article.favoritesCount
       }
 
-      if (state.articleDetails.slug === action.payload.article.slug) {
-        state.articleDetails.favorited = action.payload.article.favorited
-        state.articleDetails.favoritesCount =
-          action.payload.article.favoritesCount
+      if (state.article.slug === action.payload.article.slug) {
+        state.article.favorited = action.payload.article.favorited
+        state.article.favoritesCount = action.payload.article.favoritesCount
       }
       state.isActionLoading = ''
     },
@@ -97,7 +112,7 @@ const articleSlice = createSlice({
     },
     deleteArticleFavoriteSuccess: (
       state,
-      action: PayloadAction<{ article: IArticle }>
+      action: PayloadAction<IArticleResponse>
     ) => {
       const article = state.articles.find(
         (p) => p.slug === action.payload.article.slug
@@ -107,10 +122,9 @@ const articleSlice = createSlice({
         article.favoritesCount = action.payload.article.favoritesCount
       }
 
-      if (state.articleDetails.slug === action.payload.article.slug) {
-        state.articleDetails.favorited = action.payload.article.favorited
-        state.articleDetails.favoritesCount =
-          action.payload.article.favoritesCount
+      if (state.article.slug === action.payload.article.slug) {
+        state.article.favorited = action.payload.article.favorited
+        state.article.favoritesCount = action.payload.article.favoritesCount
       }
       state.isActionLoading = ''
     },
@@ -126,7 +140,9 @@ export const {
   setArticlesRequest,
   setArticlesSuccess,
   setArticlesFailure,
-  setArticleDetails,
+  setArticleDetailsRequest,
+  setArticleDetailsSuccess,
+  setArticleDetailsFailure,
   createArticle,
   updateArticle,
   deleteArticle,

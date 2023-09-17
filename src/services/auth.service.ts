@@ -8,6 +8,8 @@ import {
 import { axiosPrivate } from '../https-common'
 
 export const postLogin: PostLogin = ({ email, password }) => {
+  console.log({ email, password })
+
   return axiosPrivate.post<IUser>('/users/login', {
     user: {
       email,

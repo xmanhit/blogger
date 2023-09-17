@@ -47,8 +47,6 @@ axiosPrivate.interceptors.response.use(
     return response
   },
   function (error) {
-    console.log(error.status)
-    console.log(error)
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     if (error.response.status === 401) {

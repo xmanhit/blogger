@@ -16,14 +16,14 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: 'latest',
+        path: 'following',
         lazy: async () => {
           const { homeLoader, default: Home } = await import('./pages/Home')
           return { loader: homeLoader, Component: Home }
         },
       },
       {
-        path: ':slug',
+        path: 'article/:slug',
         lazy: async () => {
           const ArticleDetails = await import('./pages/ArticleDetails')
           return { Component: ArticleDetails.default }

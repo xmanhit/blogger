@@ -11,6 +11,7 @@ import {
   watchSetArticles,
   watchCreateFavorite,
   watchDeleteFavorite,
+  watchSetArticleDetails,
 } from './article.saga'
 
 export default function* rootSaga() {
@@ -26,5 +27,6 @@ export default function* rootSaga() {
     watchSetArticles(),
     watchCreateFavorite(),
     watchDeleteFavorite(),
+    watchSetArticleDetails(),
   ])
 }

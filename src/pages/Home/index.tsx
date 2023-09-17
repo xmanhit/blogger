@@ -13,8 +13,8 @@ import CardArticle from '../../components/ui/CardArticle'
 export const homeLoader: LoaderFunction = ({ request }) => {
   const url: URL = new URL(request.url)
   const page: number = Number(url.searchParams.get('page')) || 1
-  let isLatest: boolean = url.pathname === '/latest'
-  return { page, isLatest }
+  const isFollowing: boolean = url.pathname === '/following'
+  return { page, isFollowing }
 }
 
 const Home: React.FC<IHomeProps> = ({
@@ -27,15 +27,15 @@ const Home: React.FC<IHomeProps> = ({
   total,
   pagination,
 }): JSX.Element => {
-  let { page, isLatest } = useLoaderData() as {
+  let { page, isFollowing } = useLoaderData() as {
     page: number
-    isLatest: boolean
+    isFollowing: boolean
   }
   useEffect(() => {
     page = Number(page)
     const offset = (page - 1) * limit
 
-    if (isAuthenticated && !isLatest) {
+    if (isAuthenticated && isFollowing) {
       setArticleFollowingUsersRequest({
         limit,
         offset,
@@ -46,14 +46,14 @@ const Home: React.FC<IHomeProps> = ({
         offset,
       })
     }
-  }, [isAuthenticated, page, isLatest])
+  }, [isAuthenticated, page, isFollowing])
 
   return (
     <div>
       {isAuthenticated && (
         <div>
-          <NavLink to='/'>Following</NavLink>
-          <NavLink to='/latest'>Latest</NavLink>
+          <NavLink to='/'>Latest</NavLink>
+          <NavLink to='/following'>Following</NavLink>
         </div>
       )}
       {isLoading && <div>Loading...</div>}
@@ -68,7 +68,7 @@ const Home: React.FC<IHomeProps> = ({
             <Link
               className={pageNumber === page ? 'active' : ''}
               key={pageNumber}
-              to={`/${isLatest ? 'latest' : ''}?page=${pageNumber}`}
+              to={`/${isFollowing ? 'following' : ''}?page=${pageNumber}`}
             >
               [{pageNumber === page ? 'Current' : ''} {pageNumber}]
             </Link>

@@ -7,6 +7,7 @@ import {
 import {
   createArticleFavoriteRequest,
   deleteArticleFavoriteRequest,
+  setArticleDetailsRequest,
   setArticleFollowingUsersRequest,
   setArticlesRequest,
 } from '../store/slices/article.slice'
@@ -87,6 +88,10 @@ export interface IArticle {
   author: IAuthor
 }
 
+export interface IArticleResponse {
+  article: IArticle
+}
+
 export interface IArticleFollowingUsersParams {
   limit: number
   offset: number
@@ -128,30 +133,28 @@ export interface IComment {
   author: IAuthor
 }
 
-export type GetArticleComments = (
+export type GetArticleComments = (params: {
   slug: string
-) => Promise<AxiosResponse<IComment[]>>
+}) => Promise<AxiosResponse<{ comments: IComment[] }>>
 
-export type CreateArticleComment = (
-  slug: string,
-  comment: {
-    body: string
-  }
-) => Promise<AxiosResponse<IComment>>
+export type CreateArticleComment = (params: {
+  slug: string
+  comment: { body: string }
+}) => Promise<AxiosResponse<IComment>>
 
-export type DeleteArticleComment = (
-  slug: string,
+export type DeleteArticleComment = (params: {
+  slug: string
   commentId: string
-) => Promise<AxiosResponse<IComment>>
+}) => Promise<AxiosResponse<IComment>>
 
 // favorites
 export type CreateArticleFavorite = (
   slug: string
-) => Promise<AxiosResponse<{ article: IArticle }>>
+) => Promise<AxiosResponse<IArticleResponse>>
 
 export type DeleteArticleFavorite = (
   slug: string
-) => Promise<AxiosResponse<{ article: IArticle }>>
+) => Promise<AxiosResponse<IArticleResponse>>
 
 export type GetTags = () => Promise<AxiosResponse<{ tags: string[] }>>
 
@@ -194,9 +197,6 @@ export interface IHomeProps {
   isAuthenticated: boolean
   setArticlesRequest: typeof setArticlesRequest
   setArticleFollowingUsersRequest: typeof setArticleFollowingUsersRequest
-  createArticleFavoriteRequest: typeof createArticleFavoriteRequest
-  deleteArticleFavoriteRequest: typeof deleteArticleFavoriteRequest
-  isActionLoading: boolean
   isLoading: boolean
   articles: IArticle[]
   limit: number
@@ -212,6 +212,15 @@ export interface IArticleProps {
   deleteArticleFavoriteRequest: typeof deleteArticleFavoriteRequest
 }
 
+export interface IArticleDetailsProps {
+  article: IArticle
+  isLoading: boolean
+  isActionLoading: string
+  isAuthenticated: boolean
+  setArticleDetailsRequest: typeof setArticleDetailsRequest
+  errors: any
+}
+
 // State
 export interface IAuthState {
   user: IUser | {}
@@ -222,12 +231,19 @@ export interface IAuthState {
 }
 
 export interface IArticleState {
-  tags: string[]
+  tagList: string[]
   articles: IArticle[]
-  articleDetails: IArticle
+  article: IArticle
   isLoading: boolean
   isActionLoading: string
   limit: number
   total: number
+  errors: any
+}
+
+export interface ICommentState {
+  isLoading: boolean
+  isActionLoading: string
+  comments: IComment[]
   errors: any
 }

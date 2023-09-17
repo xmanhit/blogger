@@ -1,7 +1,13 @@
 import { AxiosError, AxiosResponse } from 'axios'
-import { call, put, takeLatest } from 'redux-saga/effects'
-import { GetArticleFollowingUsers, GetArticles, IArticle } from '../../models'
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import {
+  GetArticleFollowingUsers,
+  GetArticles,
+  IArticle,
+  IArticleResponse,
+} from '../../models'
+import {
+  getArticle,
   getArticleFollowingUsers,
   getArticles,
 } from '../../services/article.service'
@@ -12,6 +18,9 @@ import {
   deleteArticleFavoriteFailure,
   deleteArticleFavoriteRequest,
   deleteArticleFavoriteSuccess,
+  setArticleDetailsFailure,
+  setArticleDetailsRequest,
+  setArticleDetailsSuccess,
   setArticleFollowingUsersRequest,
   setArticlesFailure,
   setArticlesRequest,
@@ -58,7 +67,7 @@ function* handleCreateArticleFavorite(
   console.log(action.payload)
 
   try {
-    const response: AxiosResponse<{ article: IArticle }> = yield call(
+    const response: AxiosResponse<IArticleResponse> = yield call(
       postCreateArticleFavorite,
       action.payload
     )
@@ -73,7 +82,7 @@ function* handleDeleteArticleFavorite(
   action: ReturnType<typeof deleteArticleFavoriteRequest>
 ) {
   try {
-    const response: AxiosResponse<{ article: IArticle }> = yield call(
+    const response: AxiosResponse<IArticleResponse> = yield call(
       deleteArticleFavorite,
       action.payload
     )
@@ -81,6 +90,21 @@ function* handleDeleteArticleFavorite(
   } catch (error) {
     const { response } = error as AxiosError
     yield put(deleteArticleFavoriteFailure(response?.data))
+  }
+}
+
+function* handleSetArticleDetails(
+  action: ReturnType<typeof setArticleDetailsRequest>
+) {
+  try {
+    const response: AxiosResponse<IArticleResponse> = yield call(
+      getArticle,
+      action.payload
+    )
+    yield put(setArticleDetailsSuccess(response.data))
+  } catch (error) {
+    const { response } = error as AxiosError
+    yield put(setArticleDetailsFailure(response?.data))
   }
 }
 
@@ -97,9 +121,13 @@ export function* watchSetArticleFollowingUsers() {
 }
 
 export function* watchCreateFavorite() {
-  yield takeLatest(createArticleFavoriteRequest, handleCreateArticleFavorite)
+  yield takeEvery(createArticleFavoriteRequest, handleCreateArticleFavorite)
 }
 
 export function* watchDeleteFavorite() {
-  yield takeLatest(deleteArticleFavoriteRequest, handleDeleteArticleFavorite)
+  yield takeEvery(deleteArticleFavoriteRequest, handleDeleteArticleFavorite)
+}
+
+export function* watchSetArticleDetails() {
+  yield takeLatest(setArticleDetailsRequest, handleSetArticleDetails)
 }

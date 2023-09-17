@@ -40,7 +40,7 @@ const CardArticle: React.FC<IArticleProps> = ({
         <img src={author.image} alt={author.username} />
         <strong>{author.username}</strong>
       </header>
-      <Link to={`/${slug}`}>
+      <Link to={`/article/${slug}`}>
         <h3>{title}</h3>
       </Link>
       <div>

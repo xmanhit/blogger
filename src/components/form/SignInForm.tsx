@@ -1,49 +1,48 @@
-import { useState } from 'react'
+import { Formik, Field, Form, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
 import { ISignInProps } from '../../models'
+
+const LoginSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Required'),
+  password: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+})
 
 const SignInForm: React.FC<ISignInProps> = ({
   loginRequest,
   isActionLoading,
-  errors,
+  errors: errorsResponse,
 }) => {
-  const [email, setEmail] = useState('123test1@gmail.com')
-  const [password, setPassword] = useState('3534534')
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
-  }
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    loginRequest({ email, password })
-  }
-
   return (
-    <form onSubmit={handleSubmit}>
-      {errors && <span>{JSON.stringify(errors).replace(/[^\w\s]/g, '')}</span>}
-      <div>
-        <label>
-          email:
-          <input type='text' value={email} onChange={handleEmailChange} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Password:
-          <input
-            type='password'
-            value={password}
-            onChange={handlePasswordChange}
-          />
-        </label>
-      </div>
-      <button disabled={isActionLoading} type='submit'>
-        Login
-      </button>
-    </form>
+    <Formik
+      initialValues={{
+        email: '123test1@gmail.com',
+        password: '123',
+      }}
+      validationSchema={LoginSchema}
+      onSubmit={({ email, password }) => {
+        loginRequest({ email, password })
+      }}
+    >
+      <Form>
+        {errorsResponse && (
+          <span>{JSON.stringify(errorsResponse).replace(/[^\w\s]/g, '')}</span>
+        )}
+        <div>
+          <Field name='email' type='email' />
+          <ErrorMessage name='email' component='div' />
+        </div>
+        <div>
+          <Field name='password' type='password' />
+          <ErrorMessage name='password' component='div' />
+        </div>
+        <button disabled={isActionLoading} type='submit'>
+          Submit
+        </button>
+      </Form>
+    </Formik>
   )
 }
 
