@@ -1,5 +1,6 @@
 import {
   IUser,
+  IUserInfo,
   PostRegister,
   PostLogin,
   GetCurrentUser,
@@ -33,7 +34,7 @@ export const getCurrentUser: GetCurrentUser = () => {
 }
 
 export const putUpdateUser: PutUpdateUser = (user) => {
-  return axiosPrivate.put<IUser>('/users', {
+  return axiosPrivate.put<IUserInfo>('/users', {
     user: user,
   })
 }
