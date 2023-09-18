@@ -1,4 +1,4 @@
-import { axiosPrivate } from '../https-common'
+import https, { axiosPrivate } from '../https-common'
 import {
   CreateArticleComment,
   DeleteArticleComment,
@@ -6,10 +6,10 @@ import {
 } from '../models'
 
 export const getArticleComments: GetArticleComments = ({ slug }) => {
-  return axiosPrivate.get(`/articles/${slug}/comments`)
+  return https.get(`/articles/${slug}/comments`)
 }
 
-export const postCreateArticleComment: CreateArticleComment = ({
+export const createArticleComment: CreateArticleComment = ({
   slug,
   comment,
 }) => {
@@ -20,5 +20,5 @@ export const deleteArticleComment: DeleteArticleComment = ({
   slug,
   commentId,
 }) => {
-  return axiosPrivate.delete(`/articles/${slug}/comments${commentId}`)
+  return axiosPrivate.delete(`/articles/${slug}/comments/${commentId}`)
 }

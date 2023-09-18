@@ -1,20 +1,20 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 import {
   getCurrentUser,
-  postLogin,
-  postRegister,
-  putUpdateUser,
+  login,
+  register,
+  updateUser,
 } from '../../services/auth.service'
-import { IUser, PostLogin, PostRegister } from '../../models'
+import { IUser, Login, Register } from '../../models'
 import {
   loginRequest,
   loginSuccess,
   loginFailure,
   logoutRequest,
   logoutSuccess,
-  notCurrentUser,
-  currentUser,
   currentUserRequest,
+  currentUserSuccess,
+  currentUserFailure,
   registerRequest,
   registerSuccess,
   registerFailure,
@@ -27,8 +27,8 @@ import { AxiosError, AxiosResponse } from 'axios'
 // Actions
 function* handleRegister(action: ReturnType<typeof registerRequest>) {
   try {
-    const response: AxiosResponse<{ user: IUser }> = yield call<PostRegister>(
-      postRegister,
+    const response: AxiosResponse<{ user: IUser }> = yield call<Register>(
+      register,
       action.payload
     )
     const user: IUser = response.data.user
@@ -41,8 +41,8 @@ function* handleRegister(action: ReturnType<typeof registerRequest>) {
 
 function* handleLogin(action: ReturnType<typeof loginRequest>) {
   try {
-    const response: AxiosResponse<{ user: IUser }> = yield call<PostLogin>(
-      postLogin,
+    const response: AxiosResponse<{ user: IUser }> = yield call<Login>(
+      login,
       action.payload
     )
     const user: IUser = response.data.user
@@ -64,7 +64,7 @@ function* handlelogout() {
 function* handleUpdate(action: ReturnType<typeof updateRequest>) {
   try {
     const response: AxiosResponse<{ user: IUser }> = yield call(
-      putUpdateUser,
+      updateUser,
       action.payload
     )
     const user: IUser = response.data.user
@@ -81,32 +81,21 @@ export function* handleCurrentUser() {
     const user: IUser = response.data.user
 
     if (!!user) {
-      yield put(currentUser(user))
+      yield put(currentUserSuccess(user))
     } else {
-      yield put(notCurrentUser())
+      yield put(currentUserFailure({ errors: ['User not found'] }))
     }
   } catch (error) {
-    yield put(notCurrentUser())
+    const { response } = error as AxiosError
+    yield put(currentUserFailure(response?.data))
   }
 }
 
 // Watchers
-export function* watchRegister() {
-  yield takeLatest(registerRequest, handleRegister)
-}
-
-export function* watchLogin() {
-  yield takeLatest(loginRequest, handleLogin)
-}
-
-export function* watchLogout() {
-  yield takeLatest(logoutRequest, handlelogout)
-}
-
-export function* watchCurrentUser() {
+export function* watchAuth() {
   yield takeLatest(currentUserRequest, handleCurrentUser)
-}
-
-export function* watchUpdate() {
+  yield takeLatest(registerRequest, handleRegister)
+  yield takeLatest(loginRequest, handleLogin)
   yield takeLatest(updateRequest, handleUpdate)
+  yield takeLatest(logoutRequest, handlelogout)
 }

@@ -1,63 +1,70 @@
-import { useState } from 'react'
+import { connect } from 'react-redux'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
+import * as Yup from 'yup'
 import { ISignUpProps } from '../../models'
+import { RootState } from '../../store'
+import { registerRequest } from '../../store/slices/auth.slice'
+
+const SignUpSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(3, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  email: Yup.string().email('Invalid email').required('Required'),
+  password: Yup.string()
+    .min(3, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+})
 
 const SignUpForm: React.FC<ISignUpProps> = ({
+  status,
   registerRequest,
-  isActionLoading,
   errors,
 }) => {
-  const [username, setUsername] = useState('123test')
-  const [email, setEmail] = useState('123test@gmail.com')
-  const [password, setPassword] = useState('123')
-
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value)
-  }
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
-  }
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    registerRequest({ username, email, password })
-  }
-
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>
-          Username:
-          <input type='text' value={username} onChange={handleUsernameChange} />
-          {errors.username && <span>Username {errors.username}</span>}
-        </label>
-      </div>
-      <div>
-        <label>
-          Email:
-          <input type='text' value={email} onChange={handleEmailChange} />
-          {errors.email && <span>Email {errors.email}</span>}
-        </label>
-      </div>
-      <div>
-        <label>
-          Password:
-          <input
-            type='password'
-            value={password}
-            onChange={handlePasswordChange}
-          />
-          {errors.password && <span>Password {errors.password}</span>}
-        </label>
-      </div>
-      <button disabled={isActionLoading} type='submit'>
-        Register
-      </button>
-    </form>
+    <Formik
+      initialValues={{
+        username: '123test',
+        email: '123test1@gmail.com',
+        password: '1234',
+      }}
+      validationSchema={SignUpSchema}
+      onSubmit={({ username, email, password }) => {
+        registerRequest({ username, email, password })
+      }}
+    >
+      <Form>
+        <div>
+          <Field name='username' type='text' />
+          {status === 'failed' && errors?.username && (
+            <div>{`Username ${errors.username}`}</div>
+          )}
+          <ErrorMessage name='username' component='div' />
+        </div>
+        <div>
+          <Field name='email' type='email' />
+          {status === 'failed' && errors?.email && (
+            <div>{`Email ${errors.email}`}</div>
+          )}
+          <ErrorMessage name='email' component='div' />
+        </div>
+        <div>
+          <Field name='password' type='password' />
+          <ErrorMessage name='password' component='div' />
+        </div>
+        <button disabled={status === 'loading'} type='submit'>
+          Submit
+        </button>
+      </Form>
+    </Formik>
   )
 }
 
-export default SignUpForm
+export default connect(
+  (state: RootState) => ({
+    status: state.auth.status.register,
+    errors: state.auth.errors.register,
+  }),
+  { registerRequest }
+)(SignUpForm)

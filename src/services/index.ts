@@ -16,7 +16,7 @@ export const clearItem: ClearItem = (item) => {
 export const getCurrentUser = (): IUser => {
   const user = getItem('currentUser')
     ? JSON.parse(getItem('currentUser') as string)
-    : {}
+    : null
 
   return user
 }

@@ -1,15 +1,13 @@
 import {
   IUser,
-  PostRegister,
-  PostLogin,
+  Register,
+  Login,
   GetCurrentUser,
   PutUpdateUser,
 } from '../models'
 import { axiosPrivate } from '../https-common'
 
-export const postLogin: PostLogin = ({ email, password }) => {
-  console.log({ email, password })
-
+export const login: Login = ({ email, password }) => {
   return axiosPrivate.post<IUser>('/users/login', {
     user: {
       email,
@@ -18,7 +16,7 @@ export const postLogin: PostLogin = ({ email, password }) => {
   })
 }
 
-export const postRegister: PostRegister = ({ username, email, password }) => {
+export const register: Register = ({ username, email, password }) => {
   return axiosPrivate.post<IUser>('/users', {
     user: {
       username,
@@ -32,7 +30,7 @@ export const getCurrentUser: GetCurrentUser = () => {
   return axiosPrivate.get<IUser>('/user')
 }
 
-export const putUpdateUser: PutUpdateUser = (user) => {
+export const updateUser: PutUpdateUser = (user) => {
   return axiosPrivate.put<IUser>('/users', {
     user: user,
   })
