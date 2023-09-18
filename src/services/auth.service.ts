@@ -1,9 +1,10 @@
 import {
   IUser,
+  IUserInfo,
   Register,
   Login,
   GetCurrentUser,
-  PutUpdateUser,
+  UpdateUser,
 } from '../models'
 import { axiosPrivate } from '../https-common'
 
@@ -30,8 +31,8 @@ export const getCurrentUser: GetCurrentUser = () => {
   return axiosPrivate.get<IUser>('/user')
 }
 
-export const updateUser: PutUpdateUser = (user) => {
-  return axiosPrivate.put<IUser>('/users', {
+export const updateUser: UpdateUser = (user) => {
+  return axiosPrivate.put<IUserInfo>('/user', {
     user: user,
   })
 }

@@ -1,6 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 import {
   getCurrentUser,
+  IUserInfo,
   login,
   register,
   updateUser,
@@ -67,6 +68,7 @@ function* handleUpdate(action: ReturnType<typeof updateRequest>) {
       updateUser,
       action.payload
     )
+    // console.log('action: ',response)
     const user: IUser = response.data.user
     yield put(updateSuccess(user))
   } catch (error) {
