@@ -34,7 +34,7 @@ export const getCurrentUser: GetCurrentUser = () => {
 }
 
 export const putUpdateUser: PutUpdateUser = (user) => {
-  return axiosPrivate.put<IUserInfo>('/users', {
+  return axiosPrivate.put<IUserInfo>('/user', {
     user: user,
   })
 }

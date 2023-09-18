@@ -4,6 +4,7 @@ import {
   postLogin,
   postRegister,
   putUpdateUser,
+  IUserInfo,
 } from '../../services/auth.service'
 import { IUser, PostLogin, PostRegister } from '../../models'
 import {
@@ -65,8 +66,10 @@ function* handleUpdate(action: ReturnType<typeof updateRequest>) {
   try {
     const response: AxiosResponse<{ user: IUser }> = yield call(
       putUpdateUser,
-      action.payload
+      
+      action.payload,
     )
+    // console.log('action: ',response)
     const user: IUser = response.data.user
     yield put(updateSuccess(user))
   } catch (error) {

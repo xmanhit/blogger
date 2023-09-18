@@ -59,6 +59,7 @@ export const authSlice = createSlice({
       state.isActionLoading = false
     },
     updateRequest: (state, _action: PayloadAction<any>): void => {
+      
       state.isActionLoading = true
       state.errors = {}
     },
