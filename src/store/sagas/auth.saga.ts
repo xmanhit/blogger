@@ -1,20 +1,20 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 import {
   getCurrentUser,
-  postLogin,
-  postRegister,
-  putUpdateUser,
+  login,
+  register,
+  updateUser,
 } from '../../services/auth.service'
-import { IUser, PostLogin, PostRegister } from '../../models'
+import { IUser, Login, Register } from '../../models'
 import {
   loginRequest,
   loginSuccess,
   loginFailure,
   logoutRequest,
   logoutSuccess,
-  notCurrentUser,
-  currentUser,
-  // currentUserRequest,
+  currentUserRequest,
+  currentUserSuccess,
+  currentUserFailure,
   registerRequest,
   registerSuccess,
   registerFailure,
@@ -22,20 +22,17 @@ import {
   updateFailure,
   updateSuccess,
 } from '../slices/auth.slice'
-import { clearItem, storeItem } from '../../services'
 import { AxiosError, AxiosResponse } from 'axios'
 
 // Actions
 function* handleRegister(action: ReturnType<typeof registerRequest>) {
   try {
-    const response: AxiosResponse<{ user: IUser }> = yield call<PostRegister>(
-      postRegister,
+    const response: AxiosResponse<{ user: IUser }> = yield call<Register>(
+      register,
       action.payload
     )
     const user: IUser = response.data.user
-    const token: string = user.token
     yield put(registerSuccess(user))
-    yield call(storeItem, { token })
   } catch (error) {
     const { response } = error as AxiosError
     yield put(registerFailure(response?.data))
@@ -44,14 +41,12 @@ function* handleRegister(action: ReturnType<typeof registerRequest>) {
 
 function* handleLogin(action: ReturnType<typeof loginRequest>) {
   try {
-    const response: AxiosResponse<{ user: IUser }> = yield call<PostLogin>(
-      postLogin,
+    const response: AxiosResponse<{ user: IUser }> = yield call<Login>(
+      login,
       action.payload
     )
     const user: IUser = response.data.user
-    const token: string = user.token
     yield put(loginSuccess(user))
-    yield call(storeItem, { token })
   } catch (error) {
     const { response } = error as AxiosError
     yield put(loginFailure(response?.data))
@@ -63,14 +58,13 @@ function* handlelogout() {
     (state) => state.auth.isAuthenticated
   )
   if (!isAuthenticated) return
-  yield call(clearItem, 'token')
   yield put(logoutSuccess())
 }
 
 function* handleUpdate(action: ReturnType<typeof updateRequest>) {
   try {
     const response: AxiosResponse<{ user: IUser }> = yield call(
-      putUpdateUser,
+      updateUser,
       action.payload
     )
     const user: IUser = response.data.user
@@ -85,29 +79,23 @@ export function* handleCurrentUser() {
   try {
     const response: AxiosResponse<{ user: IUser }> = yield call(getCurrentUser)
     const user: IUser = response.data.user
-    yield put(currentUser(user))
+
+    if (!!user) {
+      yield put(currentUserSuccess(user))
+    } else {
+      yield put(currentUserFailure({ errors: ['User not found'] }))
+    }
   } catch (error) {
-    yield put(notCurrentUser())
+    const { response } = error as AxiosError
+    yield put(currentUserFailure(response?.data))
   }
 }
 
 // Watchers
-export function* watchRegister() {
+export function* watchAuth() {
+  yield takeLatest(currentUserRequest, handleCurrentUser)
   yield takeLatest(registerRequest, handleRegister)
-}
-
-export function* watchLogin() {
   yield takeLatest(loginRequest, handleLogin)
-}
-
-export function* watchLogout() {
-  yield takeLatest(logoutRequest, handlelogout)
-}
-
-// export function* watchCurrentUser() {
-//   yield takeLatest(currentUserRequest, handleCurrentUser)
-// }
-
-export function* watchUpdate() {
   yield takeLatest(updateRequest, handleUpdate)
+  yield takeLatest(logoutRequest, handlelogout)
 }

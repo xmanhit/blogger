@@ -1,55 +1,39 @@
-import { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { ILoginProps } from '../../models'
+import { Link, LoaderFunction, redirect, useNavigate } from 'react-router-dom'
 import { RootState } from '../../store'
-import {
-  /*currentUserRequest,*/ loginRequest,
-} from '../../store/slices/auth.slice'
+import { ILoginProps } from '../../models'
 import SignInForm from '../../components/form/SignInForm'
+import { useEffect } from 'react'
+import { clearRegister } from '../../store/slices/auth.slice'
 
-const Login: React.FC<ILoginProps> = ({
-  isLoading,
-  isActionLoading,
-  isAuthenticated,
-  // currentUserRequest,
-  loginRequest,
-  errors,
-}) => {
+export const loginLoader: LoaderFunction = () => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    return redirect('/')
+  }
+  return null
+}
+
+const Login: React.FC<ILoginProps> = ({ isAuthenticated, clearRegister }) => {
   const navigate = useNavigate()
-  // useEffect(() => {
-  //   currentUserRequest()
-  // }, [])
-
   useEffect(() => {
     if (isAuthenticated) navigate('/')
   }, [isAuthenticated])
 
-  if (isLoading || isAuthenticated) {
-    return <div>Loading...</div>
-  }
-
   return (
     <>
-      <h1>Login</h1>
-      <SignInForm
-        loginRequest={loginRequest}
-        isActionLoading={isActionLoading}
-        errors={errors}
-      />
+      <h2>Login</h2>
+      <Link onClick={() => clearRegister()} to='/register'>
+        Need an account?
+      </Link>
+      <SignInForm />
     </>
   )
 }
 
 export default connect(
   (state: RootState) => ({
-    isLoading: state.auth.isLoading,
-    isActionLoading: state.auth.isActionLoading,
     isAuthenticated: state.auth.isAuthenticated,
-    errors: state.auth.errors,
   }),
-  {
-    loginRequest,
-    // currentUserRequest,
-  }
+  { clearRegister }
 )(Login)

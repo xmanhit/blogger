@@ -1,56 +1,43 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, LoaderFunction, redirect, useNavigate } from 'react-router-dom'
 import { IRegisterProps } from '../../models'
 import { RootState } from '../../store'
-import {
-  // currentUserRequest,
-  registerRequest,
-} from '../../store/slices/auth.slice'
 import SignUpForm from '../../components/form/SignUpForm'
+import { clearLogin } from '../../store/slices/auth.slice'
+
+export const registerLoader: LoaderFunction = () => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    return redirect('/')
+  }
+  return null
+}
 
 const Register: React.FC<IRegisterProps> = ({
-  isLoading,
-  isActionLoading,
-  // currentUserRequest,
   isAuthenticated,
-  registerRequest,
-  errors,
+  clearLogin,
 }) => {
   const navigate = useNavigate()
-  // useEffect(() => {
-  //   currentUserRequest()
-  // }, [])
 
   useEffect(() => {
     if (isAuthenticated) navigate('/')
   }, [isAuthenticated])
 
-  if (isLoading || isAuthenticated) {
-    return <div>Loading...</div>
-  }
-
   return (
     <>
-      <div>Register</div>
-      <SignUpForm
-        registerRequest={registerRequest}
-        isActionLoading={isActionLoading}
-        errors={errors}
-      />
+      <h2>Register</h2>
+      <Link onClick={() => clearLogin()} to='/login'>
+        Have an account?
+      </Link>
+      <SignUpForm />
     </>
   )
 }
 
 export default connect(
   (state: RootState) => ({
-    isLoading: state.auth.isLoading,
-    isActionLoading: state.auth.isActionLoading,
     isAuthenticated: state.auth.isAuthenticated,
-    errors: state.auth.errors,
   }),
-  {
-    registerRequest,
-    // currentUserRequest,
-  }
+  { clearLogin }
 )(Register)

@@ -11,19 +11,33 @@ const router = createBrowserRouter([
       {
         index: true,
         lazy: async () => {
-          const Home = await import('./pages/Home')
-          return { Component: Home.default }
+          const { homeLoader, default: Home } = await import('./pages/Home')
+          return { loader: homeLoader, Component: Home }
         },
       },
       {
-        path: ':slug',
+        path: 'tags/:tag',
+        lazy: async () => {
+          const Tags = await import('./pages/Tags')
+          return { Component: Tags.default }
+        },
+      },
+      {
+        path: 'following',
+        lazy: async () => {
+          const { homeLoader, default: Home } = await import('./pages/Home')
+          return { loader: homeLoader, Component: Home }
+        },
+      },
+      {
+        path: ':author/:slug',
         lazy: async () => {
           const ArticleDetails = await import('./pages/ArticleDetails')
           return { Component: ArticleDetails.default }
         },
       },
       {
-        path: ':userId',
+        path: 'user/:userId',
         lazy: async () => {
           const UserDetails = await import('./pages/UserDetails')
           return { Component: UserDetails.default }
@@ -76,29 +90,35 @@ const router = createBrowserRouter([
   {
     path: '/login',
     lazy: async () => {
-      const Login = await import('./pages/Login')
-      return { Component: Login.default }
+      const { loginLoader, default: Login } = await import('./pages/Login')
+      return { loader: loginLoader, Component: Login }
     },
   },
   {
     path: '/register',
     lazy: async () => {
-      const Register = await import('./pages/Register')
-      return { Component: Register.default }
+      const { registerLoader, default: Register } = await import(
+        './pages/Register'
+      )
+      return { loader: registerLoader, Component: Register }
     },
   },
   {
     path: '/new',
     lazy: async () => {
-      const FormArticle = await import('./pages/FormArticle')
-      return { Component: FormArticle.default }
+      const { formArticleLoader, default: FormArticle } = await import(
+        './pages/FormArticle'
+      )
+      return { loader: formArticleLoader, Component: FormArticle }
     },
   },
   {
     path: '/:slug/edit',
     lazy: async () => {
-      const FormArticle = await import('./pages/FormArticle')
-      return { Component: FormArticle.default }
+      const { formArticleLoader, default: FormArticle } = await import(
+        './pages/FormArticle'
+      )
+      return { loader: formArticleLoader, Component: FormArticle }
     },
   },
   {

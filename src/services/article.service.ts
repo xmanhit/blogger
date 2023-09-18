@@ -1,80 +1,37 @@
-import https from '../https-common';
+import https, { axiosPrivate } from '../https-common'
 import {
   CreateArticle,
   DeleteArticle,
   GetArticle,
   GetArticles,
   GetArticleFollowingUsers,
-  Token,
   UpdateArticle,
-} from '../models';
+} from '../models'
 
-export const getArticleFollowingUsers: GetArticleFollowingUsers = ({
-  limit,
-  offset,
-}) => {
-  const token: Token = localStorage.getItem('token');
-  return https.get('/articles/feed', {
-    params: {
-      limit,
-      offset,
-    },
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  });
-};
+export const getArticleFollowingUsers: GetArticleFollowingUsers = (params) => {
+  return axiosPrivate.get('/articles/feed', { params })
+}
 
-export const getArticles: GetArticles = ({
-  tag,
-  author,
-  favorited,
-  limit,
-  offset,
-}) => {
-  return https.get('/articles', {
-    params: {
-      tag,
-      author,
-      favorited,
-      limit,
-      offset,
-    },
-  });
-};
+export const getArticles: GetArticles = (params) => {
+  return axiosPrivate.get('/articles', { params })
+}
 
 export const createArticle: CreateArticle = (article) => {
-  const token: Token = localStorage.getItem('token');
-  return https.post('/articles', article, {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  });
-};
+  return axiosPrivate.post('/articles', article)
+}
 
 export const getArticle: GetArticle = (slug) => {
-  return https.get(`/articles/${slug}`);
-};
+  return axiosPrivate.get(`/articles/${slug}`)
+}
 
-export const updateArticle: UpdateArticle = (slug, article) => {
-  const token: Token = localStorage.getItem('token');
-
-  return https.put(`/articles/${slug}`, article, {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  });
-};
+export const updateArticle: UpdateArticle = ({ slug, article }) => {
+  return axiosPrivate.put(`/articles/${slug}`, { article })
+}
 
 export const deleteArticle: DeleteArticle = (slug) => {
-  const token: Token = localStorage.getItem('token');
-  return https.delete(`/articles/${slug}`, {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  });
-};
+  return axiosPrivate.delete(`/articles/${slug}`)
+}
 
 export const getTags = () => {
-  return https.get('/tags');
-};
+  return https.get('/tags')
+}

@@ -1,16 +1,14 @@
 import {
   IUser,
-  PostRegister,
-  PostLogin,
+  Register,
+  Login,
   GetCurrentUser,
-  Token,
   PutUpdateUser,
 } from '../models'
-import https from '../https-common'
-import { getItem } from '.'
+import { axiosPrivate } from '../https-common'
 
-export const postLogin: PostLogin = ({ email, password }) => {
-  return https.post<IUser>('/users/login', {
+export const login: Login = ({ email, password }) => {
+  return axiosPrivate.post<IUser>('/users/login', {
     user: {
       email,
       password,
@@ -18,8 +16,8 @@ export const postLogin: PostLogin = ({ email, password }) => {
   })
 }
 
-export const postRegister: PostRegister = ({ username, email, password }) => {
-  return https.post<IUser>('/users', {
+export const register: Register = ({ username, email, password }) => {
+  return axiosPrivate.post<IUser>('/users', {
     user: {
       username,
       email,
@@ -29,21 +27,11 @@ export const postRegister: PostRegister = ({ username, email, password }) => {
 }
 
 export const getCurrentUser: GetCurrentUser = () => {
-  const token: Token = getItem('token')
-  if (!token) return
-  return https.get<IUser>('/users', {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  })
+  return axiosPrivate.get<IUser>('/user')
 }
 
-export const putUpdateUser: PutUpdateUser = (user) => {
-  const token: Token = getItem('token')
-  return https.put<IUser>('/users', {
+export const updateUser: PutUpdateUser = (user) => {
+  return axiosPrivate.put<IUser>('/users', {
     user: user,
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
   })
 }

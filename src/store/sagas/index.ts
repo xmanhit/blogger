@@ -1,20 +1,15 @@
-import { all, fork } from 'redux-saga/effects'
-import {
-  handleCurrentUser,
-  watchRegister,
-  watchLogin,
-  watchLogout,
-  // watchCurrentUser,
-  watchUpdate,
-} from '../sagas/auth.saga'
+import { all } from 'redux-saga/effects'
+import { watchAuth } from '../sagas/auth.saga'
+import { watchArticle } from './article.saga'
+import { watchComments } from './comment.saga'
 
 export default function* rootSaga() {
   yield all([
-    fork(handleCurrentUser),
-    watchRegister(),
-    watchLogin(),
-    watchLogout(),
-    // watchCurrentUser(),
-    watchUpdate(),
+    // User
+    watchAuth(),
+    // Article
+    watchArticle(),
+    // Comment
+    watchComments(),
   ])
 }
