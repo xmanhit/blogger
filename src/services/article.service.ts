@@ -24,8 +24,8 @@ export const getArticle: GetArticle = (slug) => {
   return axiosPrivate.get(`/articles/${slug}`)
 }
 
-export const updateArticle: UpdateArticle = (slug, article) => {
-  return axiosPrivate.put(`/articles/${slug}`, article)
+export const updateArticle: UpdateArticle = ({ slug, article }) => {
+  return axiosPrivate.put(`/articles/${slug}`, { article })
 }
 
 export const deleteArticle: DeleteArticle = (slug) => {

@@ -17,9 +17,9 @@ const CardArticle: React.FC<IArticleProps> = ({
     favorited,
     favoritesCount,
     author,
+    status,
   },
   isAuthenticated,
-  isActionLoading,
   createArticleFavoriteRequest,
   deleteArticleFavoriteRequest,
 }) => {
@@ -36,20 +36,25 @@ const CardArticle: React.FC<IArticleProps> = ({
   }
   return (
     <article>
-      <header>
+      <div>
         <img src={author.image} alt={author.username} />
         <strong>{author.username}</strong>
-      </header>
-      <Link to={`/article/${slug}`}>
+      </div>
+      <Link to={`/${author.username}/${slug}`}>
         <h3>{title}</h3>
       </Link>
       <div>
-        {tagList.map((tag: string) => (
-          <span key={tag}>#{tag}</span>
+        {tagList?.map((tag: string) => (
+          <Link key={tag} to={`/tags/${tag}`}>
+            #{tag}
+          </Link>
         ))}
       </div>
       <div>
-        <button onClick={handleFavorite} disabled={isActionLoading === slug}>
+        <button
+          onClick={handleFavorite}
+          disabled={status?.favorite === 'loading'}
+        >
           {favoritesCount} | {favorited ? 'Remove' : 'Add'}
         </button>
         <time>{timeSince(new Date(createdAt))}</time>
@@ -61,7 +66,6 @@ const CardArticle: React.FC<IArticleProps> = ({
 export default connect(
   (state: RootState) => ({
     isAuthenticated: state.auth.isAuthenticated,
-    isActionLoading: state.article.isActionLoading,
   }),
   {
     createArticleFavoriteRequest,

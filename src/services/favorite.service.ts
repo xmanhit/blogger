@@ -1,7 +1,7 @@
 import { axiosPrivate } from '../https-common'
 import { CreateArticleFavorite } from '../models'
 
-export const postCreateArticleFavorite: CreateArticleFavorite = (slug) => {
+export const createArticleFavorite: CreateArticleFavorite = (slug) => {
   return axiosPrivate.post(`/articles/${slug}/favorite`)
 }
 

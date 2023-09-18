@@ -5,7 +5,7 @@ export const getProfile: Profile = (username) => {
   return https.get<IProfile>(`/profiles/${username}`)
 }
 
-export const postFollowUser: Profile = (username) => {
+export const followUser: Profile = (username) => {
   return axiosPrivate.post<IProfile>(`/profiles/${username}/follow`)
 }
 

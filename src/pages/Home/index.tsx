@@ -2,41 +2,61 @@ import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from '../../store'
 import {
-  setArticleFollowingUsersRequest,
+  setArticleFollowingRequest,
   setArticlesRequest,
+  setTagsRequest,
 } from '../../store/slices/article.slice'
-import { Link, LoaderFunction, NavLink, useLoaderData } from 'react-router-dom'
+import {
+  Link,
+  LoaderFunction,
+  NavLink,
+  redirect,
+  useLoaderData,
+  useSearchParams,
+} from 'react-router-dom'
 import { getPagination } from '../../store/selectors'
 import { IArticle, IHomeProps } from '../../models'
 import CardArticle from '../../components/ui/CardArticle'
+import { getItem } from '../../services'
 
-export const homeLoader: LoaderFunction = ({ request }) => {
+export const homeLoader: LoaderFunction = ({ request, params }) => {
+  const token = getItem('token')
   const url: URL = new URL(request.url)
-  const page: number = Number(url.searchParams.get('page')) || 1
   const isFollowing: boolean = url.pathname === '/following'
-  return { page, isFollowing }
+  if (!token && isFollowing) {
+    return redirect('/')
+  }
+  return { isFollowing }
 }
 
 const Home: React.FC<IHomeProps> = ({
   isAuthenticated,
+  setTagsRequest,
   setArticlesRequest,
-  setArticleFollowingUsersRequest,
+  setArticleFollowingRequest,
+  isLoadingTags,
   isLoading,
+  tagList,
   articles,
   limit,
   total,
   pagination,
 }): JSX.Element => {
-  let { page, isFollowing } = useLoaderData() as {
-    page: number
-    isFollowing: boolean
-  }
+  let [searchParams, setSearchParams] = useSearchParams()
+  const page: number = Number(searchParams.get('page')) || 1
+
+  let { isFollowing } = useLoaderData() as { isFollowing: boolean }
   useEffect(() => {
-    page = Number(page)
+    if (tagList.length === 0) {
+      setTagsRequest()
+    }
+  }, [])
+
+  useEffect(() => {
     const offset = (page - 1) * limit
 
     if (isAuthenticated && isFollowing) {
-      setArticleFollowingUsersRequest({
+      setArticleFollowingRequest({
         limit,
         offset,
       })
@@ -50,13 +70,21 @@ const Home: React.FC<IHomeProps> = ({
 
   return (
     <div>
+      {isLoadingTags && <div>Tags Loading...</div>}
+      <div>
+        {tagList?.map((tag: string) => (
+          <Link key={tag} to={`/tags/${tag}`}>
+            #{tag}
+          </Link>
+        ))}
+      </div>
       {isAuthenticated && (
         <div>
           <NavLink to='/'>Latest</NavLink>
           <NavLink to='/following'>Following</NavLink>
         </div>
       )}
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <div>Articles Loading...</div>}
       {articles.length <= 0 && !isLoading && <div>No articles yet</div>}
       {articles?.map((article: IArticle) => (
         <CardArticle key={article.slug} article={article} />
@@ -65,13 +93,15 @@ const Home: React.FC<IHomeProps> = ({
       {total > limit && (
         <div>
           {pagination.map((pageNumber: number) => (
-            <Link
+            <button
               className={pageNumber === page ? 'active' : ''}
               key={pageNumber}
-              to={`/${isFollowing ? 'following' : ''}?page=${pageNumber}`}
+              onClick={() => {
+                setSearchParams({ page: pageNumber.toString() })
+              }}
             >
-              [{pageNumber === page ? 'Current' : ''} {pageNumber}]
-            </Link>
+              {pageNumber === page ? 'Current' : ''} {pageNumber}
+            </button>
           ))}
         </div>
       )}
@@ -82,14 +112,17 @@ const Home: React.FC<IHomeProps> = ({
 export default connect(
   (state: RootState) => ({
     isAuthenticated: state.auth.isAuthenticated,
-    isLoading: state.article.isLoading,
+    isLoading: state.article.status.articles === 'loading',
+    isLoadingTags: state.article.status.tagList === 'loading',
+    tagList: state.article.tagList,
     articles: state.article.articles,
     limit: state.article.limit,
     total: state.article.total,
     pagination: getPagination(state),
   }),
   {
+    setTagsRequest,
     setArticlesRequest,
-    setArticleFollowingUsersRequest,
+    setArticleFollowingRequest,
   }
 )(Home)

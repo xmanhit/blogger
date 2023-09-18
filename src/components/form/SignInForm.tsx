@@ -1,19 +1,22 @@
+import { connect } from 'react-redux'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { ISignInProps } from '../../models'
+import { RootState } from '../../store'
+import { loginRequest } from '../../store/slices/auth.slice'
 
-const LoginSchema = Yup.object().shape({
+const SigInSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string()
-    .min(2, 'Too Short!')
+    .min(3, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
 })
 
 const SignInForm: React.FC<ISignInProps> = ({
   loginRequest,
-  isActionLoading,
-  errors: errorsResponse,
+  status,
+  errors,
 }) => {
   return (
     <Formik
@@ -21,14 +24,16 @@ const SignInForm: React.FC<ISignInProps> = ({
         email: '123test1@gmail.com',
         password: '123',
       }}
-      validationSchema={LoginSchema}
+      validationSchema={SigInSchema}
       onSubmit={({ email, password }) => {
         loginRequest({ email, password })
       }}
     >
       <Form>
-        {errorsResponse && (
-          <span>{JSON.stringify(errorsResponse).replace(/[^\w\s]/g, '')}</span>
+        {status === 'failed' && errors && (
+          <span>{`${Object.keys(errors)[0]} ${
+            errors[Object.keys(errors)[0] as keyof typeof errors]
+          }`}</span>
         )}
         <div>
           <Field name='email' type='email' />
@@ -38,7 +43,7 @@ const SignInForm: React.FC<ISignInProps> = ({
           <Field name='password' type='password' />
           <ErrorMessage name='password' component='div' />
         </div>
-        <button disabled={isActionLoading} type='submit'>
+        <button disabled={status === 'loading'} type='submit'>
           Submit
         </button>
       </Form>
@@ -46,4 +51,10 @@ const SignInForm: React.FC<ISignInProps> = ({
   )
 }
 
-export default SignInForm
+export default connect(
+  (state: RootState) => ({
+    status: state.auth.status.login,
+    errors: state.auth.errors.login,
+  }),
+  { loginRequest }
+)(SignInForm)

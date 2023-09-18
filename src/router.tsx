@@ -16,6 +16,13 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: 'tags/:tag',
+        lazy: async () => {
+          const Tags = await import('./pages/Tags')
+          return { Component: Tags.default }
+        },
+      },
+      {
         path: 'following',
         lazy: async () => {
           const { homeLoader, default: Home } = await import('./pages/Home')
@@ -23,14 +30,14 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: 'article/:slug',
+        path: ':author/:slug',
         lazy: async () => {
           const ArticleDetails = await import('./pages/ArticleDetails')
           return { Component: ArticleDetails.default }
         },
       },
       {
-        path: ':userId',
+        path: 'user/:userId',
         lazy: async () => {
           const UserDetails = await import('./pages/UserDetails')
           return { Component: UserDetails.default }
@@ -99,15 +106,19 @@ const router = createBrowserRouter([
   {
     path: '/new',
     lazy: async () => {
-      const FormArticle = await import('./pages/FormArticle')
-      return { Component: FormArticle.default }
+      const { formArticleLoader, default: FormArticle } = await import(
+        './pages/FormArticle'
+      )
+      return { loader: formArticleLoader, Component: FormArticle }
     },
   },
   {
     path: '/:slug/edit',
     lazy: async () => {
-      const FormArticle = await import('./pages/FormArticle')
-      return { Component: FormArticle.default }
+      const { formArticleLoader, default: FormArticle } = await import(
+        './pages/FormArticle'
+      )
+      return { loader: formArticleLoader, Component: FormArticle }
     },
   },
   {
