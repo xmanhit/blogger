@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: ':userId',
+        path: ':username',
         lazy: async () => {
           const UserDetails = await import('./pages/UserDetails')
           return { Component: UserDetails.default }

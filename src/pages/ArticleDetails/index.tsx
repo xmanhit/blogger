@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { RootState } from '../../store'
 import { setArticleDetailsRequest } from '../../store/slices/article.slice'
 import { IArticleDetailsProps } from '../../models'
+import { Link } from 'react-router-dom'
 import Comments from '../../components/ui/Comments'
 
 const ArticleDetails: React.FC<IArticleDetailsProps> = ({
@@ -30,8 +31,8 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   return (
     <div>
       <div>
-        <img src={article.author.image} alt={article.author.username} />
-        <strong>{article.author.username}</strong>
+        <Link to={`../${article.author.username}`}><img src={article.author.image} alt={article.author.username} /></Link>    
+        <Link to={`../${article.author.username}`}><strong>{article.author.username}</strong></Link>
         <time>{article.createdAt}</time>
       </div>
       <div>

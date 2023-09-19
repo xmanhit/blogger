@@ -13,6 +13,11 @@ import {
   watchDeleteFavorite,
   watchSetArticleDetails,
 } from './article.saga'
+import { 
+  watchProfile,
+  watchFollowProfile,
+  watchUnFollowProfile,
+} from './profile.saga'
 
 export default function* rootSaga() {
   yield all([
@@ -28,5 +33,8 @@ export default function* rootSaga() {
     watchCreateFavorite(),
     watchDeleteFavorite(),
     watchSetArticleDetails(),
+    watchProfile(),
+    watchFollowProfile(),
+    watchUnFollowProfile(),
   ])
 }
