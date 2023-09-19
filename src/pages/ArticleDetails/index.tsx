@@ -52,8 +52,10 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
           </>
         )}
         <div>
-          <img src={article.author.image} alt={article.author.username} />
-          <strong>{article.author.username}</strong>
+          <Link to={`/user/${author}`}>
+            <img src={article.author.image} alt={article.author.username} />
+            <strong>{article.author.username}</strong>
+          </Link>
           <time>{article.createdAt}</time>
         </div>
         <div>

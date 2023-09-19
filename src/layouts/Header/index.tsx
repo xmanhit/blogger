@@ -22,11 +22,13 @@ const Header: React.FC<{
         <Link to='/'>Logo</Link>
         <Link to='/new'>Write</Link>
         <span>
-          <img
-            style={{ width: '50px', height: '50px' }}
-            src={user?.image ? user.image : avatar}
-            alt='Logo'
-          />
+          <Link to='/me'>
+            <img
+              style={{ width: '50px', height: '50px' }}
+              src={user?.image ? user.image : avatar}
+              alt='Logo'
+            />
+          </Link>
         </span>
       </nav>
     )

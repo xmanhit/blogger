@@ -4,6 +4,7 @@ import { RootState } from '../../store'
 import { currentUserRequest } from '../../store/slices/auth.slice'
 import { setArticlesRequest } from '../../store/slices/article.slice'
 import { IArticle } from '../../models'
+import { Link } from 'react-router-dom'
 
 const UserDetails: React.FC<any> = ({
   user,
@@ -26,6 +27,7 @@ const UserDetails: React.FC<any> = ({
   return (
     <>
       <div>User Details</div>
+      <Link to='/me/settings'>Setting</Link>
       <h1>ABC</h1>
       <img src={user.image} alt='' />
       <p>{user.email}</p>
