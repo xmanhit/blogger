@@ -1,39 +1,38 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { RootState } from '../../store';
-import { currentUserRequest } from '../../store/slices/auth.slice';
-import { setArticleFollowingUsersRequest, setArticlesRequest } from '../../store/slices/article.slice';
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { RootState } from '../../store'
+import { currentUserRequest } from '../../store/slices/auth.slice'
+import { setArticlesRequest } from '../../store/slices/article.slice'
+import { IArticle } from '../../models'
 
-const UserDetails = ({
+const UserDetails: React.FC<any> = ({
   user,
   articles,
   currentUserRequest,
-  isAuthenticated,
-  isActionLoading,
-  isLoading,
-  setArticleFollowingUsersRequest,
   setArticlesRequest,
 }): JSX.Element => {
   useEffect(() => {
-    currentUserRequest();
-  }, []);
+    if (!user) {
+      currentUserRequest()
+    }
+  }, [])
 
   useEffect(() => {
     // Assuming setArticlesRequest requires parameters like author or tags
     // Modify this accordingly based on your API requirements
-    setArticlesRequest({ author: user.username });
-  }, [user]);
+    setArticlesRequest({ author: user.username })
+  }, [user])
 
   return (
     <>
-      <div>UserSetting</div>
+      <div>User Details</div>
       <h1>ABC</h1>
-      <img src={user.image} alt="" />
+      <img src={user.image} alt='' />
       <p>{user.email}</p>
 
       <ul>
         {articles.articles ? (
-          articles.articles.map((article) => (
+          articles.articles.map((article: IArticle) => (
             <li key={article.slug}>
               {article.author ? (
                 <>
@@ -51,16 +50,14 @@ const UserDetails = ({
         )}
       </ul>
     </>
-  );
-};
+  )
+}
 
 export default connect(
   (state: RootState) => ({
     user: state.auth.user,
     articles: state.article, // Make sure this maps to the correct Redux state path
     isAuthenticated: state.auth.isAuthenticated,
-    isActionLoading: state.auth.isActionLoading,
-    isLoading: state.auth.isLoading,
   }),
-  { currentUserRequest, setArticleFollowingUsersRequest, setArticlesRequest }
-)(UserDetails);
+  { currentUserRequest, setArticlesRequest }
+)(UserDetails)
