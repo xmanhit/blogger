@@ -288,12 +288,19 @@ export interface ICommentState {
   errors: any
 }
 
-export interface ICommentState {
-  isLoading: boolean
-  isActionLoading: string
-  profile: Profile[]
-  errors: any
+export interface Profile {
+  username: string
+  bio?: string
+  image: string
+  following: boolean
 }
+export interface IProfile {
+  profile: IUserInfo
+  isLoading: boolean,
+  isActionLoading: string,
+}
+
+export type Profile = (username: string) => Promise<AxiosResponse<IProfile>>
 
 export type GetProfile = (params: {
   username: string

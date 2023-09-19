@@ -36,9 +36,14 @@ const CardArticle: React.FC<IArticleProps> = ({
   }
   return (
     <article>
-<<<<<<< HEAD
-      <header>
-        <Link to={`./${author.username}`}>
+      <div>
+        <Link
+          to={
+            currentUsername === author.username
+              ? '/me'
+              : `/${author.username}`
+          }
+        >
           <img src={author.image} alt={author.username} />
           <strong>{author.username}</strong>
         </Link>

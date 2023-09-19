@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../store';
 import { currentUserRequest } from '../../store/slices/auth.slice';
-import { setArticleFollowingUsersRequest, setArticlesRequest } from '../../store/slices/article.slice';
+import { setArticleFollowingRequest, setArticlesRequest } from '../../store/slices/article.slice';
 import { setProfile, createProfileFollowUser, createProfileUnFollowUser} from '../../store/slices/profile.slice';
 import { useParams, Link } from 'react-router-dom';
 const UserDetails = ({
@@ -12,42 +12,34 @@ const UserDetails = ({
   isAuthenticated,
   isActionLoading,
   isLoading,
-  setArticleFollowingUsersRequest,
+  setArticleFollowingRequest,
   setArticlesRequest,
   setProfile,
   profile,
   createProfileFollowUser,
   createProfileUnFollowUser,
 }): JSX.Element => {
-  useEffect(() => {
-    console.log(profile)
-
-  }, []);
   const param = useParams()
   useEffect(() => {
-    // setArticlesRequest({ author: user.username });
     setArticlesRequest({ author: param.username })
     setProfile(param)
   }, [param]);
 
   const handleFollow = () => {
     createProfileFollowUser({username: profile.username})
-    console.log(profile.following)
   }
 
   const handleUnFollow = () => {
     createProfileUnFollowUser({username: profile.username})
     console.log(profile.following)
   }
-  // console.log('profile', profile)
   return (
     <>
-      <div>UserSetting</div>
+      <Link to={'./settings'}>UserSetting</Link>
       <h1>ABC</h1>
       <img src={profile.image} alt="" />
       <p>{profile.username}</p>
       {!profile.following ? <button onClick={handleFollow}>Follow</button> : <button onClick={handleUnFollow}>UnFollow</button>}
-      
       <ul>
         {articles.articles ? (
           articles.articles.map((article) => (
@@ -55,7 +47,7 @@ const UserDetails = ({
               {article.author ? (
                 <>
                   <h2>{article.author.username}</h2>
-                  <Link to={`../article/${article.slug}`}>
+                  <Link to={`../${article.author.username}/${article.slug}`}>
                     <h4>{article.description}</h4>
                   </Link>
                   <hr />
@@ -82,5 +74,5 @@ export default connect(
     isActionLoading: state.auth.isActionLoading,
     isLoading: state.auth.isLoading,
   }),
-  { currentUserRequest, setArticleFollowingUsersRequest, setArticlesRequest, setProfile, createProfileFollowUser, createProfileUnFollowUser }
+  { currentUserRequest, setArticleFollowingRequest, setArticlesRequest, setProfile, createProfileFollowUser, createProfileUnFollowUser }
 )(UserDetails);

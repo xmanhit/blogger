@@ -23,7 +23,12 @@ import {
 import { watchAuth } from '../sagas/auth.saga'
 import { watchArticle } from './article.saga'
 import { watchComments } from './comment.saga'
->>>>>>> 47800eb0d776e95b6631a511f7cffd15c5db48d3
+import { 
+  watchProfile,
+  watchFollowProfile,
+  watchUnFollowProfile,
+} from './profile.saga'
+
 
 export default function* rootSaga() {
   yield all([
@@ -43,6 +48,9 @@ export default function* rootSaga() {
     watchArticle(),
     // Comment
     watchComments(),
->>>>>>> 47800eb0d776e95b6631a511f7cffd15c5db48d3
+    
+    watchProfile(),
+    watchFollowProfile(),
+    watchUnFollowProfile(),
   ])
 }

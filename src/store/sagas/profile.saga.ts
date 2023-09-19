@@ -12,7 +12,7 @@ import {
  } from "../slices/profile.slice"
 import { getProfile, postFollowUser, deleteUnfollowUser} from "../../services/profile.service"
 import { AxiosError, AxiosResponse } from 'axios'
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 import { GetProfile, CreateProfileFollow } from "../../models"
 function* handleSetProfile(
     action: ReturnType<typeof setProfile>

@@ -46,11 +46,6 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   return (
     article && (
       <div>
-<<<<<<< HEAD
-        <Link to={`../${article.author.username}`}><img src={article.author.image} alt={article.author.username} /></Link>    
-        <Link to={`../${article.author.username}`}><strong>{article.author.username}</strong></Link>
-        <time>{article.createdAt}</time>
-=======
         {isAuthenticated && (
           <>
             <Link to={`/${slug}/edit`}>Edit</Link> -{' '}
@@ -58,8 +53,10 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
           </>
         )}
         <div>
-          <img src={article.author.image} alt={article.author.username} />
-          <strong>{article.author.username}</strong>
+          <Link to={author === currentUsername ? '/me' : `/${author}`}>
+            <img src={article.author.image} alt={article.author.username} />
+            <strong>{article.author.username}</strong>
+          </Link>
           <time>{article.createdAt}</time>
         </div>
         <div>
@@ -77,7 +74,6 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
         <div>
           <Comments />
         </div>
->>>>>>> 47800eb0d776e95b6631a511f7cffd15c5db48d3
       </div>
     )
   )
