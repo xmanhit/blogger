@@ -9,6 +9,7 @@ import {
 } from '../../store/slices/article.slice'
 
 const CardArticle: React.FC<IArticleProps> = ({
+  currentUsername,
   article: {
     slug,
     title,
@@ -37,7 +38,13 @@ const CardArticle: React.FC<IArticleProps> = ({
   return (
     <article>
       <div>
-        <Link to={`/user/${author.username}`}>
+        <Link
+          to={
+            currentUsername === author.username
+              ? '/me'
+              : `/user/${author.username}`
+          }
+        >
           <img src={author.image} alt={author.username} />
           <strong>{author.username}</strong>
         </Link>
@@ -68,6 +75,7 @@ const CardArticle: React.FC<IArticleProps> = ({
 export default connect(
   (state: RootState) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    currentUsername: state.auth.user?.username,
   }),
   {
     createArticleFavoriteRequest,

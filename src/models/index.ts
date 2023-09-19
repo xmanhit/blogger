@@ -216,6 +216,7 @@ export interface IHomeProps {
 }
 
 export interface IArticleProps {
+  currentUsername: string | undefined
   article: IArticle
   isAuthenticated: boolean
   createArticleFavoriteRequest: typeof createArticleFavoriteRequest
@@ -223,6 +224,7 @@ export interface IArticleProps {
 }
 
 export interface IArticleDetailsProps {
+  currentUsername: string | undefined
   article: IArticle | null
   isLoading: boolean
   isDeleted: boolean

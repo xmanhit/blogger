@@ -13,6 +13,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   isLoading,
   isDeleted,
   isAuthenticated,
+  currentUsername,
   article,
   setArticleDetailsRequest,
   deleteArticleRequest,
@@ -52,7 +53,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
           </>
         )}
         <div>
-          <Link to={`/user/${author}`}>
+          <Link to={author === currentUsername ? '/me' : `/user/${author}`}>
             <img src={article.author.image} alt={article.author.username} />
             <strong>{article.author.username}</strong>
           </Link>
@@ -83,6 +84,7 @@ export default connect(
     isLoading: state.article.status.articleDetails === 'loading',
     isDeleted: state.article.status.deleteArticle === 'idle',
     isAuthenticated: state.auth.isAuthenticated,
+    currentUsername: state.auth.user?.username,
     article: state.article.articleDetails,
     errors: state.article.errors,
   }),
