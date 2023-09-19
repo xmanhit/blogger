@@ -1,9 +1,21 @@
-import { connect } from 'react-redux'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { RootState } from '../../store'
+import { currentUserRequest } from '../../store/slices/auth.slice'
 import avatar from '../../assets/avatar.jpg'
 
-const Header = ({ isAuthenticated, user }) => {
+const Header: React.FC<{
+  isAuthenticated: boolean
+  currentUserRequest: any
+  user: any
+}> = ({ isAuthenticated, currentUserRequest, user }) => {
+  useEffect(() => {
+    if (!user) {
+      currentUserRequest()
+    }
+  }, [])
+
   if (isAuthenticated) {
     return (
       <nav>
@@ -12,7 +24,7 @@ const Header = ({ isAuthenticated, user }) => {
         <span>
           <img
             style={{ width: '50px', height: '50px' }}
-            src={user.image ? user.image : avatar}
+            src={user?.image ? user.image : avatar}
             alt='Logo'
           />
         </span>
@@ -30,7 +42,10 @@ const Header = ({ isAuthenticated, user }) => {
   )
 }
 
-export default connect((state: RootState) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  user: state.auth.user,
-}))(Header)
+export default connect(
+  (state: RootState) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user,
+  }),
+  { currentUserRequest }
+)(Header)

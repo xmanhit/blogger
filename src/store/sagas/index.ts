@@ -1,4 +1,5 @@
 import { all } from 'redux-saga/effects'
+<<<<<<< HEAD
 import {
   watchRegister,
   watchLogin,
@@ -18,16 +19,18 @@ import {
   watchFollowProfile,
   watchUnFollowProfile,
 } from './profile.saga'
+=======
+import { watchAuth } from '../sagas/auth.saga'
+import { watchArticle } from './article.saga'
+import { watchComments } from './comment.saga'
+>>>>>>> 47800eb0d776e95b6631a511f7cffd15c5db48d3
 
 export default function* rootSaga() {
   yield all([
     // User
-    watchRegister(),
-    watchLogin(),
-    watchLogout(),
-    watchCurrentUser(),
-    watchUpdate(),
+    watchAuth(),
     // Article
+<<<<<<< HEAD
     watchSetArticleFollowingUsers(),
     watchSetArticles(),
     watchCreateFavorite(),
@@ -36,5 +39,10 @@ export default function* rootSaga() {
     watchProfile(),
     watchFollowProfile(),
     watchUnFollowProfile(),
+=======
+    watchArticle(),
+    // Comment
+    watchComments(),
+>>>>>>> 47800eb0d776e95b6631a511f7cffd15c5db48d3
   ])
 }

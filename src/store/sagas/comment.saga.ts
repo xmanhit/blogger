@@ -3,7 +3,7 @@ import { GetArticleComments, IComment } from '../../models'
 import {
   deleteArticleComment,
   getArticleComments,
-  postCreateArticleComment,
+  createArticleComment,
 } from '../../services/comment.service'
 import {
   createArticleCommentError,
@@ -25,6 +25,8 @@ function* handlesSetArticleComments(
   try {
     const response: AxiosResponse<{ comments: IComment[] }> =
       yield call<GetArticleComments>(getArticleComments, action.payload)
+    console.log(response.data)
+
     yield put(setArticleCommentSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
@@ -37,7 +39,7 @@ function* handlesCreateArticleComments(
 ) {
   try {
     const response: AxiosResponse<{ comment: IComment }> = yield call(
-      postCreateArticleComment,
+      createArticleComment,
       {
         slug: action.payload.slug,
         comment: action.payload.comment,
@@ -63,14 +65,8 @@ function* handlesDeleteArticleComments(
 }
 
 // Watchers
-export function* watchSetArticleComments() {
+export function* watchComments() {
   yield takeLatest(setArticleCommentRequest, handlesSetArticleComments)
-}
-
-export function* watchCreateArticleComments() {
   yield takeLatest(createArticleCommentRequest, handlesCreateArticleComments)
-}
-
-export function* watchDeleteArticleComments() {
   yield takeLatest(deleteArticleCommentRequest, handlesDeleteArticleComments)
 }
