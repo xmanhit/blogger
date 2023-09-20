@@ -1,19 +1,26 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { RootState } from '../../store'
 import { currentUserRequest } from '../../store/slices/auth.slice'
 import { setArticlesRequest } from '../../store/slices/article.slice'
 import { IArticle, IUserDetailsProps } from '../../models'
 import { currentUser } from '../../services'
-import { CardArticle } from '../../components/ui'
+import { CardArticle, Pagination } from '../../components/ui'
+import { getPagination } from '../../store/selectors'
 
 const UserDetails: React.FC<IUserDetailsProps> = ({
   user,
   articles,
   currentUserRequest,
   setArticlesRequest,
+  total,
+  limit,
+  pagination,
 }): JSX.Element => {
+  let [searchParams, setSearchParams] = useSearchParams()
+  const page: number = Number(searchParams.get('page')) || 1
+
   useEffect(() => {
     if (!user) {
       currentUserRequest()
@@ -23,8 +30,10 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
   useEffect(() => {
     // Assuming setArticlesRequest requires parameters like author or tags
     // Modify this accordingly based on your API requirements
-    user?.username && setArticlesRequest({ author: user.username })
-  }, [user?.username])
+    const offset = (page - 1) * limit
+    const author = user?.username
+    author && setArticlesRequest({ author, limit, offset })
+  }, [user?.username, page])
 
   return (
     <>
@@ -42,9 +51,10 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
             </li>
           ))
         ) : (
-          <p>No articles available</p>
+          <li>No articles available</li>
         )}
       </ul>
+      <Pagination pagination={pagination} total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
     </>
   )
 }
@@ -52,7 +62,10 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
 export default connect(
   (state: RootState) => ({
     user: currentUser(),
-    articles: state.article.articles, // Make sure this maps to the correct Redux state path
+    articles: state.article.articles,
+    total: state.article.total,
+    limit: state.article.limit,
+    pagination: getPagination(state),
   }),
   { currentUserRequest, setArticlesRequest }
 )(UserDetails)

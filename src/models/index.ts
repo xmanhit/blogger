@@ -270,6 +270,9 @@ export interface IUserDetailsProps {
   articles: IArticle[]
   currentUserRequest: typeof currentUserRequest
   setArticlesRequest: typeof setArticlesRequest
+  total: number
+  limit: number
+  pagination: number[]
 }
 
 export interface IUserSettingProps {
