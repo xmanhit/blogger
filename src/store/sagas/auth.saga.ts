@@ -1,11 +1,5 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects'
-import {
-  getCurrentUser,
-  IUserInfo,
-  login,
-  register,
-  updateUser,
-} from '../../services/auth.service'
+import { call, put, takeLatest } from 'redux-saga/effects'
+import { getCurrentUser, login, register, updateUser } from '../../services/auth.service'
 import { IUser, Login, Register } from '../../models'
 import {
   loginRequest,
@@ -24,14 +18,12 @@ import {
   updateSuccess,
 } from '../slices/auth.slice'
 import { AxiosError, AxiosResponse } from 'axios'
+import { isAuthenticated } from '../../services'
 
 // Actions
 function* handleRegister(action: ReturnType<typeof registerRequest>) {
   try {
-    const response: AxiosResponse<{ user: IUser }> = yield call<Register>(
-      register,
-      action.payload
-    )
+    const response: AxiosResponse<{ user: IUser }> = yield call<Register>(register, action.payload)
     const user: IUser = response.data.user
     yield put(registerSuccess(user))
   } catch (error) {
@@ -42,10 +34,7 @@ function* handleRegister(action: ReturnType<typeof registerRequest>) {
 
 function* handleLogin(action: ReturnType<typeof loginRequest>) {
   try {
-    const response: AxiosResponse<{ user: IUser }> = yield call<Login>(
-      login,
-      action.payload
-    )
+    const response: AxiosResponse<{ user: IUser }> = yield call<Login>(login, action.payload)
     const user: IUser = response.data.user
     yield put(loginSuccess(user))
   } catch (error) {
@@ -55,20 +44,14 @@ function* handleLogin(action: ReturnType<typeof loginRequest>) {
 }
 
 function* handlelogout() {
-  const isAuthenticated: boolean = yield select(
-    (state) => state.auth.isAuthenticated
-  )
-  if (!isAuthenticated) return
+  if (!isAuthenticated()) return
   yield put(logoutSuccess())
 }
 
 function* handleUpdate(action: ReturnType<typeof updateRequest>) {
   try {
-    const response: AxiosResponse<{ user: IUser }> = yield call(
-      updateUser,
-      action.payload
-    )
-    // console.log('action: ',response)
+    const response: AxiosResponse<{ user: IUser }> = yield call(updateUser, action.payload)
+    console.log('action: ', response)
     const user: IUser = response.data.user
     yield put(updateSuccess(user))
   } catch (error) {

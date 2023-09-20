@@ -2,22 +2,30 @@ import { AxiosResponse } from 'axios'
 import {
   clearLogin,
   clearRegister,
-  // currentUserRequest,
+  currentUserRequest,
   loginRequest,
   registerRequest,
+  updateRequest,
 } from '../store/slices/auth.slice'
 import {
   createArticleFavoriteRequest,
+  createArticleRequest,
   deleteArticleFavoriteRequest,
   deleteArticleRequest,
   setArticleDetailsRequest,
   setArticleFollowingRequest,
   setArticlesRequest,
   setTagsRequest,
+  updateArticleRequest,
 } from '../store/slices/article.slice'
+import {
+  createArticleCommentRequest,
+  deleteArticleCommentRequest,
+  setArticleCommentRequest,
+} from '../store/slices/comment.slice'
 
 // token
-export type Token = string | null
+export type Token = string | null | undefined
 export type Status = 'loading' | 'idle' | 'failed'
 
 // login
@@ -26,9 +34,7 @@ export interface ILoginCredentials {
   password: string
 }
 
-export type Login = (
-  credentials: ILoginCredentials
-) => Promise<AxiosResponse<IUser>>
+export type Login = (credentials: ILoginCredentials) => Promise<AxiosResponse<IUser>>
 
 // register
 export interface IRegisterCredentials {
@@ -37,9 +43,7 @@ export interface IRegisterCredentials {
   username: string
 }
 
-export type Register = (
-  credentials: IRegisterCredentials
-) => Promise<AxiosResponse<IUser>>
+export type Register = (credentials: IRegisterCredentials) => Promise<AxiosResponse<IUser>>
 
 // user
 export interface IUser {
@@ -47,7 +51,7 @@ export interface IUser {
   email: string
   bio?: string
   image: string
-  token: string
+  token?: string
 }
 
 export interface IAuthor {
@@ -59,19 +63,19 @@ export interface IAuthor {
 }
 
 // current user
-export type GetCurrentUser = () => Promise<AxiosResponse<IUser>> | undefined
+export type GetCurrentUser = () => Promise<AxiosResponse<IUser>>
 
 // update user
 export interface IUserInfo {
   email: string
   password: string
   username: string
-  bio: string | null
+  bio?: string
   image: string
+  token?: string
 }
 
-export type PutUpdateUser = (user: IUserInfo) => Promise<AxiosResponse<IUser>>
-
+export type UpdateUser = (parameter: { user: IUserInfo }) => Promise<AxiosResponse<IUser>>
 // profile
 export interface IProfile {
   profile: IAuthor
@@ -109,24 +113,15 @@ export interface IArticlesParams extends IArticleFollowingUsersParams {
   favorited?: string
 }
 
-export type GetArticleFollowingUsers = (
-  params: IArticleFollowingUsersParams
-) => Promise<AxiosResponse<IArticle[]>>
+export type GetArticleFollowingUsers = (params: IArticleFollowingUsersParams) => Promise<AxiosResponse<IArticle[]>>
 
-export type GetArticles = (
-  params: IArticlesParams
-) => Promise<AxiosResponse<IArticle[]>>
+export type GetArticles = (params: IArticlesParams) => Promise<AxiosResponse<IArticle[]>>
 
-export type CreateArticle = (
-  article: IArticle
-) => Promise<AxiosResponse<IArticle>>
+export type CreateArticle = (article: IArticle) => Promise<AxiosResponse<IArticle>>
 
 export type GetArticle = (slug: string) => Promise<AxiosResponse<IArticle>>
 
-export type UpdateArticle = (parameter: {
-  slug: string
-  article: IArticle
-}) => Promise<AxiosResponse<IArticle>>
+export type UpdateArticle = (parameter: { slug: string; article: IArticle }) => Promise<AxiosResponse<IArticle>>
 
 export type DeleteArticle = (slug: string) => Promise<AxiosResponse<IArticle>>
 
@@ -140,28 +135,19 @@ export interface IComment {
   status: any
 }
 
-export type GetArticleComments = (params: {
-  slug: string
-}) => Promise<AxiosResponse<{ comments: IComment[] }>>
+export type GetArticleComments = (params: { slug: string }) => Promise<AxiosResponse<{ comments: IComment[] }>>
 
 export type CreateArticleComment = (params: {
   slug: string
   comment: { body: string }
 }) => Promise<AxiosResponse<IComment>>
 
-export type DeleteArticleComment = (params: {
-  slug: string
-  commentId: string
-}) => Promise<AxiosResponse<IComment>>
+export type DeleteArticleComment = (params: { slug: string; commentId: string }) => Promise<AxiosResponse<IComment>>
 
 // favorites
-export type CreateArticleFavorite = (
-  slug: string
-) => Promise<AxiosResponse<IArticleResponse>>
+export type CreateArticleFavorite = (slug: string) => Promise<AxiosResponse<IArticleResponse>>
 
-export type DeleteArticleFavorite = (
-  slug: string
-) => Promise<AxiosResponse<IArticleResponse>>
+export type DeleteArticleFavorite = (slug: string) => Promise<AxiosResponse<IArticleResponse>>
 
 export type GetTags = () => Promise<AxiosResponse<{ tags: string[] }>>
 
@@ -216,7 +202,7 @@ export interface IHomeProps {
 }
 
 export interface IArticleProps {
-  currentUsername: string | undefined
+  user: IUser | null
   article: IArticle
   isAuthenticated: boolean
   createArticleFavoriteRequest: typeof createArticleFavoriteRequest
@@ -224,7 +210,7 @@ export interface IArticleProps {
 }
 
 export interface IArticleDetailsProps {
-  currentUsername: string | undefined
+  user: IUser | null
   article: IArticle | null
   isLoading: boolean
   isDeleted: boolean
@@ -234,10 +220,65 @@ export interface IArticleDetailsProps {
   errors: any
 }
 
+export interface IArticleFormProps {
+  isLoading: boolean
+  isActionLoading: boolean
+  isActionSuccess: boolean
+  status: any
+  article: IArticle | null
+  setArticleDetailsRequest: typeof setArticleDetailsRequest
+  createArticleRequest: typeof createArticleRequest
+  updateArticleRequest: typeof updateArticleRequest
+  errors: any
+}
+
+export interface ICommentFormProps {
+  isAuthenticated: boolean
+  createArticleCommentRequest: typeof createArticleCommentRequest
+  status: any
+  errors: any
+}
+
+export interface ICommentListProps {
+  user: IUser | null
+  setArticleCommentRequest: typeof setArticleCommentRequest
+  deleteArticleCommentRequest: typeof deleteArticleCommentRequest
+  comments: IComment[]
+}
+
+export interface IHeaderProps {
+  isAuthenticated: boolean
+  currentUserRequest: typeof currentUserRequest
+  user: IUser | null
+}
+
+export interface ITagsProps {
+  setTagsRequest: typeof setTagsRequest
+  setArticlesRequest: typeof setArticlesRequest
+  isLoadingTags: boolean
+  isLoading: boolean
+  tagList: string[]
+  articles: IArticle[]
+  total: number
+  limit: number
+  pagination: number[]
+}
+
+export interface IUserDetailsProps {
+  user: IUser | null
+  articles: IArticle[]
+  currentUserRequest: typeof currentUserRequest
+  setArticlesRequest: typeof setArticlesRequest
+}
+
+export interface IUserSettingProps {
+  user: IUser | null
+  currentUserRequest: typeof currentUserRequest
+  updateRequest: typeof updateRequest
+}
+
 // State
 export interface IAuthState {
-  user: IUser | null
-  isAuthenticated: boolean
   errors: {
     login: IErrorCredentials | null
     register: IErrorCredentials | null

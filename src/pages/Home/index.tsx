@@ -1,30 +1,18 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from '../../store'
-import {
-  setArticleFollowingRequest,
-  setArticlesRequest,
-  setTagsRequest,
-} from '../../store/slices/article.slice'
-import {
-  Link,
-  LoaderFunction,
-  NavLink,
-  redirect,
-  useLoaderData,
-  useSearchParams,
-} from 'react-router-dom'
+import { setArticleFollowingRequest, setArticlesRequest, setTagsRequest } from '../../store/slices/article.slice'
+import { Link, LoaderFunction, NavLink, redirect, useLoaderData, useSearchParams } from 'react-router-dom'
 import { getPagination } from '../../store/selectors'
 import { IArticle, IHomeProps } from '../../models'
 import CardArticle from '../../components/ui/CardArticle'
-import { getItem } from '../../services'
+import { isAuthenticated } from '../../services'
 
-export const homeLoader: LoaderFunction = ({ request, params }) => {
-  const token = getItem('token')
+export const homeLoader: LoaderFunction = ({ request }) => {
   const url: URL = new URL(request.url)
   const isFollowing: boolean = url.pathname === '/following'
-  if (!token && isFollowing) {
-    return redirect('/')
+  if (!isAuthenticated() && isFollowing) {
+    return redirect('/login')
   }
   return { isFollowing }
 }
@@ -111,7 +99,7 @@ const Home: React.FC<IHomeProps> = ({
 
 export default connect(
   (state: RootState) => ({
-    isAuthenticated: state.auth.isAuthenticated,
+    isAuthenticated: isAuthenticated(),
     isLoading: state.article.status.articles === 'loading',
     isLoadingTags: state.article.status.tagList === 'loading',
     tagList: state.article.tagList,

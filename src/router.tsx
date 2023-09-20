@@ -1,4 +1,5 @@
-import { Outlet, createBrowserRouter } from 'react-router-dom'
+import { Outlet, createBrowserRouter, redirect } from 'react-router-dom'
+import { isAuthenticated } from './services'
 
 const router = createBrowserRouter([
   {
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: 'user/:userId',
+        path: ':username',
         lazy: async () => {
           const UserDetails = await import('./pages/UserDetails')
           return { Component: UserDetails.default }
@@ -45,6 +46,14 @@ const router = createBrowserRouter([
       },
       {
         path: 'me',
+        loader: async () => {
+          if (!isAuthenticated()) {
+            console.log(123)
+
+            return redirect('/login')
+          }
+          return null
+        },
         element: <Outlet />,
         children: [
           {
@@ -97,27 +106,21 @@ const router = createBrowserRouter([
   {
     path: '/register',
     lazy: async () => {
-      const { registerLoader, default: Register } = await import(
-        './pages/Register'
-      )
+      const { registerLoader, default: Register } = await import('./pages/Register')
       return { loader: registerLoader, Component: Register }
     },
   },
   {
     path: '/new',
     lazy: async () => {
-      const { formArticleLoader, default: FormArticle } = await import(
-        './pages/FormArticle'
-      )
+      const { formArticleLoader, default: FormArticle } = await import('./pages/FormArticle')
       return { loader: formArticleLoader, Component: FormArticle }
     },
   },
   {
     path: '/:slug/edit',
     lazy: async () => {
-      const { formArticleLoader, default: FormArticle } = await import(
-        './pages/FormArticle'
-      )
+      const { formArticleLoader, default: FormArticle } = await import('./pages/FormArticle')
       return { loader: formArticleLoader, Component: FormArticle }
     },
   },

@@ -2,14 +2,12 @@ import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { RootState } from '../../store'
-import {
-  setArticlesRequest,
-  setTagsRequest,
-} from '../../store/slices/article.slice'
+import { setArticlesRequest, setTagsRequest } from '../../store/slices/article.slice'
 import CardArticle from '../../components/ui/CardArticle'
 import { getPagination } from '../../store/selectors'
+import { ITagsProps } from '../../models'
 
-const Tags = ({
+const Tags: React.FC<ITagsProps> = ({
   setTagsRequest,
   setArticlesRequest,
   isLoadingTags,
@@ -19,7 +17,7 @@ const Tags = ({
   total,
   limit,
   pagination,
-}: any) => {
+}) => {
   const { tag } = useParams()
   let [searchParams, setSearchParams] = useSearchParams()
   const page: number = Number(searchParams.get('page')) || 1

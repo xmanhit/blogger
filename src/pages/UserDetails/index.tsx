@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { RootState } from '../../store'
 import { currentUserRequest } from '../../store/slices/auth.slice'
 import { setArticlesRequest } from '../../store/slices/article.slice'
-import { IArticle } from '../../models'
-import { Link } from 'react-router-dom'
+import { IArticle, IUserDetailsProps } from '../../models'
+import { currentUser } from '../../services'
+import CardArticle from '../../components/ui/CardArticle'
 
-const UserDetails: React.FC<any> = ({
+const UserDetails: React.FC<IUserDetailsProps> = ({
   user,
   articles,
   currentUserRequest,
@@ -21,30 +23,22 @@ const UserDetails: React.FC<any> = ({
   useEffect(() => {
     // Assuming setArticlesRequest requires parameters like author or tags
     // Modify this accordingly based on your API requirements
-    setArticlesRequest({ author: user.username })
-  }, [user])
+    user?.username && setArticlesRequest({ author: user.username })
+  }, [user?.username])
 
   return (
     <>
       <div>User Details</div>
       <Link to='/me/settings'>Setting</Link>
       <h1>ABC</h1>
-      <img src={user.image} alt='' />
-      <p>{user.email}</p>
+      <img src={user?.image} alt='' />
+      <p>{user?.email}</p>
 
       <ul>
-        {articles.articles ? (
-          articles.articles.map((article: IArticle) => (
+        {articles ? (
+          articles.map((article: IArticle) => (
             <li key={article.slug}>
-              {article.author ? (
-                <>
-                  <h2>{article.author.username}</h2>
-                  <h4>{article.description}</h4>
-                  <hr />
-                </>
-              ) : (
-                <p>No author information available</p>
-              )}
+              {article.author ? <CardArticle article={article} /> : <p>No author information available</p>}
             </li>
           ))
         ) : (
@@ -57,9 +51,8 @@ const UserDetails: React.FC<any> = ({
 
 export default connect(
   (state: RootState) => ({
-    user: state.auth.user,
-    articles: state.article, // Make sure this maps to the correct Redux state path
-    isAuthenticated: state.auth.isAuthenticated,
+    user: currentUser(),
+    articles: state.article.articles, // Make sure this maps to the correct Redux state path
   }),
   { currentUserRequest, setArticlesRequest }
 )(UserDetails)

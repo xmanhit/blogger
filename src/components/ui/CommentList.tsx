@@ -1,18 +1,17 @@
 import { connect } from 'react-redux'
 import { RootState } from '../../store'
-import {
-  deleteArticleCommentRequest,
-  setArticleCommentRequest,
-} from '../../store/slices/comment.slice'
+import { deleteArticleCommentRequest, setArticleCommentRequest } from '../../store/slices/comment.slice'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { currentUser } from '../../services'
+import { IComment, ICommentListProps } from '../../models'
 
-const CommentList = ({
-  username,
+const CommentList: React.FC<ICommentListProps> = ({
+  user,
   setArticleCommentRequest,
   deleteArticleCommentRequest,
   comments,
-}: any) => {
+}) => {
   const { slug } = useParams()
 
   useEffect(() => {
@@ -25,16 +24,14 @@ const CommentList = ({
     <div>
       <h2>Comments</h2>
       <ul>
-        {comments.map((comment: any) => (
+        {comments.map((comment: IComment) => (
           <li key={comment.id}>
             {comment.author.username} - {comment.body} - {comment.createdAt}
             <br />
-            {username === comment.author.username && (
+            {user?.username === comment.author.username && (
               <button
                 disabled={comment.status?.delete === 'loading'}
-                onClick={() =>
-                  deleteArticleCommentRequest({ commentId: comment.id })
-                }
+                onClick={() => slug && deleteArticleCommentRequest({ slug, commentId: comment.id })}
               >
                 Delete
               </button>
@@ -48,7 +45,7 @@ const CommentList = ({
 
 export default connect(
   (state: RootState) => ({
-    username: state.auth.user?.username,
+    user: currentUser(),
     comments: state.comment.comments,
   }),
   { setArticleCommentRequest, deleteArticleCommentRequest }

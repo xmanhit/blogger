@@ -1,8 +1,8 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export const initialState = {
   profile: null,
-};
+}
 
 export const profileSlice = createSlice({
   name: 'profile',
@@ -12,8 +12,8 @@ export const profileSlice = createSlice({
     followUser: (state, action: PayloadAction<any>) => {},
     unfollowUser: (state, action: PayloadAction<any>) => {},
   },
-});
+})
 
-export const { setProfile, followUser, unfollowUser } = profileSlice.actions;
+export const { setProfile, followUser, unfollowUser } = profileSlice.actions
 
-export default profileSlice.reducer;
+export default profileSlice.reducer

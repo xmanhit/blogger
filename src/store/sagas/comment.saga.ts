@@ -1,10 +1,6 @@
 import { AxiosError, AxiosResponse } from 'axios'
 import { GetArticleComments, IComment } from '../../models'
-import {
-  deleteArticleComment,
-  getArticleComments,
-  createArticleComment,
-} from '../../services/comment.service'
+import { deleteArticleComment, getArticleComments, createArticleComment } from '../../services/comment.service'
 import {
   createArticleCommentError,
   createArticleCommentRequest,
@@ -19,12 +15,12 @@ import {
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 // Actions
-function* handlesSetArticleComments(
-  action: ReturnType<typeof setArticleCommentRequest>
-) {
+function* handlesSetArticleComments(action: ReturnType<typeof setArticleCommentRequest>) {
   try {
-    const response: AxiosResponse<{ comments: IComment[] }> =
-      yield call<GetArticleComments>(getArticleComments, action.payload)
+    const response: AxiosResponse<{ comments: IComment[] }> = yield call<GetArticleComments>(
+      getArticleComments,
+      action.payload
+    )
     console.log(response.data)
 
     yield put(setArticleCommentSuccess(response.data))
@@ -34,17 +30,12 @@ function* handlesSetArticleComments(
   }
 }
 
-function* handlesCreateArticleComments(
-  action: ReturnType<typeof createArticleCommentRequest>
-) {
+function* handlesCreateArticleComments(action: ReturnType<typeof createArticleCommentRequest>) {
   try {
-    const response: AxiosResponse<{ comment: IComment }> = yield call(
-      createArticleComment,
-      {
-        slug: action.payload.slug,
-        comment: action.payload.comment,
-      }
-    )
+    const response: AxiosResponse<{ comment: IComment }> = yield call(createArticleComment, {
+      slug: action.payload.slug,
+      comment: action.payload.comment,
+    })
     yield put(createArticleCommentSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
@@ -52,9 +43,7 @@ function* handlesCreateArticleComments(
   }
 }
 
-function* handlesDeleteArticleComments(
-  action: ReturnType<typeof deleteArticleCommentRequest>
-) {
+function* handlesDeleteArticleComments(action: ReturnType<typeof deleteArticleCommentRequest>) {
   try {
     yield call(deleteArticleComment, action.payload)
     yield put(deleteArticleCommentSuccess(action.payload))

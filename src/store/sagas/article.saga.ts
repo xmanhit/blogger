@@ -1,11 +1,6 @@
 import { AxiosError, AxiosResponse } from 'axios'
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import {
-  GetArticleFollowingUsers,
-  GetArticles,
-  IArticle,
-  IArticleResponse,
-} from '../../models'
+import { GetArticleFollowingUsers, GetArticles, IArticle, IArticleResponse } from '../../models'
 import {
   createArticle,
   updateArticle,
@@ -42,21 +37,15 @@ import {
   setTagsSuccess,
   setTagsFailure,
 } from '../slices/article.slice'
-import {
-  deleteArticleFavorite,
-  createArticleFavorite,
-} from '../../services/favorite.service'
+import { deleteArticleFavorite, createArticleFavorite } from '../../services/favorite.service'
 
 // Actions
-function* handleSetArticleFollowing(
-  action: ReturnType<typeof setArticleFollowingRequest>
-) {
+function* handleSetArticleFollowing(action: ReturnType<typeof setArticleFollowingRequest>) {
   try {
-    const response: AxiosResponse<IArticle[]> =
-      yield call<GetArticleFollowingUsers>(
-        getArticleFollowingUsers,
-        action.payload
-      )
+    const response: AxiosResponse<IArticle[]> = yield call<GetArticleFollowingUsers>(
+      getArticleFollowingUsers,
+      action.payload
+    )
 
     yield put(setArticlesSuccess(response.data))
   } catch (error) {
@@ -77,14 +66,9 @@ function* handleSetArticles(action: ReturnType<typeof setArticlesRequest>) {
   }
 }
 
-function* handleCreateArticleFavorite(
-  action: ReturnType<typeof createArticleFavoriteRequest>
-) {
+function* handleCreateArticleFavorite(action: ReturnType<typeof createArticleFavoriteRequest>) {
   try {
-    const response: AxiosResponse<IArticleResponse> = yield call(
-      createArticleFavorite,
-      action.payload
-    )
+    const response: AxiosResponse<IArticleResponse> = yield call(createArticleFavorite, action.payload)
     yield put(createArticleFavoriteSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
@@ -92,14 +76,9 @@ function* handleCreateArticleFavorite(
   }
 }
 
-function* handleDeleteArticleFavorite(
-  action: ReturnType<typeof deleteArticleFavoriteRequest>
-) {
+function* handleDeleteArticleFavorite(action: ReturnType<typeof deleteArticleFavoriteRequest>) {
   try {
-    const response: AxiosResponse<IArticleResponse> = yield call(
-      deleteArticleFavorite,
-      action.payload
-    )
+    const response: AxiosResponse<IArticleResponse> = yield call(deleteArticleFavorite, action.payload)
     yield put(deleteArticleFavoriteSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
@@ -112,14 +91,9 @@ function* handleDeleteArticleFavorite(
   }
 }
 
-function* handleSetArticleDetails(
-  action: ReturnType<typeof setArticleDetailsRequest>
-) {
+function* handleSetArticleDetails(action: ReturnType<typeof setArticleDetailsRequest>) {
   try {
-    const response: AxiosResponse<IArticleResponse> = yield call(
-      getArticle,
-      action.payload
-    )
+    const response: AxiosResponse<IArticleResponse> = yield call(getArticle, action.payload)
     yield put(setArticleDetailsSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
@@ -138,10 +112,7 @@ function* handleSetTags() {
 
 function* handleCreateArticle(action: ReturnType<typeof createArticleRequest>) {
   try {
-    const response: AxiosResponse<IArticleResponse> = yield call(
-      createArticle,
-      action.payload
-    )
+    const response: AxiosResponse<IArticleResponse> = yield call(createArticle, action.payload)
     yield put(createArticleSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
@@ -151,10 +122,7 @@ function* handleCreateArticle(action: ReturnType<typeof createArticleRequest>) {
 
 function* handleuUdateArticle(action: ReturnType<typeof updateArticleRequest>) {
   try {
-    const response: AxiosResponse<IArticleResponse> = yield call(
-      updateArticle,
-      action.payload
-    )
+    const response: AxiosResponse<IArticleResponse> = yield call(updateArticle, action.payload)
     yield put(updateArticleSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
@@ -164,10 +132,7 @@ function* handleuUdateArticle(action: ReturnType<typeof updateArticleRequest>) {
 
 function* handleDeleteArticle(action: ReturnType<typeof deleteArticleRequest>) {
   try {
-    const response: AxiosResponse<IArticleResponse> = yield call(
-      deleteArticle,
-      action.payload
-    )
+    const response: AxiosResponse<IArticleResponse> = yield call(deleteArticle, action.payload)
     yield put(deleteArticleSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError

@@ -1,5 +1,5 @@
-const UserFavorites = () => {
-  return <div>UserFavorites</div>;
-};
+const UserFavorites: React.FC = () => {
+  return <div>UserFavorites</div>
+}
 
-export default UserFavorites;
+export default UserFavorites

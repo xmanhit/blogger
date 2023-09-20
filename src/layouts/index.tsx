@@ -1,8 +1,8 @@
-import Navbar from './Header';
-import Footer from './Footer';
-import { Outlet } from 'react-router-dom';
+import Navbar from './Header'
+import Footer from './Footer'
+import { Outlet } from 'react-router-dom'
 
-const Layout = () => {
+const Layout: React.FC = () => {
   return (
     <>
       <header>
@@ -15,7 +15,7 @@ const Layout = () => {
         <Footer />
       </footer>
     </>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

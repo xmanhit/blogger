@@ -1,14 +1,15 @@
 import { LoaderFunction, redirect } from 'react-router-dom'
 import ArticleForm from '../../components/form/ArticleForm'
-import { getItem } from '../../services'
+import { isAuthenticated } from '../../services'
 
 export const formArticleLoader: LoaderFunction = () => {
-  const token = getItem('token')
-  if (!token) return redirect('/')
+  if (!isAuthenticated()) {
+    return redirect('/login')
+  }
   return null
 }
 
-const FormArticle = () => {
+const FormArticle: React.FC = () => {
   return <ArticleForm />
 }
 
