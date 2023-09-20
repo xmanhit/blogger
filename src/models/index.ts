@@ -23,6 +23,7 @@ import {
   deleteArticleCommentRequest,
   setArticleCommentRequest,
 } from '../store/slices/comment.slice'
+import { SetURLSearchParams } from 'react-router-dom'
 
 // token
 export type Token = string | null | undefined
@@ -275,6 +276,14 @@ export interface IUserSettingProps {
   user: IUser | null
   currentUserRequest: typeof currentUserRequest
   updateRequest: typeof updateRequest
+}
+
+export interface IPaginationProps {
+  pagination: number[]
+  total: number
+  limit: number
+  page: number
+  setSearchParams: SetURLSearchParams
 }
 
 // State

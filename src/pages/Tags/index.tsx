@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { RootState } from '../../store'
 import { setArticlesRequest, setTagsRequest } from '../../store/slices/article.slice'
-import CardArticle from '../../components/ui/CardArticle'
+import { CardArticle, Pagination } from '../../components/ui'
 import { getPagination } from '../../store/selectors'
 import { ITagsProps } from '../../models'
 
@@ -55,22 +55,7 @@ const Tags: React.FC<ITagsProps> = ({
       {isLoading && <div>Articles Loading...</div>}
       {articles.length <= 0 && !isLoading && <div>No articles yet</div>}
 
-      {total > limit && (
-        <div>
-          {pagination.map((pageNumber: number) => (
-            <button
-              type='button'
-              className={pageNumber === page ? 'active' : ''}
-              key={pageNumber}
-              onClick={() => {
-                setSearchParams({ page: pageNumber.toString() })
-              }}
-            >
-              {pageNumber === page ? 'Current' : ''} {pageNumber}
-            </button>
-          ))}
-        </div>
-      )}
+      <Pagination pagination={pagination} total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
     </div>
   )
 }

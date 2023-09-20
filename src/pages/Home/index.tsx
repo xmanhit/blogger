@@ -5,7 +5,7 @@ import { setArticleFollowingRequest, setArticlesRequest, setTagsRequest } from '
 import { Link, LoaderFunction, NavLink, redirect, useLoaderData, useSearchParams } from 'react-router-dom'
 import { getPagination } from '../../store/selectors'
 import { IArticle, IHomeProps } from '../../models'
-import CardArticle from '../../components/ui/CardArticle'
+import { CardArticle, Pagination } from '../../components/ui'
 import { isAuthenticated } from '../../services'
 
 export const homeLoader: LoaderFunction = ({ request }) => {
@@ -78,21 +78,7 @@ const Home: React.FC<IHomeProps> = ({
         <CardArticle key={article.slug} article={article} />
       ))}
 
-      {total > limit && (
-        <div>
-          {pagination.map((pageNumber: number) => (
-            <button
-              className={pageNumber === page ? 'active' : ''}
-              key={pageNumber}
-              onClick={() => {
-                setSearchParams({ page: pageNumber.toString() })
-              }}
-            >
-              {pageNumber === page ? 'Current' : ''} {pageNumber}
-            </button>
-          ))}
-        </div>
-      )}
+      <Pagination pagination={pagination} total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { RootState } from '../../store'
 import { deleteArticleRequest, setArticleDetailsRequest } from '../../store/slices/article.slice'
 import { IArticleDetailsProps } from '../../models'
-import Comments from '../../components/ui/Comments'
+import { Comments } from '../../components/ui'
 import { currentUser, isAuthenticated } from '../../services'
 
 const ArticleDetails: React.FC<IArticleDetailsProps> = ({

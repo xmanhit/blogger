@@ -6,7 +6,7 @@ import { currentUserRequest } from '../../store/slices/auth.slice'
 import { setArticlesRequest } from '../../store/slices/article.slice'
 import { IArticle, IUserDetailsProps } from '../../models'
 import { currentUser } from '../../services'
-import CardArticle from '../../components/ui/CardArticle'
+import { CardArticle } from '../../components/ui'
 
 const UserDetails: React.FC<IUserDetailsProps> = ({
   user,
