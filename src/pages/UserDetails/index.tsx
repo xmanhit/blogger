@@ -53,8 +53,8 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
         ) : (
           <li>No articles available</li>
         )}
+        <Pagination pagination={pagination} total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
       </ul>
-      <Pagination pagination={pagination} total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
     </>
   )
 }
@@ -65,7 +65,7 @@ export default connect(
     articles: state.article.articles,
     total: state.article.total,
     limit: state.article.limit,
-    pagination: getPagination(state),
+    pagination: getPagination(state.article),
   }),
   { currentUserRequest, setArticlesRequest }
 )(UserDetails)

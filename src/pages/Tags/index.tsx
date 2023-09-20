@@ -68,7 +68,7 @@ export default connect(
     articles: state.article.articles,
     total: state.article.total,
     limit: state.article.limit,
-    pagination: getPagination(state),
+    pagination: getPagination(state.article),
   }),
   { setTagsRequest, setArticlesRequest }
 )(Tags)
