@@ -48,8 +48,6 @@ const router = createBrowserRouter([
         path: 'me',
         loader: async () => {
           if (!isAuthenticated()) {
-            console.log(123)
-
             return redirect('/login')
           }
           return null
