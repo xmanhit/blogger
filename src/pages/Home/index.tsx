@@ -1,30 +1,18 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from '../../store'
-import {
-  setArticleFollowingRequest,
-  setArticlesRequest,
-  setTagsRequest,
-} from '../../store/slices/article.slice'
-import {
-  Link,
-  LoaderFunction,
-  NavLink,
-  redirect,
-  useLoaderData,
-  useSearchParams,
-} from 'react-router-dom'
+import { setArticleFollowingRequest, setArticlesRequest, setTagsRequest } from '../../store/slices/article.slice'
+import { Link, LoaderFunction, NavLink, redirect, useLoaderData, useSearchParams } from 'react-router-dom'
 import { getPagination } from '../../store/selectors'
 import { IArticle, IHomeProps } from '../../models'
-import CardArticle from '../../components/ui/CardArticle'
-import { getItem } from '../../services'
+import { CardArticle, Pagination } from '../../components/ui'
+import { isAuthenticated } from '../../services'
 
-export const homeLoader: LoaderFunction = ({ request, params }) => {
-  const token = getItem('token')
+export const homeLoader: LoaderFunction = ({ request }) => {
   const url: URL = new URL(request.url)
   const isFollowing: boolean = url.pathname === '/following'
-  if (!token && isFollowing) {
-    return redirect('/')
+  if (!isAuthenticated() && isFollowing) {
+    return redirect('/login')
   }
   return { isFollowing }
 }
@@ -90,35 +78,21 @@ const Home: React.FC<IHomeProps> = ({
         <CardArticle key={article.slug} article={article} />
       ))}
 
-      {total > limit && (
-        <div>
-          {pagination.map((pageNumber: number) => (
-            <button
-              className={pageNumber === page ? 'active' : ''}
-              key={pageNumber}
-              onClick={() => {
-                setSearchParams({ page: pageNumber.toString() })
-              }}
-            >
-              {pageNumber === page ? 'Current' : ''} {pageNumber}
-            </button>
-          ))}
-        </div>
-      )}
+      <Pagination pagination={pagination} total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
     </div>
   )
 }
 
 export default connect(
   (state: RootState) => ({
-    isAuthenticated: state.auth.isAuthenticated,
+    isAuthenticated: isAuthenticated(),
     isLoading: state.article.status.articles === 'loading',
     isLoadingTags: state.article.status.tagList === 'loading',
     tagList: state.article.tagList,
     articles: state.article.articles,
     limit: state.article.limit,
     total: state.article.total,
-    pagination: getPagination(state),
+    pagination: getPagination(state.article),
   }),
   {
     setTagsRequest,

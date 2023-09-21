@@ -1,113 +1,69 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { RootState } from '../../store';
-import { currentUserRequest } from '../../store/slices/auth.slice';
-import { setArticleFollowingRequest, setArticlesRequest } from '../../store/slices/article.slice';
-import { setProfile, createProfileFollowUser, createProfileUnFollowUser} from '../../store/slices/profile.slice';
-import { useParams, Link, useSearchParams } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { Link, useSearchParams, useParams } from 'react-router-dom'
+import { RootState } from '../../store'
+import { currentUserRequest } from '../../store/slices/auth.slice'
+import { setArticlesRequest } from '../../store/slices/article.slice'
+import { IArticle, IUserDetailsProps } from '../../models'
+import { currentUser } from '../../services'
+import { CardArticle, Pagination } from '../../components/ui'
 import { getPagination } from '../../store/selectors'
 
-const UserDetails = ({
+const UserDetails: React.FC<IUserDetailsProps> = ({
   user,
   articles,
   currentUserRequest,
-  isAuthenticated,
-  isActionLoading,
-  isLoading,
-  setArticleFollowingRequest,
   setArticlesRequest,
-  setProfile,
-  profile,
-  createProfileFollowUser,
-  createProfileUnFollowUser,
-  limit,
   total,
+  limit,
   pagination,
 }): JSX.Element => {
-  const param = useParams()
-
   let [searchParams, setSearchParams] = useSearchParams()
   const page: number = Number(searchParams.get('page')) || 1
 
-  // useEffect(() => {
-    
-  // })
   useEffect(() => {
-    setArticlesRequest({ author: param.username })
-    setProfile(param)
-    const offset = (page - 1) * limit
-  }, [param, page]);
-
+    if (!user) {
+      currentUserRequest()
+    }
+  }, [])
   
+  const author = useParams().username
+  console.log(user.username)
+  console.log('author', author)
+  useEffect(() => {
+    // Assuming setArticlesRequest requires parameters like author or tags
+    // Modify this accordingly based on your API requirements
+    const offset = (page - 1) * limit
+    author && setArticlesRequest({ author, limit, offset })
+  }, [user?.username, page])
 
-  const handleFollow = () => {
-    createProfileFollowUser({username: profile.username, limit,
-      offset,})
-  }
-
-  const handleUnFollow = () => {
-    createProfileUnFollowUser({username: profile.username})
-    console.log(profile.following)
-  }
   return (
     <>
-      <Link to={'./settings'}>UserSetting</Link>
-      <h1>ABC</h1>
-      <img src={profile.image} alt="" />
-      <p>{profile.username}</p>
-      {!profile.following ? <button onClick={handleFollow}>Follow</button> : <button onClick={handleUnFollow}>UnFollow</button>}
+      <div>User Details</div>
+      {author == user.username ? <Link to='/me/settings'>Setting</Link> : <></>}
       <ul>
-        {articles.articles ? (
-          articles.articles.map((article) => (
+        {articles ? (
+          articles.map((article: IArticle) => (
             <li key={article.slug}>
-              {article.author ? (
-                <>
-                  <h2>{article.author.username}</h2>
-                  <Link to={`../${article.author.username}/${article.slug}`}>
-                    <h4>{article.description}</h4>
-                  </Link>
-                  <hr />
-                </>
-              ) : (
-                <p>No author information available</p>
-              )}
+              {article.author ? <CardArticle article={article} /> : <p>No author information available</p>}
             </li>
           ))
         ) : (
-          <p>No articles available</p>
+          <li>No articles available</li>
         )}
-
+        <Pagination pagination={pagination} total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
       </ul>
-      {total > limit && (
-        <div>
-          {pagination.map((pageNumber: number) => (
-            <button
-              className={pageNumber === page ? 'active' : ''}
-              key={pageNumber}
-              onClick={() => {
-                setSearchParams({ page: pageNumber.toString() })
-              }}
-            >
-              {pageNumber === page ? 'Current' : ''} {pageNumber}
-            </button>
-          ))}
-        </div>
-      )}
     </>
-  );
-};
+  )
+}
 
 export default connect(
   (state: RootState) => ({
-    user: state.auth.user,
-    profile: state.profile.profile,
-    articles: state.article, // Make sure this maps to the correct Redux state path
-    isAuthenticated: state.auth.isAuthenticated,
-    isActionLoading: state.auth.isActionLoading,
-    isLoading: state.auth.isLoading,
-    limit: state.article.limit,
+    user: currentUser(),
+    articles: state.article.articles,
     total: state.article.total,
-    pagination: getPagination(state),
+    limit: state.article.limit,
+    pagination: getPagination(state.article),
   }),
-  { currentUserRequest, setArticleFollowingRequest, setArticlesRequest, setProfile, createProfileFollowUser, createProfileUnFollowUser }
-)(UserDetails);
+  { currentUserRequest, setArticlesRequest }
+)(UserDetails)

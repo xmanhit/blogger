@@ -4,6 +4,8 @@ import * as Yup from 'yup'
 import { RootState } from '../../store'
 import { createArticleCommentRequest } from '../../store/slices/comment.slice'
 import { useParams } from 'react-router-dom'
+import { isAuthenticated } from '../../services'
+import { ICommentFormProps } from '../../models'
 
 const CommentSchema = Yup.object().shape({
   comment: Yup.string()
@@ -12,12 +14,7 @@ const CommentSchema = Yup.object().shape({
     .max(500, 'Must be 500 characters or less'),
 })
 
-const CommentForm: React.FC = ({
-  isAuthenticated,
-  createArticleCommentRequest,
-  status,
-  errors,
-}: any) => {
+const CommentForm: React.FC<ICommentFormProps> = ({ isAuthenticated, createArticleCommentRequest, status, errors }) => {
   const { slug } = useParams()
   return (
     <div>
@@ -26,7 +23,7 @@ const CommentForm: React.FC = ({
         validationSchema={CommentSchema}
         onSubmit={({ comment }) => {
           console.log(slug, comment, isAuthenticated, errors)
-          createArticleCommentRequest({ slug, comment: { body: comment } })
+          slug && createArticleCommentRequest({ slug, comment: { body: comment } })
         }}
       >
         <Form>
@@ -44,7 +41,7 @@ const CommentForm: React.FC = ({
 
 export default connect(
   (state: RootState) => ({
-    isAuthenticated: state.auth.isAuthenticated,
+    isAuthenticated: isAuthenticated(),
     status: state.comment.status.createComment,
     errors: state.comment.errors,
   }),

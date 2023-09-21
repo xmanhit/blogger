@@ -1,11 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import {
-  IArticle,
-  IArticleFollowingUsersParams,
-  IArticleResponse,
-  IArticleState,
-  IArticlesParams,
-} from '../../models'
+import { IArticle, IArticleFollowingUsersParams, IArticleResponse, IArticleState, IArticlesParams } from '../../models'
 
 export const initialState: IArticleState = {
   tagList: [],
@@ -30,10 +24,7 @@ const articleSlice = createSlice({
   initialState,
   reducers: {
     // Set articles
-    setArticleFollowingRequest: (
-      state,
-      _action: PayloadAction<IArticleFollowingUsersParams>
-    ) => {
+    setArticleFollowingRequest: (state, _action: PayloadAction<IArticleFollowingUsersParams>) => {
       state.status.articles = 'loading'
       state.total = 0
       state.articles = []
@@ -56,14 +47,11 @@ const articleSlice = createSlice({
       state.status.articles = 'failed'
     },
     // Set article details
-    setArticleDetailsRequest: (state, _action: PayloadAction<any>) => {
+    setArticleDetailsRequest: (state, _action: PayloadAction<string>) => {
       state.status.articleDetails = 'loading'
       state.errors = null
     },
-    setArticleDetailsSuccess: (
-      state,
-      action: PayloadAction<IArticleResponse>
-    ) => {
+    setArticleDetailsSuccess: (state, action: PayloadAction<IArticleResponse>) => {
       state.articleDetails = action.payload.article
       state.status.articleDetails = 'idle'
     },
@@ -98,9 +86,7 @@ const articleSlice = createSlice({
     },
     updateArticleSuccess: (state, action: PayloadAction<any>) => {
       console.log(action.payload)
-      let index = state.articles.findIndex(
-        (e) => e.slug === action.payload.article.slug
-      ) // id should be unique.
+      let index = state.articles.findIndex((e) => e.slug === action.payload.article.slug) // id should be unique.
       if (index !== -1) {
         state.articles[index] = action.payload.article
       }
@@ -131,26 +117,18 @@ const articleSlice = createSlice({
     },
     // Create article favorite
     createArticleFavoriteRequest: (state, action: PayloadAction<string>) => {
-      const article: IArticle | undefined = state.articles.find(
-        (p) => p.slug === action.payload
-      )
+      const article: IArticle | undefined = state.articles.find((p) => p.slug === action.payload)
       if (article) {
         article.status = {
           favorite: 'loading',
         }
       }
     },
-    createArticleFavoriteSuccess: (
-      state,
-      action: PayloadAction<IArticleResponse>
-    ) => {
-      const article = state.articles.find(
-        (p) => p.slug === action.payload.article.slug
-      )
+    createArticleFavoriteSuccess: (state, action: PayloadAction<IArticleResponse>) => {
+      const article = state.articles.find((p) => p.slug === action.payload.article.slug)
       if (state.articleDetails?.slug === action.payload.article.slug) {
         state.articleDetails.favorited = action.payload.article.favorited
-        state.articleDetails.favoritesCount =
-          action.payload.article.favoritesCount
+        state.articleDetails.favoritesCount = action.payload.article.favoritesCount
       }
       if (article) {
         article.favorited = action.payload.article.favorited
@@ -159,9 +137,7 @@ const articleSlice = createSlice({
       }
     },
     createArticleFavoriteFailure: (state, action: PayloadAction<any>) => {
-      const article = state.articles.find(
-        (p) => p.slug === action.payload.article.slug
-      )
+      const article = state.articles.find((p) => p.slug === action.payload.article.slug)
       if (article) {
         article.status.favorite = 'failed'
       }
@@ -175,13 +151,8 @@ const articleSlice = createSlice({
         }
       }
     },
-    deleteArticleFavoriteSuccess: (
-      state,
-      action: PayloadAction<IArticleResponse>
-    ) => {
-      const article = state.articles.find(
-        (p) => p.slug === action.payload.article.slug
-      )
+    deleteArticleFavoriteSuccess: (state, action: PayloadAction<IArticleResponse>) => {
+      const article = state.articles.find((p) => p.slug === action.payload.article.slug)
       if (article) {
         article.favorited = action.payload.article.favorited
         article.favoritesCount = action.payload.article.favoritesCount
@@ -190,8 +161,7 @@ const articleSlice = createSlice({
 
       if (state.articleDetails?.slug === action.payload.article.slug) {
         state.articleDetails.favorited = action.payload.article.favorited
-        state.articleDetails.favoritesCount =
-          action.payload.article.favoritesCount
+        state.articleDetails.favoritesCount = action.payload.article.favoritesCount
       }
     },
     deleteArticleFavoriteFailure: (state, action: PayloadAction<any>) => {

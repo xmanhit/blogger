@@ -1,7 +1,7 @@
 import CommentForm from '../form/CommentForm'
 import CommentList from './CommentList'
 
-const Comments = () => {
+const Comments: React.FC = () => {
   return (
     <div>
       <h2>Comments</h2>

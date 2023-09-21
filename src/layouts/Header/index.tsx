@@ -1,17 +1,14 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { RootState } from '../../store'
 import { currentUserRequest } from '../../store/slices/auth.slice'
 import avatar from '../../assets/avatar.jpg'
+import { currentUser, isAuthenticated } from '../../services'
+import { IHeaderProps } from '../../models'
 
-const Header: React.FC<{
-  isAuthenticated: boolean
-  currentUserRequest: any
-  user: any
-}> = ({ isAuthenticated, currentUserRequest, user }) => {
+const Header: React.FC<IHeaderProps> = ({ isAuthenticated, currentUserRequest, user }) => {
   useEffect(() => {
-    if (!user) {
+    if (isAuthenticated && !user) {
       currentUserRequest()
     }
   }, [])
@@ -22,11 +19,9 @@ const Header: React.FC<{
         <Link to='/'>Logo</Link>
         <Link to='/new'>Write</Link>
         <span>
-          <img
-            style={{ width: '50px', height: '50px' }}
-            src={user?.image ? user.image : avatar}
-            alt='Logo'
-          />
+          <Link to='/me'>
+            <img style={{ width: '50px', height: '50px' }} src={user?.image ? user.image : avatar} alt='Logo' />
+          </Link>
         </span>
       </nav>
     )
@@ -43,9 +38,9 @@ const Header: React.FC<{
 }
 
 export default connect(
-  (state: RootState) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user,
+  () => ({
+    isAuthenticated: isAuthenticated(),
+    user: currentUser(),
   }),
   { currentUserRequest }
 )(Header)

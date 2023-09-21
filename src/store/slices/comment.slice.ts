@@ -19,19 +19,13 @@ const comment = createSlice({
   name: 'comment',
   initialState,
   reducers: {
-    setArticleCommentRequest: (
-      state,
-      _action: PayloadAction<{ slug: string }>
-    ) => {
+    setArticleCommentRequest: (state, _action: PayloadAction<{ slug: string }>) => {
       console.log(_action.payload.slug)
 
       state.status.comment = 'loading'
       state.errors.comment = null
     },
-    setArticleCommentSuccess: (
-      state,
-      action: PayloadAction<{ comments: IComment[] }>
-    ) => {
+    setArticleCommentSuccess: (state, action: PayloadAction<{ comments: IComment[] }>) => {
       state.comments = action.payload.comments
       state.status.comment = 'idle'
     },
@@ -49,10 +43,7 @@ const comment = createSlice({
       state.status.createComment = 'loading'
       state.errors.createComment = null
     },
-    createArticleCommentSuccess: (
-      state,
-      action: PayloadAction<{ comment: IComment }>
-    ) => {
+    createArticleCommentSuccess: (state, action: PayloadAction<{ comment: IComment }>) => {
       state.comments.push(action.payload.comment)
       state.status.createComment = 'idle'
     },
@@ -60,22 +51,15 @@ const comment = createSlice({
       state.errors.createComment = action.payload
       state.status.createComment = 'failed'
     },
-    deleteArticleCommentRequest: (
-      state,
-      action: PayloadAction<{ slug: string; commentId: string }>
-    ) => {
-      const comment = state.comments.find(
-        (comment) => comment.id === action.payload.commentId
-      )
+    deleteArticleCommentRequest: (state, action: PayloadAction<{ slug: string; commentId: string }>) => {
+      const comment = state.comments.find((comment) => comment.id === action.payload.commentId)
       if (comment) {
         comment.status = { delete: 'loading' }
       }
       state.errors.deleteComment = null
     },
     deleteArticleCommentSuccess: (state, action: PayloadAction<any>) => {
-      state.comments = state.comments.filter(
-        (comment) => comment.id !== action.payload.commentId
-      )
+      state.comments = state.comments.filter((comment) => comment.id !== action.payload.commentId)
     },
     deleteArticleCommentError: (state, action: PayloadAction<any>) => {
       state.errors = action.payload

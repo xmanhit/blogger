@@ -1,14 +1,13 @@
 import { connect } from 'react-redux'
 import { Link, LoaderFunction, redirect, useNavigate } from 'react-router-dom'
-import { RootState } from '../../store'
 import { ILoginProps } from '../../models'
 import SignInForm from '../../components/form/SignInForm'
 import { useEffect } from 'react'
 import { clearRegister } from '../../store/slices/auth.slice'
+import { isAuthenticated } from '../../services'
 
 export const loginLoader: LoaderFunction = () => {
-  const token = localStorage.getItem('token')
-  if (token) {
+  if (isAuthenticated()) {
     return redirect('/')
   }
   return null
@@ -32,8 +31,8 @@ const Login: React.FC<ILoginProps> = ({ isAuthenticated, clearRegister }) => {
 }
 
 export default connect(
-  (state: RootState) => ({
-    isAuthenticated: state.auth.isAuthenticated,
+  () => ({
+    isAuthenticated: isAuthenticated(),
   }),
   { clearRegister }
 )(Login)

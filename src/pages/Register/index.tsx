@@ -2,22 +2,18 @@ import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link, LoaderFunction, redirect, useNavigate } from 'react-router-dom'
 import { IRegisterProps } from '../../models'
-import { RootState } from '../../store'
 import SignUpForm from '../../components/form/SignUpForm'
 import { clearLogin } from '../../store/slices/auth.slice'
+import { isAuthenticated } from '../../services'
 
 export const registerLoader: LoaderFunction = () => {
-  const token = localStorage.getItem('token')
-  if (token) {
+  if (isAuthenticated()) {
     return redirect('/')
   }
   return null
 }
 
-const Register: React.FC<IRegisterProps> = ({
-  isAuthenticated,
-  clearLogin,
-}) => {
+const Register: React.FC<IRegisterProps> = ({ isAuthenticated, clearLogin }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -36,8 +32,8 @@ const Register: React.FC<IRegisterProps> = ({
 }
 
 export default connect(
-  (state: RootState) => ({
-    isAuthenticated: state.auth.isAuthenticated,
+  () => ({
+    isAuthenticated: isAuthenticated(),
   }),
   { clearLogin }
 )(Register)

@@ -1,11 +1,4 @@
-import {
-  IUser,
-  IUserInfo,
-  Register,
-  Login,
-  GetCurrentUser,
-  UpdateUser,
-} from '../models'
+import { IUser, IUserInfo, Register, Login, GetCurrentUser, UpdateUser } from '../models'
 import { axiosPrivate } from '../https-common'
 
 export const login: Login = ({ email, password }) => {
@@ -31,8 +24,8 @@ export const getCurrentUser: GetCurrentUser = () => {
   return axiosPrivate.get<IUser>('/user')
 }
 
-export const updateUser: UpdateUser = (user) => {
+export const updateUser: UpdateUser = ({ user }) => {
   return axiosPrivate.put<IUserInfo>('/user', {
-    user: user,
+    user,
   })
 }

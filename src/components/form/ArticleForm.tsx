@@ -2,62 +2,66 @@ import { connect } from 'react-redux'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { RootState } from '../../store'
-import {
-  createArticleRequest,
-  updateArticleRequest,
-} from '../../store/slices/article.slice'
+import { createArticleRequest, setArticleDetailsRequest, updateArticleRequest } from '../../store/slices/article.slice'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import { IArticleFormProps } from '../../models'
 
 const SignUpSchema = Yup.object().shape({
-  title: Yup.string()
-    .min(3, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  description: Yup.string()
-    .min(3, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
+  title: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
+  description: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
   body: Yup.string().min(3, 'Too Short!').required('Required'),
   tags: Yup.string(),
 })
 
-const ArticleForm: React.FC<any> = ({
+const ArticleForm: React.FC<IArticleFormProps> = ({
+  isLoading,
   isActionLoading,
   isActionSuccess,
   status,
   article,
+  setArticleDetailsRequest,
   createArticleRequest,
   updateArticleRequest,
   errors,
 }) => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { slug } = useParams()
-  const lastPath = location.pathname.substring(
-    location.pathname.lastIndexOf('/') + 1
-  )
+  const { slug } = useParams<string>()
+  const lastPath = location.pathname.substring(location.pathname.lastIndexOf('/') + 1)
 
-  console.log(status, isActionSuccess)
+  useEffect(() => {
+    if (!article) {
+      slug && setArticleDetailsRequest(slug)
+    }
+  }, [article])
+
+  if (isLoading) {
+    return <div>Form Article Loading...</div>
+  }
+
+  console.log(status, isActionSuccess, article)
 
   return (
+    // Cứ từ từ tạo state để lưu data của article trước khi nhấn anywhere button vào được đây :D
     <Formik
       initialValues={{
-        title: 'New post title',
-        description: 'New post description',
-        tags: 'new tag',
-        body: 'New post body',
+        title: article?.title || '',
+        description: article?.description || '',
+        tagList: article?.tagList || [''],
+        body: article?.body || '',
       }}
       validationSchema={SignUpSchema}
-      onSubmit={({ title, description, body, tags }) => {
+      onSubmit={({ title, description, body, tagList }) => {
         if (lastPath === 'new') {
           createArticleRequest({
-            article: { title, description, body, tagList: [tags] },
+            article: { title, description, body, tagList },
           })
         }
         if (lastPath === 'edit' && slug) {
           updateArticleRequest({
             slug,
-            article: { title, description, body, tagList: [tags] },
+            article: { title, description, body, tagList },
           })
         }
         console.log(isActionSuccess)
@@ -81,8 +85,8 @@ const ArticleForm: React.FC<any> = ({
           <ErrorMessage name='description' component='div' />
         </div>
         <div>
-          <Field name='tags' type='text' />
-          <ErrorMessage name='tags' component='div' />
+          <Field name='tagList' type='text' />
+          <ErrorMessage name='tagList' component='div' />
         </div>
         <div>
           <Field name='body' as='textarea' />
@@ -98,15 +102,13 @@ const ArticleForm: React.FC<any> = ({
 
 export default connect(
   (state: RootState) => ({
+    isLoading: state.article.status.articleDetails === 'loading',
     isActionLoading:
-      state.article.status.createArticle === 'loading' ||
-      state.article.status.updateArticle === 'loading',
-    isActionSuccess:
-      state.article.status.createArticle === 'idle' &&
-      state.article.status.updateArticle === 'idle',
+      state.article.status.createArticle === 'loading' || state.article.status.updateArticle === 'loading',
+    isActionSuccess: state.article.status.createArticle === 'idle' && state.article.status.updateArticle === 'idle',
     status: state.article.status,
     article: state.article.articleDetails,
     errors: state.auth.errors,
   }),
-  { createArticleRequest, updateArticleRequest }
+  { setArticleDetailsRequest, createArticleRequest, updateArticleRequest }
 )(ArticleForm)

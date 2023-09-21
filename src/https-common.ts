@@ -39,10 +39,9 @@ axiosPrivate.interceptors.response.use(
     // Do something with response data
     const currentUser: IUser = response.data.user
     if (currentUser) {
-      const token: string = currentUser.token
-      if (token) storeItem({ token })
-
       storeItem({ currentUser: JSON.stringify(currentUser) })
+      const token: Token = currentUser.token
+      if (token) storeItem({ token })
     }
     return response
   },

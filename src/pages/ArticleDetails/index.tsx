@@ -1,19 +1,17 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Link, redirect, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { RootState } from '../../store'
-import {
-  deleteArticleRequest,
-  setArticleDetailsRequest,
-} from '../../store/slices/article.slice'
+import { deleteArticleRequest, setArticleDetailsRequest } from '../../store/slices/article.slice'
 import { IArticleDetailsProps } from '../../models'
-import Comments from '../../components/ui/Comments'
+import { Comments } from '../../components/ui'
+import { currentUser, isAuthenticated } from '../../services'
 
 const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   isLoading,
   isDeleted,
   isAuthenticated,
-  currentUsername,
+  user,
   article,
   setArticleDetailsRequest,
   deleteArticleRequest,
@@ -25,10 +23,18 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
     if (slug) {
       setArticleDetailsRequest(slug)
     }
-    if (article?.author.username !== author) {
-      navigate('/')
+  }, [])
+
+  useEffect(() => {
+    if (article?.author) {
+      if (article?.author?.username !== author) {
+        console.warn(
+          'Sửa tên author trên link làm cái gì. Chẳng có nghĩa lý gì đâu :P',
+          'Nếu bạn là author bài viết này thì không cho bạn sửa xóa ở đây luôn nhé!'
+        )
+      }
     }
-  }, [slug, author])
+  }, [article?.author.username])
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -41,19 +47,16 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
     }
   }
 
-  console.log(article?.author.username)
-
   return (
     article && (
       <div>
-        {isAuthenticated && (
+        {isAuthenticated && author === user?.username && article.author.username === user?.username && (
           <>
-            <Link to={`/${slug}/edit`}>Edit</Link> -{' '}
-            <button onClick={handleDeleteArticle}>delete</button>
+            <Link to={`/${slug}/edit`}>Edit</Link> - <button onClick={handleDeleteArticle}>delete</button>
           </>
         )}
         <div>
-          <Link to={author === currentUsername ? '/me' : `/${author}`}>
+          <Link to={author === user?.username ? '/me' : `/${author}`}>
             <img src={article.author.image} alt={article.author.username} />
             <strong>{article.author.username}</strong>
           </Link>
@@ -67,9 +70,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
               #{tag}
             </Link>
           ))}
-          <p style={{ whiteSpace: 'pre-line' }}>
-            {article.body.replace(/(\\n)/g, '\n')}
-          </p>
+          <p style={{ whiteSpace: 'pre-line' }}>{article.body.replace(/(\\n)/g, '\n')}</p>
         </div>
         <div>
           <Comments />
@@ -81,10 +82,10 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
 
 export default connect(
   (state: RootState) => ({
+    isAuthenticated: isAuthenticated(),
     isLoading: state.article.status.articleDetails === 'loading',
     isDeleted: state.article.status.deleteArticle === 'idle',
-    isAuthenticated: state.auth.isAuthenticated,
-    currentUsername: state.auth.user?.username,
+    user: currentUser(),
     article: state.article.articleDetails,
     errors: state.article.errors,
   }),
