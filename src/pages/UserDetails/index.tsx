@@ -4,7 +4,9 @@ import { RootState } from '../../store';
 import { currentUserRequest } from '../../store/slices/auth.slice';
 import { setArticleFollowingRequest, setArticlesRequest } from '../../store/slices/article.slice';
 import { setProfile, createProfileFollowUser, createProfileUnFollowUser} from '../../store/slices/profile.slice';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useSearchParams } from 'react-router-dom';
+import { getPagination } from '../../store/selectors'
+
 const UserDetails = ({
   user,
   articles,
@@ -18,15 +20,29 @@ const UserDetails = ({
   profile,
   createProfileFollowUser,
   createProfileUnFollowUser,
+  limit,
+  total,
+  pagination,
 }): JSX.Element => {
   const param = useParams()
+
+  let [searchParams, setSearchParams] = useSearchParams()
+  const page: number = Number(searchParams.get('page')) || 1
+
+  // useEffect(() => {
+    
+  // })
   useEffect(() => {
     setArticlesRequest({ author: param.username })
     setProfile(param)
-  }, [param]);
+    const offset = (page - 1) * limit
+  }, [param, page]);
+
+  
 
   const handleFollow = () => {
-    createProfileFollowUser({username: profile.username})
+    createProfileFollowUser({username: profile.username, limit,
+      offset,})
   }
 
   const handleUnFollow = () => {
@@ -60,7 +76,23 @@ const UserDetails = ({
         ) : (
           <p>No articles available</p>
         )}
+
       </ul>
+      {total > limit && (
+        <div>
+          {pagination.map((pageNumber: number) => (
+            <button
+              className={pageNumber === page ? 'active' : ''}
+              key={pageNumber}
+              onClick={() => {
+                setSearchParams({ page: pageNumber.toString() })
+              }}
+            >
+              {pageNumber === page ? 'Current' : ''} {pageNumber}
+            </button>
+          ))}
+        </div>
+      )}
     </>
   );
 };
@@ -73,6 +105,9 @@ export default connect(
     isAuthenticated: state.auth.isAuthenticated,
     isActionLoading: state.auth.isActionLoading,
     isLoading: state.auth.isLoading,
+    limit: state.article.limit,
+    total: state.article.total,
+    pagination: getPagination(state),
   }),
   { currentUserRequest, setArticleFollowingRequest, setArticlesRequest, setProfile, createProfileFollowUser, createProfileUnFollowUser }
 )(UserDetails);

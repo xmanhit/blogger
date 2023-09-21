@@ -9,6 +9,7 @@ import {
 } from '../../store/slices/article.slice'
 
 const CardArticle: React.FC<IArticleProps> = ({
+  currentUsername,
   article: {
     slug,
     title,
@@ -47,15 +48,8 @@ const CardArticle: React.FC<IArticleProps> = ({
           <img src={author.image} alt={author.username} />
           <strong>{author.username}</strong>
         </Link>
-      </header>
-      <Link to={`/article/${slug}`}>
-=======
-      <div>
-        <img src={author.image} alt={author.username} />
-        <strong>{author.username}</strong>
       </div>
       <Link to={`/${author.username}/${slug}`}>
->>>>>>> 47800eb0d776e95b6631a511f7cffd15c5db48d3
         <h3>{title}</h3>
       </Link>
       <div>
@@ -81,6 +75,7 @@ const CardArticle: React.FC<IArticleProps> = ({
 export default connect(
   (state: RootState) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    currentUsername: state.auth.user?.username,
   }),
   {
     createArticleFavoriteRequest,

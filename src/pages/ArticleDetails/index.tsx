@@ -7,13 +7,13 @@ import {
   setArticleDetailsRequest,
 } from '../../store/slices/article.slice'
 import { IArticleDetailsProps } from '../../models'
-import { Link } from 'react-router-dom'
 import Comments from '../../components/ui/Comments'
 
 const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   isLoading,
   isDeleted,
   isAuthenticated,
+  currentUsername,
   article,
   setArticleDetailsRequest,
   deleteArticleRequest,
@@ -84,6 +84,7 @@ export default connect(
     isLoading: state.article.status.articleDetails === 'loading',
     isDeleted: state.article.status.deleteArticle === 'idle',
     isAuthenticated: state.auth.isAuthenticated,
+    currentUsername: state.auth.user?.username,
     article: state.article.articleDetails,
     errors: state.article.errors,
   }),
