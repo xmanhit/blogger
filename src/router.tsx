@@ -1,5 +1,5 @@
 import { Outlet, createBrowserRouter, redirect } from 'react-router-dom'
-import { isAuthenticated } from './services'
+import { clearItem, isAuthenticated } from './services'
 
 const router = createBrowserRouter([
   {
@@ -73,6 +73,14 @@ const router = createBrowserRouter([
             lazy: async () => {
               const UserSetting = await import('./pages/UserSettings')
               return { Component: UserSetting.default }
+            },
+          },
+          {
+            path: 'signout',
+            loader: () => {
+              clearItem('token')
+              clearItem('currentUser')
+              return redirect('-1')
             },
           },
           {

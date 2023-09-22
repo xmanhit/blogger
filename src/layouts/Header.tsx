@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { IHeaderProps } from '../models'
@@ -7,13 +7,20 @@ import { currentUserRequest } from '../store/slices/auth.slice'
 import avatar from '../assets/avatar.jpg'
 import Logo from '../assets/logo.svg'
 import styles from '../styles/Global.module.css'
+import Menu from '../components/ui/Menu'
 
 const Header: React.FC<IHeaderProps> = ({ isAuthenticated, currentUserRequest, user }) => {
+  const [isActive, setActive] = useState(false)
   useEffect(() => {
     if (isAuthenticated && !user) {
       currentUserRequest()
     }
   }, [])
+
+  const handleToggleMenu = (event: React.MouseEvent) => {
+    event.preventDefault()
+    setActive(!isActive)
+  }
 
   return (
     <header className={styles.header}>
@@ -31,7 +38,7 @@ const Header: React.FC<IHeaderProps> = ({ isAuthenticated, currentUserRequest, u
                   </Link>
                 </li>
                 <li className={styles.navItem}>
-                  <Link className={styles.navLink} to='/me'>
+                  <Link className={styles.navLink} onClick={handleToggleMenu} to='/me'>
                     <div className={styles.avatarWrapper}>
                       <span
                         style={{ backgroundImage: `url(${user?.image || avatar})` }}
@@ -39,6 +46,7 @@ const Header: React.FC<IHeaderProps> = ({ isAuthenticated, currentUserRequest, u
                       ></span>
                     </div>
                   </Link>
+                  <Menu isActive={isActive} />
                 </li>
               </>
             ) : (

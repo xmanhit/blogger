@@ -38,6 +38,7 @@
         align-items: center;
         gap: 1rem;
         .navItem {
+          position: relative;
           align-self: center;
           .navLink {
             .avatarWrapper {
@@ -48,7 +49,7 @@
               height: 2.5rem;
               transition: 0.5s;
               &:hover {
-                border-color: rgba(var(--indigo-500), var(--alpha-3));
+                border-color: rgba(var(--indigo-800), var(--alpha-3));
               }
               .avatar {
                 display: block;
@@ -60,6 +61,68 @@
               }
             }
           }
+          .menu {
+            position: absolute;
+            font-size: 1rem;
+            background-color: rgba(var(--gray-900), var(--alpha-10));
+            border: 1px solid rgba(var(--gray-800), var(--alpha-10));
+            border-radius: var(--rounded);
+            padding: 0.5rem;
+            top: 3.3rem;
+            right: 0;
+            width: 16rem;
+            visibility: hidden;
+            transition: 0.1s;
+            &::before {
+              content: '';
+              position: absolute;
+              top: -0.5rem;
+              right: 0.7rem;
+              width: 0;
+              height: 0;
+              border-left: 0.5rem solid transparent;
+              border-right: 0.5rem solid transparent;
+              border-bottom: 0.5rem solid rgba(var(--gray-800), var(--alpha-10));
+            }
+            .list {
+              list-style: none;
+              .item {
+                border-radius: 0.28rem;
+                padding: 0.5rem 0;
+                .user {
+                  display: flex;
+                  flex-direction: column;
+                  .username {
+                    color: rgba(var(--white), var(--alpha-10));
+                  }
+                  .email {
+                    color: rgba(var(--gray-500), var(--alpha-10));
+                  }
+                }
+                &:hover {
+                  .username,
+                  .email {
+                    color: rgba(var(--indigo-400), var(--alpha-10));
+                  }
+                  color: rgba(var(--indigo-400), var(--alpha-10));
+                  background-color: rgba(var(--indigo-800), var(--alpha-3));
+                }
+                .link {
+                  padding: 0 0.5rem;
+                }
+              }
+              .itemHr {
+                padding: 0.5rem 0;
+                .hr {
+                  border: none;
+                  border-top: 1px solid rgba(var(--gray-800), var(--alpha-10));
+                }
+              }
+            }
+          }
+          .menu.active {
+            visibility: visible;
+          }
         }
         .login {
           padding: 0 1rem;
@@ -67,7 +130,8 @@
           border-radius: var(--rounded);
           transition: 0.5s;
           &:hover {
-            background-color: rgba(var(--indigo-500), var(--alpha-3));
+            color: rgba(var(--indigo-400), var(--alpha-10));
+            background-color: rgba(var(--indigo-800), var(--alpha-3));
           }
         }
         .button {
