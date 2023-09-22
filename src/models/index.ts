@@ -178,11 +178,12 @@ export interface IErrorCredentials {
 export interface ISignInProps {
   loginRequest: typeof loginRequest
   status: Status
-  errors: IErrorCredentials | null
 }
 
 export interface ILoginProps {
   isAuthenticated: boolean
+  status: Status
+  errors: IErrorCredentials | null
   clearRegister: typeof clearRegister
 }
 

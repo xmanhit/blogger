@@ -18,7 +18,7 @@ import {
   updateSuccess,
 } from '../slices/auth.slice'
 import { AxiosError, AxiosResponse } from 'axios'
-import { isAuthenticated } from '../../services'
+import { clearItem } from '../../services'
 
 // Actions
 function* handleRegister(action: ReturnType<typeof registerRequest>) {
@@ -44,7 +44,7 @@ function* handleLogin(action: ReturnType<typeof loginRequest>) {
 }
 
 function* handlelogout() {
-  if (!isAuthenticated()) return
+  clearItem('token')
   yield put(logoutSuccess())
 }
 
