@@ -13,5 +13,5 @@ export const postFollowUser: CreateProfileFollow = (username) => {
 }
 
 export const deleteUnfollowUser: CreateProfileFollow = (username) => {
-  return axiosPrivate.delete<IProfile>(`/profiles/${username.username}/unfollow`)
+  return axiosPrivate.delete<IProfile>(`/profiles/${username.username}/follow`)
 }

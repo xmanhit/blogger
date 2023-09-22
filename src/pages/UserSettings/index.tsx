@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { currentUserRequest, updateRequest } from '../../store/slices/auth.slice'
 import { currentUser } from '../../services'
 import { IUserSettingProps } from '../../models'
+import styles from '../../styles/Global.module.css'
 
 const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, updateRequest }): JSX.Element => {
   const [updatedUser, setUpdatedUser] = useState({
@@ -37,25 +38,64 @@ const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, up
     }))
   }
 
-  const handleUpdateClick = () => {
+  const handleUpdateClick = (e) => {
+    e.preventDefault()
     user && updateRequest({ user: updatedUser })
   }
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setUpdatedUser((prevUser) => ({
+          ...prevUser,
+          image: reader.result,
+        }))
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+
   return (
-    <>
-      <div>User Setting</div>
-      <h1>ABC</h1>
+    <form className={styles.userSettingForm}>
+      <div className={styles.userSetting}>
+        <h2>User</h2>
+        <div className={styles.userSettingField}>
+          <label className={styles.labelSetting}>Name</label>
+          <input maxLength={30} className={styles.inputSetting} onChange={handleInputChange} placeholder="John Doe" value={updatedUser.username} size={30} type="text" name="username" id="username" />
+        </div>
+        <div className={styles.userSettingField}>
+          <label className={styles.labelSetting}>Email</label>
+          <input maxLength={50} className={styles.inputSetting} onChange={handleInputChange} placeholder="john.doe@example.com" value={updatedUser.email} size={50} type="text" name="email" id="email" />
+        </div>
+        <div className={styles.userSettingField}>
+          <label className={styles.labelSetting}>Password</label>
+          <input maxLength={30} className={styles.inputSetting} onChange={handleInputChange} placeholder="johndoe" value={updatedUser.password} size={30} type="text" name="password" id="password" />
+        </div>
+        <div className={styles.userSettingField}>
+          <label className={styles.labelSetting}>Bio</label>
+          <input maxLength={30} className={styles.inputSetting} onChange={handleInputChange} placeholder="johndoe" value={updatedUser.bio} size={200} type="text" name="bio" id="bio" />
+        </div>
+        <div className={styles.userSettingField}>
+          <label className={styles.labelSetting}>Profile image</label>
+          <div className={styles.userAvatarRowSetting}>
+            <span className={styles.userAvatarSetting}>
+              <img alt="anhnlv119 profile image" src={updatedUser.image} className={styles.imgSetting} loading="lazy" />
+            </span>
+            <input accept="image/*" type="file" name='image' onChange={handleImageChange} />
+          </div>
+        </div>
+        <div className={styles.userSettingField}>
+          <button onClick={handleUpdateClick} className={styles.buttonSetting}>
+            Submit to update
+          </button>
+        </div>
+      </div>
+    </form>
 
-      <>
-        <input type='text' name='image' value={updatedUser.image} onChange={handleInputChange} />
-        <input type='text' name='username' value={updatedUser.username} onChange={handleInputChange} />
-        <textarea name='bio' cols={30} rows={10} value={updatedUser.bio} onChange={handleInputChange}></textarea>
-        <input type='email' name='email' value={updatedUser.email} onChange={handleInputChange} />
-        <input type='text' name='password' value={updatedUser.password} onChange={handleInputChange} />
-
-        <button onClick={handleUpdateClick}>Submit to update</button>
-      </>
-    </>
   )
 }
 
