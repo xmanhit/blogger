@@ -23,7 +23,7 @@ const TagList: React.FC<Props> = ({ tagList, tagActive }) => {
     if (tabRef.current) {
       const { scrollWidth, scrollLeft, clientWidth } = tabRef.current
       const isAtStart = scrollLeft === 0
-      const isAtEnd = Math.round(scrollWidth - scrollLeft) <= clientWidth
+      const isAtEnd = scrollWidth - Math.floor(scrollLeft) <= clientWidth + 1
       const isNotScroll = scrollWidth <= clientWidth
 
       if (isAtStart) {
@@ -49,13 +49,13 @@ const TagList: React.FC<Props> = ({ tagList, tagActive }) => {
 
   const scrollNext = () => {
     if (tabRef.current) {
-      tabRef.current.scrollLeft += tabRef.current.offsetWidth
+      tabRef.current.scrollLeft += tabRef.current.clientWidth / 2
     }
   }
 
   const scrollPrev = () => {
     if (tabRef.current) {
-      tabRef.current.scrollLeft -= tabRef.current.offsetWidth
+      tabRef.current.scrollLeft -= tabRef.current.clientWidth / 2
     }
   }
 

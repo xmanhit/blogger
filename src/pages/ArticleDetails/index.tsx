@@ -16,6 +16,7 @@ import { currentUser, isAuthenticated } from '../../services'
 import { formatDate, formatFullDate } from '../../utils'
 import styles from '../../styles/Global.module.css'
 import { countComments } from '../../store/selectors'
+import { PiSpinnerBold } from 'react-icons/pi'
 
 const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   status,
@@ -87,18 +88,32 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
               className={`${styles.action} ${styles.btnFavorite}`}
               type='button'
               onClick={handleFavorite}
-              disabled={status?.favorite === 'loading'}
+              disabled={article.status?.favorite === 'loading'}
               title='Favorite'
             >
-              <span className={styles.icon}>{article.favorited ? <TbHeartMinus /> : <TbHeartPlus />}</span>
+              <span className={styles.icon}>
+                {article.status?.favorite === 'loading' ? (
+                  <PiSpinnerBold className={styles.spinner} />
+                ) : article.favorited ? (
+                  <TbHeartMinus className={styles.icon} />
+                ) : (
+                  <TbHeartPlus className={styles.icon} />
+                )}
+              </span>
             </button>
             <a className={`${styles.action} ${styles.comment}`} href='#comments' title='Comments'>
-              <span className={styles.icon}>{countComments ? <FaRegCommentDots /> : <FaRegComment />}</span>
+              <span className={styles.icon}>
+                {countComments ? (
+                  <FaRegCommentDots className={styles.icon} />
+                ) : (
+                  <FaRegComment className={styles.icon} />
+                )}
+              </span>
             </a>
             {article.author.username === user?.username && (
               <>
                 <Link className={`${styles.action} ${styles.edit}`} to={`/${slug}/edit`} title='Edit'>
-                  <span className={styles.icon}>{<FaRegEdit />}</span>
+                  <span className={styles.icon}>{<FaRegEdit className={styles.icon} />}</span>
                 </Link>
                 <button
                   className={`${styles.action} ${styles.delete}`}
@@ -106,7 +121,14 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
                   onClick={handleDeleteArticle}
                   title='Delete'
                 >
-                  <span className={styles.icon}>{<TbArchive />}</span>
+                  <span className={styles.icon}>
+                    {' '}
+                    {status?.favorite === 'loading' ? (
+                      <PiSpinnerBold className={styles.spinner} />
+                    ) : (
+                      <TbArchive className={styles.icon} />
+                    )}
+                  </span>
                 </button>
               </>
             )}

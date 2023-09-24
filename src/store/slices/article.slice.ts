@@ -114,12 +114,16 @@ const articleSlice = createSlice({
           favorite: 'loading',
         }
       }
+      if (state.articleDetails?.slug === action.payload) {
+        state.articleDetails.status = { favorite: 'loading' }
+      }
     },
     createArticleFavoriteSuccess: (state, action: PayloadAction<IArticleResponse>) => {
       const article = state.articles.find((p) => p.slug === action.payload.article.slug)
       if (state.articleDetails?.slug === action.payload.article.slug) {
         state.articleDetails.favorited = action.payload.article.favorited
         state.articleDetails.favoritesCount = action.payload.article.favoritesCount
+        state.articleDetails.status = { favorite: 'idle' }
       }
       if (article) {
         article.favorited = action.payload.article.favorited
@@ -127,10 +131,13 @@ const articleSlice = createSlice({
         article.status.favorite = 'idle'
       }
     },
-    createArticleFavoriteFailure: (state, action: PayloadAction<any>) => {
-      const article = state.articles.find((p) => p.slug === action.payload.article.slug)
+    createArticleFavoriteFailure: (state, action: PayloadAction<{ slug: string; errors: any }>) => {
+      const article = state.articles.find((p) => p.slug === action.payload.slug)
       if (article) {
         article.status.favorite = 'failed'
+      }
+      if (state.articleDetails?.slug === action.payload.slug) {
+        state.articleDetails.status = { favorite: 'failed' }
       }
     },
     // Delete article favorite
@@ -140,6 +147,9 @@ const articleSlice = createSlice({
         article.status = {
           favorite: 'loading',
         }
+      }
+      if (state.articleDetails?.slug === action.payload) {
+        state.articleDetails.status = { favorite: 'loading' }
       }
     },
     deleteArticleFavoriteSuccess: (state, action: PayloadAction<IArticleResponse>) => {
@@ -153,12 +163,16 @@ const articleSlice = createSlice({
       if (state.articleDetails?.slug === action.payload.article.slug) {
         state.articleDetails.favorited = action.payload.article.favorited
         state.articleDetails.favoritesCount = action.payload.article.favoritesCount
+        state.articleDetails.status = { favorite: 'idle' }
       }
     },
-    deleteArticleFavoriteFailure: (state, action: PayloadAction<any>) => {
+    deleteArticleFavoriteFailure: (state, action: PayloadAction<{ slug: string; errors: any }>) => {
       const article = state.articles.find((p) => p.slug === action.payload.slug)
       if (article) {
         article.status.favorite = 'failed'
+      }
+      if (state.articleDetails?.slug === action.payload.slug) {
+        state.articleDetails.status = { favorite: 'failed' }
       }
     },
     // Set tags

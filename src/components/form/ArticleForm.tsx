@@ -8,10 +8,13 @@ import { useEffect } from 'react'
 import { IArticleFormProps } from '../../models'
 
 const SignUpSchema = Yup.object().shape({
-  title: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
-  description: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
-  body: Yup.string().min(3, 'Too Short!').required('Required'),
-  tags: Yup.string(),
+  title: Yup.string().min(3, 'Your Title is Too Short!').max(50, 'Your Title is Too Long!').required('Required'),
+  description: Yup.string()
+    .min(3, 'Your Description is Too Short!')
+    .max(50, 'Your Description is Too Long!')
+    .required('Required'),
+  body: Yup.string().min(3, 'Your Body is Too Short!').required('Required'),
+  tags: Yup.array().max(4, 'Your Tag is Too Long!'),
 })
 
 const ArticleForm: React.FC<IArticleFormProps> = ({
@@ -80,7 +83,7 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
           <ErrorMessage name='description' component='div' />
         </div>
         <div>
-          <Field name='tagList' type='text' />
+          <Field name='tagList' type='text' placeholder='Add up to 4 tags' />
           <ErrorMessage name='tagList' component='div' />
         </div>
         <div>
