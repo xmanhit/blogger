@@ -2,11 +2,12 @@ import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from '../../store'
 import { setArticleFollowingRequest, setArticlesRequest, setTagsRequest } from '../../store/slices/article.slice'
-import { Link, LoaderFunction, NavLink, redirect, useLoaderData, useSearchParams } from 'react-router-dom'
-import { getPagination } from '../../store/selectors'
+import { LoaderFunction, NavLink, redirect, useLoaderData, useSearchParams } from 'react-router-dom'
 import { IArticle, IHomeProps } from '../../models'
 import { CardArticle, Pagination } from '../../components/ui'
 import { isAuthenticated } from '../../services'
+import TagList from '../../components/ui/TagList'
+import styles from '../../styles/Global.module.css'
 
 export const homeLoader: LoaderFunction = ({ request }) => {
   const url: URL = new URL(request.url)
@@ -60,25 +61,43 @@ const Home: React.FC<IHomeProps> = ({
     <div>
       {isLoadingTags && <div>Tags Loading...</div>}
       <div>
-        {tagList?.map((tag: string) => (
-          <Link key={tag} to={`/tags/${tag}`}>
-            #{tag}
-          </Link>
-        ))}
+        <TagList tagList={tagList} tagActive={undefined} />
       </div>
       {isAuthenticated && (
-        <div>
-          <NavLink to='/'>Latest</NavLink>
-          <NavLink to='/following'>Following</NavLink>
-        </div>
+        <nav className={styles.nav}>
+          <ul className={styles.list}>
+            <li className={styles.item}>
+              <NavLink
+                className={({ isActive, isPending }) =>
+                  (isPending ? styles.pending : isActive ? styles.active : '') + ' ' + styles.link
+                }
+                to='/'
+              >
+                Latest
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive, isPending }) =>
+                  (isPending ? styles.pending : isActive ? styles.active : '') + ' ' + styles.link
+                }
+                to='/following'
+              >
+                Following
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
       )}
-      {isLoading && <div>Articles Loading...</div>}
-      {articles.length <= 0 && !isLoading && <div>No articles yet</div>}
-      {articles?.map((article: IArticle) => (
-        <CardArticle key={article.slug} article={article} />
-      ))}
+      <div className={styles.articleWrapper}>
+        {isLoading && <div>Articles Loading...</div>}
+        {articles.length <= 0 && !isLoading && <div>No articles yet</div>}
+        {articles?.map((article: IArticle) => (
+          <CardArticle key={article.slug} article={article} />
+        ))}
+      </div>
 
-      <Pagination pagination={pagination} total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
+      <Pagination total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
     </div>
   )
 }
@@ -92,7 +111,6 @@ export default connect(
     articles: state.article.articles,
     limit: state.article.limit,
     total: state.article.total,
-    pagination: getPagination(state.article),
   }),
   {
     setTagsRequest,

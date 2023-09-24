@@ -20,8 +20,6 @@ const comment = createSlice({
   initialState,
   reducers: {
     setArticleCommentRequest: (state, _action: PayloadAction<{ slug: string }>) => {
-      console.log(_action.payload.slug)
-
       state.status.comment = 'loading'
       state.errors.comment = null
     },

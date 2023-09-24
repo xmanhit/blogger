@@ -9,13 +9,30 @@ import Logo from '../assets/logo.svg'
 import styles from '../styles/Global.module.css'
 import Menu from '../components/ui/Menu'
 
+function useOutsideMenu(ref: any, setActive: any) {
+  useEffect(() => {
+    function handleClickOutside(event: any) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setActive(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [ref])
+}
+
 const Header: React.FC<IHeaderProps> = ({ isAuthenticated, currentUserRequest, user }) => {
+  const wrapperRef = useRef(null)
   const [isActive, setActive] = useState(false)
+
+  useOutsideMenu(wrapperRef, setActive)
   useEffect(() => {
     if (isAuthenticated && !user) {
       currentUserRequest()
     }
-  }, [])
+  }, [isAuthenticated])
 
   const handleToggleMenu = (event: React.MouseEvent) => {
     event.preventDefault()
@@ -37,7 +54,7 @@ const Header: React.FC<IHeaderProps> = ({ isAuthenticated, currentUserRequest, u
                     Create Post
                   </Link>
                 </li>
-                <li className={styles.navItem}>
+                <li ref={wrapperRef} className={styles.navItem}>
                   <Link className={styles.navLink} onClick={handleToggleMenu} to='/me'>
                     <div className={styles.avatarWrapper}>
                       <span
@@ -46,7 +63,7 @@ const Header: React.FC<IHeaderProps> = ({ isAuthenticated, currentUserRequest, u
                       ></span>
                     </div>
                   </Link>
-                  <Menu isActive={isActive} />
+                  <Menu isActive={isActive} setActive={setActive} />
                 </li>
               </>
             ) : (

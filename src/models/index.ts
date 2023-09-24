@@ -1,3 +1,4 @@
+import { countComments } from './../store/selectors/index'
 import { AxiosResponse } from 'axios'
 import {
   clearLogin,
@@ -24,6 +25,7 @@ import {
   setArticleCommentRequest,
 } from '../store/slices/comment.slice'
 import { SetURLSearchParams } from 'react-router-dom'
+import { RootState } from '../store'
 
 // token
 export type Token = string | null | undefined
@@ -211,14 +213,23 @@ export interface IArticleProps {
   deleteArticleFavoriteRequest: typeof deleteArticleFavoriteRequest
 }
 
+// count comment
+export type CC = number | undefined
+
+export type CountComments = (state: RootState) => CC
+
 export interface IArticleDetailsProps {
+  status: any
   user: IUser | null
   article: IArticle | null
+  countComments: CC
   isLoading: boolean
   isDeleted: boolean
   isAuthenticated: boolean
   setArticleDetailsRequest: typeof setArticleDetailsRequest
   deleteArticleRequest: typeof deleteArticleRequest
+  createArticleFavoriteRequest: typeof createArticleFavoriteRequest
+  deleteArticleFavoriteRequest: typeof deleteArticleFavoriteRequest
   errors: any
 }
 
@@ -235,7 +246,7 @@ export interface IArticleFormProps {
 }
 
 export interface ICommentFormProps {
-  isAuthenticated: boolean
+  user: IUser | null
   createArticleCommentRequest: typeof createArticleCommentRequest
   status: any
   errors: any
@@ -283,7 +294,6 @@ export interface IUserSettingProps {
 }
 
 export interface IPaginationProps {
-  pagination: number[]
   total: number
   limit: number
   page: number
@@ -333,4 +343,15 @@ export interface ICommentState {
   }
   comments: IComment[]
   errors: any
+}
+
+//
+export interface IOptions {
+  weekday?: 'long' | 'short' | 'narrow'
+  year?: 'numeric'
+  month?: 'long' | 'short' | 'narrow'
+  day?: 'numeric'
+  hour?: 'numeric'
+  minute?: 'numeric'
+  second?: 'numeric'
 }

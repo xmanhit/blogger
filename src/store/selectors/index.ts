@@ -1,7 +1,6 @@
-import { IArticleState } from '../../models'
+import { CountComments } from '../../models'
 
-export const getPagination = (state: IArticleState): number[] => {
-  const { total, limit } = state
-  const length = Math.ceil(total / limit)
-  return Array.from({ length }, (_, i) => i + 1)
+export const countComments: CountComments = (state) => {
+  if (!state.comment.comments) return
+  return state.comment.comments?.length
 }

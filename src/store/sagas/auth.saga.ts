@@ -51,7 +51,6 @@ function* handlelogout() {
 function* handleUpdate(action: ReturnType<typeof updateRequest>) {
   try {
     const response: AxiosResponse<{ user: IUser }> = yield call(updateUser, action.payload)
-    console.log('action: ', response)
     const user: IUser = response.data.user
     yield put(updateSuccess(user))
   } catch (error) {

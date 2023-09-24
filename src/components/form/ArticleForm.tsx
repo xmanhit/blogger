@@ -40,8 +40,6 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
     return <div>Form Article Loading...</div>
   }
 
-  console.log(status, isActionSuccess, article)
-
   return (
     // Cứ từ từ tạo state để lưu data của article trước khi nhấn anywhere button vào được đây :D
     <Formik
@@ -64,10 +62,7 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
             article: { title, description, body, tagList },
           })
         }
-        console.log(isActionSuccess)
-
         if (isActionSuccess) {
-          console.log('success')
           navigate(-1)
         }
       }}

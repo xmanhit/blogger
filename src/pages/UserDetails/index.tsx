@@ -7,7 +7,6 @@ import { setArticlesRequest } from '../../store/slices/article.slice'
 import { IArticle, IUserDetailsProps } from '../../models'
 import { currentUser } from '../../services'
 import { CardArticle, Pagination } from '../../components/ui'
-import { getPagination } from '../../store/selectors'
 
 const UserDetails: React.FC<IUserDetailsProps> = ({
   user,
@@ -53,7 +52,7 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
         ) : (
           <li>No articles available</li>
         )}
-        <Pagination pagination={pagination} total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
+        <Pagination total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
       </ul>
     </>
   )
@@ -65,7 +64,6 @@ export default connect(
     articles: state.article.articles,
     total: state.article.total,
     limit: state.article.limit,
-    pagination: getPagination(state.article),
   }),
   { currentUserRequest, setArticlesRequest }
 )(UserDetails)
