@@ -60,13 +60,11 @@ const articleSlice = createSlice({
       state.status.articleDetails = 'failed'
     },
     //  Create article
-    createArticleRequest: (state, action: PayloadAction<any>) => {
+    createArticleRequest: (state, _action: PayloadAction<any>) => {
       state.status.createArticle = 'loading'
       state.errors = null
-      console.log(action.payload)
     },
     createArticleSuccess: (state, action: PayloadAction<any>) => {
-      console.log(action.payload)
       state.articles.push(action.payload.article)
       if (state.articleDetails?.slug === action.payload.article.slug) {
         state.articleDetails = action.payload.article
@@ -74,18 +72,15 @@ const articleSlice = createSlice({
       state.status.createArticle = 'idle'
     },
     createArticleFailure: (state, action: PayloadAction<any>) => {
-      console.log(action.payload)
       state.errors = action.payload.errors
       state.status.createArticle = 'failed'
     },
     // Update article
-    updateArticleRequest: (state, action: PayloadAction<any>) => {
+    updateArticleRequest: (state, _action: PayloadAction<any>) => {
       state.status.updateArticle = 'loading'
       state.errors = null
-      console.log(action.payload)
     },
     updateArticleSuccess: (state, action: PayloadAction<any>) => {
-      console.log(action.payload)
       let index = state.articles.findIndex((e) => e.slug === action.payload.article.slug) // id should be unique.
       if (index !== -1) {
         state.articles[index] = action.payload.article
@@ -96,22 +91,18 @@ const articleSlice = createSlice({
       state.status.updateArticle = 'idle'
     },
     updateArticleFailure: (state, action: PayloadAction<any>) => {
-      console.log(action.payload)
       state.errors = action.payload.errors
       state.status.updateArticle = 'failed'
     },
     // Delete article
-    deleteArticleRequest: (state, action: PayloadAction<any>) => {
+    deleteArticleRequest: (state, _action: PayloadAction<any>) => {
       state.status.deleteArticle = 'loading'
       state.errors = null
-      console.log(action.payload)
     },
-    deleteArticleSuccess: (state, action: PayloadAction<any>) => {
-      console.log(action.payload)
+    deleteArticleSuccess: (state, _action: PayloadAction<any>) => {
       state.status.deleteArticle = 'idle'
     },
     deleteArticleFailure: (state, action: PayloadAction<any>) => {
-      console.log(action.payload)
       state.errors = action.payload.errors
       state.status.deleteArticle = 'failed'
     },

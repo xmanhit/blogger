@@ -80,7 +80,7 @@ const router = createBrowserRouter([
             loader: () => {
               clearItem('token')
               clearItem('currentUser')
-              return redirect('-1')
+              return redirect('/login')
             },
           },
           {

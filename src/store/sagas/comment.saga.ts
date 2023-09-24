@@ -21,7 +21,6 @@ function* handlesSetArticleComments(action: ReturnType<typeof setArticleCommentR
       getArticleComments,
       action.payload
     )
-    console.log(response.data)
 
     yield put(setArticleCommentSuccess(response.data))
   } catch (error) {

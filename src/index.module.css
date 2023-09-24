@@ -12,6 +12,7 @@
   --alpha-9: 0.9;
   --alpha-10: 1;
   --black: 0, 0, 0;
+  --dark: 25, 25, 25;
   --white: 255, 255, 255;
   --gray-50: 250, 250, 250;
   --gray-100: 245, 245, 245;
@@ -106,5 +107,8 @@
   }
   a:hover {
     color: rgba(var(--indigo-300), var(--alpha-10));
+  }
+  a:active {
+    color: rgba(var(--indigo-400), var(--alpha-10));
   }
 }
