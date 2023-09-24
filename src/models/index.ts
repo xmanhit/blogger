@@ -80,8 +80,17 @@ export interface IUserInfo {
 
 export type UpdateUser = (parameter: { user: IUserInfo }) => Promise<AxiosResponse<IUser>>
 // profile
+
+export interface Profile {
+  username: string
+  bio?: string
+  image: string
+  following: boolean
+}
 export interface IProfile {
-  profile: IAuthor
+  profile: IUserInfo
+  isLoading: boolean,
+  isActionLoading: string,
 }
 
 export type Profile = (username: string) => Promise<AxiosResponse<IProfile>>
@@ -345,8 +354,29 @@ export interface ICommentState {
   errors: any
 }
 
-//
-export interface IOptions {
+export interface Profile {
+  username: string
+  bio?: string
+  image: string
+  following: boolean
+}
+export interface IProfile {
+  profile: IUserInfo
+  isLoading: boolean,
+  isActionLoading: string,
+}
+
+export type Profile = (username: string) => Promise<AxiosResponse<IProfile>>
+
+export type GetProfile = (params: {
+  username: string
+}) => Promise<AxiosResponse<IProfile>>
+
+export type CreateProfileFollow = (params: {
+  username: string
+}) => Promise<AxiosResponse<IProfile>>
+
+  export interface IOptions {
   weekday?: 'long' | 'short' | 'narrow'
   year?: 'numeric'
   month?: 'long' | 'short' | 'narrow'
