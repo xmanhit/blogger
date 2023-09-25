@@ -29,3 +29,31 @@ export function timeSince(date: Date): string {
 
   return 'Just now'
 }
+
+export function formatDate(date: Date): string {
+  let formattedDate = date.toLocaleString('default', { month: 'short', day: '2-digit' })
+  return formattedDate
+}
+
+export function formatFullDate(date: Date): string {
+  interface IOptions {
+    weekday?: 'long' | 'short' | 'narrow'
+    year?: 'numeric'
+    month?: 'long' | 'short' | 'narrow'
+    day?: 'numeric'
+    hour?: 'numeric'
+    minute?: 'numeric'
+    second?: 'numeric'
+  }
+  const options: IOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  }
+  const formattedDate = date.toLocaleDateString('default', options)
+  return formattedDate
+}

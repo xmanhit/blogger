@@ -7,7 +7,6 @@ import { setArticlesRequest } from '../../store/slices/article.slice'
 import { IArticle, IUserDetailsProps } from '../../models'
 import { currentUser } from '../../services'
 import { CardArticle, Pagination } from '../../components/ui'
-import { getPagination } from '../../store/selectors'
 import { setProfile, createProfileFollowUser, createProfileUnFollowUser } from '../../store/slices/profile.slice';
 import styles from '../../styles/User.module.css'
 
@@ -112,7 +111,7 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
         ) : (
           <li>No articles available</li>
         )}
-        <Pagination pagination={pagination} total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
+        <Pagination total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
       </ul>
     </div>
   )
@@ -124,7 +123,6 @@ export default connect(
     articles: state.article.articles,
     total: state.article.total,
     limit: state.article.limit,
-    pagination: getPagination(state.article),
     profile: state.profile.profile
   }),
   { currentUserRequest, setArticlesRequest, setProfile, createProfileFollowUser, createProfileUnFollowUser }

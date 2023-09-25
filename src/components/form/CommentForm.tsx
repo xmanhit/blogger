@@ -1,38 +1,58 @@
 import { Formik, Field, Form, ErrorMessage } from 'formik'
+import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as Yup from 'yup'
 import { RootState } from '../../store'
 import { createArticleCommentRequest } from '../../store/slices/comment.slice'
-import { useParams } from 'react-router-dom'
-import { isAuthenticated } from '../../services'
+import { currentUser, isAuthenticated } from '../../services'
 import { ICommentFormProps } from '../../models'
+import styles from '../../styles/Global.module.css'
+import { PiSpinnerBold } from 'react-icons/pi'
+import { useState } from 'react'
 
 const CommentSchema = Yup.object().shape({
   comment: Yup.string()
-    .required('Required')
+    .required('Your comment is required.')
     .min(3, 'Must be at least 3 characters')
     .max(500, 'Must be 500 characters or less'),
 })
 
-const CommentForm: React.FC<ICommentFormProps> = ({ isAuthenticated, createArticleCommentRequest, status, errors }) => {
+const CommentForm: React.FC<ICommentFormProps> = ({ user, createArticleCommentRequest, status, errors }) => {
   const { slug } = useParams()
+  const [displayButton, setDisplayButton] = useState(false)
   return (
-    <div>
+    <div className={styles.commentForm}>
       <Formik
         initialValues={{ comment: '' }}
         validationSchema={CommentSchema}
         onSubmit={({ comment }) => {
-          console.log(slug, comment, isAuthenticated, errors)
           slug && createArticleCommentRequest({ slug, comment: { body: comment } })
         }}
       >
-        <Form>
-          <label htmlFor='comment'>Comment</label>
-          <Field name='comment' as='textarea' />
-          <ErrorMessage name='comment' component='div' />
-          <button type='submit' disabled={status === 'loading'}>
-            Submit
-          </button>
+        <Form className={styles.form}>
+          <div className={styles.wrapper}>
+            <img className={styles.avatar} src={user?.image} alt='Author' />
+            <div className={styles.formGroup}>
+              <div className={styles.formGroup}>
+                <Field
+                  className={styles.formControl}
+                  name='comment'
+                  as='textarea'
+                  placeholder='Write your comment here...'
+                  rows={5}
+                  onFocus={() => {
+                    setDisplayButton(true)
+                  }}
+                />
+                <ErrorMessage className={styles.error} name='comment' component='div' />
+              </div>
+              {displayButton && (
+                <button className={styles.submit} type='submit' disabled={status === 'loading'}>
+                  Submit {status === 'loading' && <PiSpinnerBold className={styles.spinner} />}
+                </button>
+              )}
+            </div>
+          </div>
         </Form>
       </Formik>
     </div>
@@ -41,7 +61,7 @@ const CommentForm: React.FC<ICommentFormProps> = ({ isAuthenticated, createArtic
 
 export default connect(
   (state: RootState) => ({
-    isAuthenticated: isAuthenticated(),
+    user: currentUser(),
     status: state.comment.status.createComment,
     errors: state.comment.errors,
   }),

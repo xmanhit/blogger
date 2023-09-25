@@ -1,10 +1,14 @@
 import { connect } from 'react-redux'
+import { useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { PiSpinnerBold } from 'react-icons/pi'
+import { MdOutlineDeleteOutline } from 'react-icons/md'
+import { IComment, ICommentListProps } from '../../models'
+import { currentUser } from '../../services'
 import { RootState } from '../../store'
 import { deleteArticleCommentRequest, setArticleCommentRequest } from '../../store/slices/comment.slice'
-import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { currentUser } from '../../services'
-import { IComment, ICommentListProps } from '../../models'
+import { formatDate, formatFullDate } from '../../utils'
+import styles from '../../styles/Global.module.css'
 
 const CommentList: React.FC<ICommentListProps> = ({
   user,
@@ -21,21 +25,49 @@ const CommentList: React.FC<ICommentListProps> = ({
   }, [])
 
   return (
-    <div>
-      <h2>Comments</h2>
-      <ul>
+    <div className={styles.commentListWrapper}>
+      <ul className={styles.commentList}>
         {comments.map((comment: IComment) => (
-          <li key={comment.id}>
-            {comment.author.username} - {comment.body} - {comment.createdAt}
-            <br />
-            {user?.username === comment.author.username && (
-              <button
-                disabled={comment.status?.delete === 'loading'}
-                onClick={() => slug && deleteArticleCommentRequest({ slug, commentId: comment.id })}
+          <li className={styles.comment} key={comment.id}>
+            <div className={styles.author}>
+              <Link
+                className={styles.link}
+                to={comment.author.username === user?.username ? '/me' : `/${comment.author.username}`}
               >
-                Delete
-              </button>
-            )}
+                <img className={styles.avatar} src={comment.author.image} alt='Author' />
+              </Link>
+            </div>
+            <div className={styles.content}>
+              <div className={styles.info}>
+                <div className={styles.nameWrapper}>
+                  <Link
+                    className={styles.name}
+                    to={comment.author.username === user?.username ? '/me' : `/${comment.author.username}`}
+                  >
+                    {comment.author.username}
+                  </Link>
+                  <span className={styles.dot}>•</span>
+                  <time className={styles.date} title={formatFullDate(new Date(comment.createdAt))}>
+                    {formatDate(new Date(comment.createdAt))}
+                  </time>
+                </div>
+
+                {user?.username === comment.author.username && (
+                  <button
+                    className={styles.deleteButton}
+                    disabled={comment.status?.delete === 'loading'}
+                    onClick={() => slug && deleteArticleCommentRequest({ slug, commentId: comment.id })}
+                  >
+                    {comment.status?.delete === 'loading' ? (
+                      <PiSpinnerBold className={styles.spinner} />
+                    ) : (
+                      <MdOutlineDeleteOutline />
+                    )}
+                  </button>
+                )}
+              </div>
+              <p>{comment.body}</p>
+            </div>
           </li>
         ))}
       </ul>
