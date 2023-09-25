@@ -31,7 +31,7 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
       currentUserRequest()
       // setProfile({username: user.username})
     }
- 
+
   }, [])
   const param = useParams()
   let author = ''
@@ -41,8 +41,8 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
     author = user.username
   }
   useEffect(() => {
-    setProfile({username: author})
-  },[author])
+    setProfile({ username: author })
+  }, [author])
   useEffect(() => {
     // Assuming setArticlesRequest requires parameters like author or tags
     // Modify this accordingly based on your API requirements
@@ -67,10 +67,11 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
             <span className={styles.userAvatar}>
               <img className={styles.userAvatarImg} width={128} height={128} src={profile.image} alt="" />
             </span>
-            <div className={styles.userAction}>
-              {!profile.following ? <button onClick={handleFollow} className={styles.userFollow}>Follow</button> : <button onClick={handleUnFollow} className={styles.userFollow}>UnFollow</button>}
-            </div>
-
+            {profile.username != user.username ?
+              <div className={styles.userAction}>
+                {!profile.following ? <button onClick={handleFollow} className={styles.userFollow}>Follow</button> : <button onClick={handleUnFollow} className={styles.userFollow}>UnFollow</button>}
+              </div> : <></>
+            }
           </div>
           <div className={styles.userDetail} data-status-checked="true">
             <div className={styles.userUserName}>

@@ -54,8 +54,9 @@ const CardArticle: React.FC<IArticleProps> = ({
       <div className={styles.post}>
         <Link to={`/${author.username}/${slug}`}>
           <h3 className={styles.title}>{title}</h3>
-          <p className={styles.desc}>{description}</p>
         </Link>
+
+        <p className={styles.desc}>{description}</p>
 
         <div className={styles.tagList}>
           {tagList?.map((tag: string) => (

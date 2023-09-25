@@ -1,6 +1,5 @@
 @supports (--css: variables) {
   .userBg {
-    /* background: linear-gradient(180deg, red 8rem, transparent 8rem); */
     .userLayout {
       width: 100%;
       max-width: 1024px;
@@ -69,7 +68,7 @@
             .userUserNameText {
               line-height: 1.25;
               font-size: 1.875rem;
-              color: #f9f9f9;
+              color: var(--gray-50);
               display: inline-flex;
               min-height: 40px;
               align-items: center;
@@ -159,5 +158,17 @@
     font-size: 1.25rem;
     -webkit-animation: spin 2s infinite linear;
     animation: spin 2s infinite linear;
+  }
+
+}
+@media (min-width: 769px) and (max-width: 992px) {
+  .userSettingForm{
+    margin-bottom: 17rem;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 768.99999999999999px) {
+  .userSettingForm{
+    margin-bottom: 7rem;
   }
 }

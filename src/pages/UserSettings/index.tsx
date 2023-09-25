@@ -77,7 +77,8 @@ const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, up
         </div>
         <div className={styles.userSettingField}>
           <label className={styles.labelSetting}>Bio</label>
-          <input maxLength={30} className={styles.inputSetting} onChange={handleInputChange} placeholder="Bio" value={updatedUser.bio} size={200} type="text" name="bio" id="bio" />
+          {/* <input maxLength={30} className={styles.inputSetting} onChange={handleInputChange} placeholder="Bio" value={updatedUser.bio} size={200} type="text" name="bio" id="bio" /> */}
+          <textarea name="bio" id='bio' className={styles.inputSetting} placeholder="Bio" value={updatedUser.bio} cols="30" rows="8"></textarea>
         </div>
         <div className={styles.userSettingField}>
           <label className={styles.labelSetting}>Profile image</label>
