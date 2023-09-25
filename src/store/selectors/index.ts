@@ -5,4 +5,10 @@ export const countComments: CountComments = (state) => {
   return state.comment.comments?.length
 }
 
-export const statusCreateUpdateArticle = (state: any) => {}
+export const isLoadingFormArticle = (state: any) => {
+  return state.article.status.createArticle === 'loading' || state.article.status.updateArticle === 'loading'
+}
+
+export const isSucceededFormArticle = (state: any) => {
+  return state.article.status.createArticle === 'succeeded' || state.article.status.updateArticle === 'succeeded'
+}

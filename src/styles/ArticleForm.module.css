@@ -1,0 +1,98 @@
+@import './Global.module.css'; /* Using a string */
+
+.formArticleHeader {
+  padding: 0.5rem 0;
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .title {
+      font-weight: 500;
+    }
+    .btnClose {
+      font-size: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      color: white;
+      border-radius: var(--rounded);
+      animation: 0.2s;
+      &:hover {
+        color: rgba(var(--indigo-100), var(--alpha-10));
+        background-color: rgba(var(--indigo-500), var(--alpha-3));
+      }
+      &:active {
+        color: rgba(var(--indigo-50), var(--alpha-10));
+        background-color: rgba(var(--indigo-600), var(--alpha-3));
+      }
+    }
+  }
+}
+
+.formWrapper {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 2rem 4rem;
+  border-radius: var(--rounded);
+  background-color: rgba(var(--gray-900), var(--alpha-10));
+  .field {
+    .input {
+      line-height: 1.25;
+      width: 100%;
+      color: white;
+      border-radius: var(--rounded);
+      white-space: pre-wrap;
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
+      box-shadow: none;
+      resize: none;
+      transition: none;
+      scroll-snap-type: none;
+    }
+  }
+  .fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    .title {
+      font-weight: 800;
+      font-size: 2.5rem;
+    }
+  }
+  .desc,
+  .body {
+    font-size: 1rem;
+  }
+}
+.submit {
+  font-weight: 500;
+  font-size: 1rem;
+  color: white;
+  padding: 0.8rem 1.25rem;
+  border-radius: var(--rounded);
+  background-color: rgba(var(--indigo-800), var(--alpha-10));
+  &:hover {
+    background-color: rgba(var(--indigo-600), var(--alpha-10));
+  }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: rgba(var(--gray-800), var(--alpha-10));
+  }
+}
+
+.loading {
+  .tags {
+    min-height: 2rem;
+  }
+  .input {
+    background-color: rgba(var(--gray-800), var(--alpha-10)) !important;
+  }
+}

@@ -1,5 +1,5 @@
-import { countComments } from './../store/selectors/index'
 import { AxiosResponse } from 'axios'
+import { SetURLSearchParams } from 'react-router-dom'
 import {
   clearLogin,
   clearRegister,
@@ -13,6 +13,7 @@ import {
   createArticleRequest,
   deleteArticleFavoriteRequest,
   deleteArticleRequest,
+  resetStatusFormArticle,
   setArticleDetailsRequest,
   setArticleFollowingRequest,
   setArticlesRequest,
@@ -24,12 +25,11 @@ import {
   deleteArticleCommentRequest,
   setArticleCommentRequest,
 } from '../store/slices/comment.slice'
-import { SetURLSearchParams } from 'react-router-dom'
 import { RootState } from '../store'
 
 // token
 export type Token = string | null | undefined
-export type Status = 'loading' | 'idle' | 'failed'
+export type Status = 'loading' | 'idle' | 'succeeded' | 'failed'
 
 // login
 export interface ILoginCredentials {
@@ -243,10 +243,10 @@ export interface IArticleDetailsProps {
 
 export interface IArticleFormProps {
   isLoading: boolean
-  isActionLoading: boolean
-  isActionSuccess: boolean
-  status: any
+  isLoadingFormArticle: boolean
+  isSucceededFormArticle: boolean
   article: IArticle | null
+  resetStatusFormArticle: typeof resetStatusFormArticle
   setArticleDetailsRequest: typeof setArticleDetailsRequest
   createArticleRequest: typeof createArticleRequest
   updateArticleRequest: typeof updateArticleRequest

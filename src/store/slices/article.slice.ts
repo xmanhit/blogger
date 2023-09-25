@@ -69,7 +69,7 @@ const articleSlice = createSlice({
       if (state.articleDetails?.slug === action.payload.article.slug) {
         state.articleDetails = action.payload.article
       }
-      state.status.createArticle = 'idle'
+      state.status.createArticle = 'succeeded'
     },
     createArticleFailure: (state, action: PayloadAction<any>) => {
       state.errors = action.payload.errors
@@ -88,7 +88,7 @@ const articleSlice = createSlice({
       if (state.articleDetails?.slug === action.payload.article.slug) {
         state.articleDetails = action.payload.article
       }
-      state.status.updateArticle = 'idle'
+      state.status.updateArticle = 'succeeded'
     },
     updateArticleFailure: (state, action: PayloadAction<any>) => {
       state.errors = action.payload.errors
@@ -105,6 +105,11 @@ const articleSlice = createSlice({
     deleteArticleFailure: (state, action: PayloadAction<any>) => {
       state.errors = action.payload.errors
       state.status.deleteArticle = 'failed'
+    },
+    // Reset status Form article
+    resetStatusFormArticle: (state) => {
+      state.status.createArticle = 'idle'
+      state.status.updateArticle = 'idle'
     },
     // Create article favorite
     createArticleFavoriteRequest: (state, action: PayloadAction<string>) => {
@@ -208,6 +213,7 @@ export const {
   deleteArticleRequest,
   deleteArticleSuccess,
   deleteArticleFailure,
+  resetStatusFormArticle,
   createArticleFavoriteRequest,
   createArticleFavoriteSuccess,
   createArticleFavoriteFailure,
