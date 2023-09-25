@@ -15,7 +15,6 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
   setArticlesRequest,
   total,
   limit,
-  pagination,
 }): JSX.Element => {
   let [searchParams, setSearchParams] = useSearchParams()
   const page: number = Number(searchParams.get('page')) || 1

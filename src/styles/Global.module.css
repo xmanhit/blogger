@@ -202,14 +202,6 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      .post {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        @media only screen and (min-width: 768px) {
-          margin: 0 2.5rem;
-        }
-      }
     }
     .article {
       display: flex;
@@ -266,12 +258,22 @@
           }
         }
       }
+      .post {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        @media only screen and (min-width: 768px) {
+          margin: 0 2.5rem;
+        }
+      }
       .title {
         font-size: 1.875rem;
+        line-height: 2.5rem;
         animation: 0.2s;
       }
       .desc {
         font-size: 1rem;
+        line-height: 1.25rem;
         color: rgba(var(--gray-500), var(--alpha-10));
       }
       .wrapper {
@@ -718,7 +720,7 @@
     .icon {
       font-size: 1.5rem;
       line-height: 1.5rem;
-      vertical-align: middle;
+      vertical-align: middletabContainer;
       .spinner {
         font-size: 1.5rem;
       }

@@ -25,8 +25,9 @@ const CommentForm: React.FC<ICommentFormProps> = ({ user, createArticleCommentRe
       <Formik
         initialValues={{ comment: '' }}
         validationSchema={CommentSchema}
-        onSubmit={({ comment }) => {
+        onSubmit={({ comment }, { resetForm }) => {
           slug && createArticleCommentRequest({ slug, comment: { body: comment } })
+          resetForm()
         }}
       >
         <Form className={styles.form}>

@@ -33,6 +33,12 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
   const { slug } = useParams<string>()
   const lastPath = location.pathname.substring(location.pathname.lastIndexOf('/') + 1)
 
+  // useEffect(() => {
+  //   if (isActionSuccess) {
+  //     navigate(-1)
+  //   }
+  // }, [isActionSuccess])
+
   useEffect(() => {
     if (!article) {
       slug && setArticleDetailsRequest(slug)
@@ -53,7 +59,7 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
         body: article?.body || '',
       }}
       validationSchema={SignUpSchema}
-      onSubmit={({ title, description, body, tagList }) => {
+      onSubmit={({ title, description, body, tagList }, { resetForm }) => {
         if (lastPath === 'new') {
           createArticleRequest({
             article: { title, description, body, tagList },
@@ -65,9 +71,7 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
             article: { title, description, body, tagList },
           })
         }
-        if (isActionSuccess) {
-          navigate(-1)
-        }
+        resetForm()
       }}
     >
       <Form>

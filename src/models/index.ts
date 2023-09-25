@@ -196,13 +196,12 @@ export interface IHomeProps {
   setTagsRequest: typeof setTagsRequest
   setArticlesRequest: typeof setArticlesRequest
   setArticleFollowingRequest: typeof setArticleFollowingRequest
-  isLoadingTags: boolean
-  isLoading: boolean
+  isTagsLoading: boolean
+  isArticlesLoading: boolean
   tagList: string[]
   articles: IArticle[]
   limit: number
   total: number
-  pagination: number[]
 }
 
 export interface IArticleProps {
@@ -268,13 +267,12 @@ export interface IHeaderProps {
 export interface ITagsProps {
   setTagsRequest: typeof setTagsRequest
   setArticlesRequest: typeof setArticlesRequest
-  isLoadingTags: boolean
+  isTagsLoading: boolean
   isLoading: boolean
   tagList: string[]
   articles: IArticle[]
   total: number
   limit: number
-  pagination: number[]
 }
 
 export interface IUserDetailsProps {
@@ -284,7 +282,6 @@ export interface IUserDetailsProps {
   setArticlesRequest: typeof setArticlesRequest
   total: number
   limit: number
-  pagination: number[]
 }
 
 export interface IUserSettingProps {

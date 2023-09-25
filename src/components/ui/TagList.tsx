@@ -2,13 +2,15 @@ import Tag from './Tag'
 import styles from '../../styles/Global.module.css'
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi2'
 import { useEffect, useRef, useState } from 'react'
+import TagsLoading from './TagsLoading'
 
 interface Props {
+  isTagsLoading: boolean
   tagList: string[]
-  tagActive: string | undefined
+  tagActive?: string
 }
 
-const TagList: React.FC<Props> = ({ tagList, tagActive }) => {
+const TagList: React.FC<Props> = ({ isTagsLoading, tagList, tagActive }) => {
   const tabRef = useRef<HTMLUListElement>(null)
   const [isAt, setIsAt] = useState<{ start: boolean; end: boolean }>({
     start: false,
@@ -57,6 +59,9 @@ const TagList: React.FC<Props> = ({ tagList, tagActive }) => {
     if (tabRef.current) {
       tabRef.current.scrollLeft -= tabRef.current.clientWidth / 2
     }
+  }
+  if (isTagsLoading) {
+    return <TagsLoading />
   }
 
   return (
