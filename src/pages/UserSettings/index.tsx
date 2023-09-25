@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { currentUserRequest, updateRequest } from '../../store/slices/auth.slice'
 import { currentUser } from '../../services'
 import { IUserSettingProps } from '../../models'
-import styles from '../../styles/Global.module.css'
+import styles from '../../styles/User.module.css'
 
 const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, updateRequest }): JSX.Element => {
   const [updatedUser, setUpdatedUser] = useState({

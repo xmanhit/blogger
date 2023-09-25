@@ -9,7 +9,7 @@ import { currentUser } from '../../services'
 import { CardArticle, Pagination } from '../../components/ui'
 import { getPagination } from '../../store/selectors'
 import { setProfile, createProfileFollowUser, createProfileUnFollowUser } from '../../store/slices/profile.slice';
-import styles from '../../styles/Global.module.css'
+import styles from '../../styles/User.module.css'
 
 const UserDetails: React.FC<IUserDetailsProps> = ({
   user,
