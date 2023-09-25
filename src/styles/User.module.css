@@ -1,153 +1,163 @@
 @supports (--css: variables) {
-      .userBg {
-          background: linear-gradient(180deg, red 8rem, transparent 8rem);
-          .userLayout {
-            width: 100%;
-            max-width: 1024px;
-            margin: 0 auto;
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: 1fr;
-            padding: 1rem;
-            padding-top: 4rem;
-            .userContainer {
-              margin-top: 0.5rem;
-              padding: 1.5rem;
-              border-radius: 5px;
-              color: var(--white);
-              box-shadow: 0 0 0 1px var(--white, --alpha-1);
-              overflow-wrap: anywhere;
-              text-align: center;
-              .userTop {
-                position: relative;
-                margin-top: -4rem;
-                margin-bottom: 0.75rem;
-                padding: 0 1.5rem;
-                .userAvatar {
-                  padding: 0.5rem;
-                  width: 9rem;
-                  height: 9rem;
-                  display: inline-block;
-                  border-radius: 100%;
-                  position: relative;
-                  overflow: hidden;
-                  vertical-align: middle;
-                  background-color: red;
-                  .userAvatarImg {
-                    border-radius: 100%;
-                    width: 128px;
-                    height: 128px;
-                    display: inline-block;
-                    vertical-align: bottom;
-                  }
-                }
-                .userAction {
-                  display: flex;
-                  right: 0;
-                  top: 4rem;
-                  position: absolute;
-                  left: 0;
-                  justify-content: flex-end;
-                  padding: 1.5rem 1.5rem 0 0;
-                  .userFollow {
-                    padding: 8px 16px;
-                    border-radius: 10px;
-                    border: none;
-                    background-color: #0056b3;
-                    &:hover {
-                      background-color: #007bff;
-                    }
-                  }
-                }
-              }
-              .userDetail {
-                padding: 1.5rem;
-                .userUserName {
-                  margin-bottom: 0.5rem;
-                  .userUserNameText {
-                    line-height: 1.25;
-                    font-size: 1.875rem;
-                    color: #f9f9f9;
-                    display: inline-flex;
-                    min-height: 40px;
-                    align-items: center;
-                  }
-                }
+  .userBg {
+    /* background: linear-gradient(180deg, red 8rem, transparent 8rem); */
+    .userLayout {
+      width: 100%;
+      max-width: 1024px;
+      margin: 0 auto;
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+      padding: 1rem 0;
+      padding-top: 4rem;
+      .userContainer {
+        margin-top: 0.5rem;
+        padding: 1.5rem;
+        border-radius: 5px;
+        color: var(--white);
+        box-shadow: 0 0 0 1px var(--white, --alpha-1);
+        overflow-wrap: anywhere;
+        text-align: center;
+        background-color: rgba(var(--gray-900));
+        .userTop {
+          position: relative;
+          margin-top: -4rem;
+          margin-bottom: 0.75rem;
+          padding: 0 1.5rem;
+          .userAvatar {
+            padding: 0.5rem;
+            width: 9rem;
+            height: 9rem;
+            display: inline-block;
+            border-radius: 100%;
+            position: relative;
+            overflow: hidden;
+            vertical-align: middle;
+            background-color: rgba(var(--gray-900));
+            .userAvatarImg {
+              border-radius: 100%;
+              width: 128px;
+              height: 128px;
+              display: inline-block;
+              vertical-align: bottom;
+            }
+          }
+          .userAction {
+            display: flex;
+            right: 0;
+            top: 4rem;
+            position: absolute;
+            left: 0;
+            justify-content: flex-end;
+            padding: 1.5rem 1.5rem 0 0;
+            .userFollow {
+              padding: 8px 16px;
+              border-radius: 10px;
+              border: none;
+              color: rgba(var(--white), var(--alpha-10));
+              background-color: rgba(var(--indigo-400), var(--alpha-10));
+              &:hover {
+                background-color: rgba(var(--indigo-500), var(--alpha-10));
               }
             }
           }
         }
-      
-        /* User Setting */
-        .userSettingForm {
-          .userSetting {
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            grid-gap: 1.5rem;
-            display: grid;
-            border-radius: 5px;
-            background: #171717;
-            color: white;
-            box-shadow: 0 0 0 1px var(--white, --alpha-1);
-            .userSettingField {
-              display: flex;
-              flex-flow: column;
-              font-size: 1rem;
-              .labelSetting {
-                color: white;
-                font-weight: 500;
-              }
-              .inputSetting {
-                outline: 0;
-                line-height: 1.5;
-                padding: 0.5em;
-                font-family: inherit;
-                font-size: 1rem;
-                width: 100%;
-                resize: vertical;
-                border-width: 1.5px;
-                background-color: black;
-                border: 1.5px solid black;
-                color: white;
-                border-radius: 0.5px;
-              }
-              .userAvatarRowSetting {
-                display: flex;
-                align-items: center;
-                margin-top: 0.5rem;
-                .userAvatarSetting {
-                  margin-right: 0.5rem;
-                  width: 3rem;
-                  height: 3rem;
-                  display: inline-block;
-                  border-radius: 100%;
-                  position: relative;
-                  background-color: rgb(163, 163, 163);
-                  overflow: hidden;
-                  vertical-align: middle;
-                  flex-shrink: 0;
-                  .imgSetting {
-                    border-radius: 100%;
-                    width: 100%;
-                    height: 100%;
-                    display: inline-block;
-                    vertical-align: bottom;
-                  }
-                }
-              }
-              .buttonSetting {
-                background-color: rgb(79, 70, 229);
-                border-color: transparent;
-                box-shadow: 0 2px 5px var(--black, --alpha-5);
-                color: white;
-                padding: 0.5rem;
-                cursor: pointer;
-                &:hover{
-                  background-color: #007bff;
-                }
-              }
+        .userDetail {
+          padding: 1.5rem;
+          .userUserName {
+            margin-bottom: 0.5rem;
+            .userUserNameText {
+              line-height: 1.25;
+              font-size: 1.875rem;
+              color: #f9f9f9;
+              display: inline-flex;
+              min-height: 40px;
+              align-items: center;
             }
           }
         }
+      }
+    }
+    .userList {
+      list-style: none;
+    }
+  }
 
+  /* User Setting */
+  .userSettingForm {
+    .userSetting {
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      grid-gap: 1.5rem;
+      display: grid;
+      border-radius: 5px;
+      background: #171717;
+      color: white;
+      box-shadow: 0 0 0 1px var(--white, --alpha-1);
+      .userSettingField {
+        display: flex;
+        flex-flow: column;
+        font-size: 1rem;
+        .labelSetting {
+          color: white;
+          font-weight: 500;
+        }
+        .inputSetting {
+          outline: 0;
+          line-height: 1.5;
+          padding: 0.5em;
+          font-family: inherit;
+          font-size: 1rem;
+          width: 100%;
+          resize: vertical;
+          border-width: 1.5px;
+          background-color: black;
+          border: 1.5px solid black;
+          color: white;
+          border-radius: 0.5px;
+        }
+        .userAvatarRowSetting {
+          display: flex;
+          align-items: center;
+          margin-top: 0.5rem;
+          .userAvatarSetting {
+            margin-right: 0.5rem;
+            width: 3rem;
+            height: 3rem;
+            display: inline-block;
+            border-radius: 100%;
+            position: relative;
+            background-color: rgb(163, 163, 163);
+            overflow: hidden;
+            vertical-align: middle;
+            flex-shrink: 0;
+            .imgSetting {
+              border-radius: 100%;
+              width: 100%;
+              height: 100%;
+              display: inline-block;
+              vertical-align: bottom;
+            }
+          }
+        }
+        .buttonSetting {
+          border-color: transparent;
+          box-shadow: 0 2px 5px var(--black, --alpha-5);
+          color: white;
+          padding: 0.5rem;
+          cursor: pointer;
+          background-color: rgba(var(--indigo-400), var(--alpha-10));
+          &:hover {
+            background-color: rgba(var(--indigo-500), var(--alpha-10));
+          }
+        }
+      }
+    }
+  }
+  .spinner {
+    vertical-align: middle;
+    font-size: 1.25rem;
+    -webkit-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+  }
 }

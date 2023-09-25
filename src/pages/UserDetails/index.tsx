@@ -61,23 +61,7 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
 
   return (
     <div className={styles.userBg}>
-      {/* <div>User Details</div>
-      {author == user.username ? <Link to='/me/settings'>Setting</Link> : <></>}
-      <ul>
-        {articles ? (
-          articles.map((article: IArticle) => (
-            <li key={article.slug}>
-              {article.author ? <CardArticle article={article} /> : <p>No author information available</p>}
-            </li>
-          ))
-        ) : (
-          <li>No articles available</li>
-        )}
-        <Pagination pagination={pagination} total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
-      </ul> */}
-      {/* {console.log(articles[0].author.image)} */}
       {articles ? (<div className={styles.userLayout}>
-        {/* {!profile.following ? <button onClick={handleFollow}>Follow</button> : <button onClick={handleUnFollow}>UnFollow</button>} */}
         <div className={styles.userContainer}>
           <div className={styles.userTop}>
             <span className={styles.userAvatar}>
@@ -91,7 +75,7 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
           <div className={styles.userDetail} data-status-checked="true">
             <div className={styles.userUserName}>
               <h1 className={styles.userUserNameText}>
-                Yoav Ganbar
+                {profile.username}
               </h1>
             </div>
           </div>
@@ -99,9 +83,7 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
       </div>) : (
         <p>No articles available</p>
       )}
-
-      {author == user.username ? <Link to='/me/settings'>Setting</Link> : <></>}
-      <ul>
+      <ul className={styles.userList}>
         {articles ? (
           articles.map((article: IArticle) => (
             <li key={article.slug}>
