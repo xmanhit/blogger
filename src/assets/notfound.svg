@@ -20,7 +20,7 @@
 
                 <g id='planet'>
                   <circle
-                    fill='none'
+                    fill='#999999'
                     stroke='#FFFFFF'
                     stroke-width='3'
                     stroke-miterlimit='10'
@@ -444,7 +444,7 @@
 
                   <path
                     id='backpack'
-                    fill='#161616'
+                    fill='#868686'
                     stroke='#FFFFFF'
                     stroke-width='3'
                     stroke-linecap='round'
@@ -457,7 +457,7 @@
                   />
                   <g id='antenna'>
                     <line
-                      fill='#161616'
+                      fill='#868686'
                       stroke='#FFFFFF'
                       stroke-width='3'
                       stroke-linecap='round'
@@ -469,7 +469,7 @@
                       y2='353.753'
                     />
                     <circle
-                      fill='#161616'
+                      fill='#868686'
                       stroke='#FFFFFF'
                       stroke-width='3'
                       stroke-linecap='round'
@@ -482,7 +482,7 @@
                   </g>
                   <g id='armR'>
                     <path
-                      fill='#161616'
+                      fill='#868686'
                       stroke='#FFFFFF'
                       stroke-width='3'
                       stroke-linecap='round'
@@ -494,7 +494,7 @@
                     />
 
                     <path
-                      fill='#161616'
+                      fill='#868686'
                       stroke='#FFFFFF'
                       stroke-width='3'
                       stroke-linecap='round'
@@ -508,7 +508,7 @@
                   </g>
                   <g id='armL'>
                     <path
-                      fill='#161616'
+                      fill='#868686'
                       stroke='#FFFFFF'
                       stroke-width='3'
                       stroke-linecap='round'
@@ -520,7 +520,7 @@
                     />
 
                     <path
-                      fill='#161616'
+                      fill='#868686'
                       stroke='#FFFFFF'
                       stroke-width='3'
                       stroke-linecap='round'
@@ -534,7 +534,7 @@
                   </g>
                   <g id='body'>
                     <path
-                      fill='#161616'
+                      fill='#868686'
                       stroke='#FFFFFF'
                       stroke-width='3'
                       stroke-linecap='round'
@@ -559,7 +559,7 @@
                   <g id='legs'>
                     <g id='legR'>
                       <path
-                        fill='#161616'
+                        fill='#868686'
                         stroke='#FFFFFF'
                         stroke-width='3'
                         stroke-linecap='round'
@@ -585,7 +585,7 @@
                     </g>
                     <g id='legL'>
                       <path
-                        fill='#161616'
+                        fill='#868686'
                         stroke='#FFFFFF'
                         stroke-width='3'
                         stroke-linecap='round'
@@ -613,7 +613,7 @@
                   <g id='head'>
                     <ellipse
                       transform='matrix(0.259 -0.9659 0.9659 0.259 -51.5445 563.2371)'
-                      fill='#161616'
+                      fill='#868686'
                       stroke='#FFFFFF'
                       stroke-width='3'
                       stroke-linecap='round'
@@ -637,7 +637,7 @@
                     />
 
                     <path
-                      fill='#161616'
+                      fill='#d1d1d1'
                       stroke='#FFFFFF'
                       stroke-width='3'
                       stroke-linecap='round'
