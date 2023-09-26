@@ -14,6 +14,7 @@ import {
   deleteArticleFavoriteRequest,
   deleteArticleRequest,
   resetStatusFormArticle,
+  setArticleDetails,
   setArticleDetailsRequest,
   setArticleFollowingRequest,
   setArticlesRequest,
@@ -208,6 +209,7 @@ export interface IArticleProps {
   user: IUser | null
   article: IArticle
   isAuthenticated: boolean
+  setArticleDetails: typeof setArticleDetails
   createArticleFavoriteRequest: typeof createArticleFavoriteRequest
   deleteArticleFavoriteRequest: typeof deleteArticleFavoriteRequest
 }

@@ -46,11 +46,8 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
   const lastPath = location.pathname.substring(location.pathname.lastIndexOf('/') + 1)
 
   useEffect(() => {
-    resetStatusFormArticle()
-  }, [])
-
-  useEffect(() => {
     if (isSucceededFormArticle) {
+      resetStatusFormArticle()
       navigate(-1)
     }
   }, [isSucceededFormArticle])
@@ -133,9 +130,6 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
                 placeholder='New post title here'
                 onKeyPress={handleKeyPressTitle}
               />
-              {/* {status === 'failed' && errors?.username && (
-              <div>{`Username ${errors.username}`}</div>
-            )} */}
               <ErrorMessage className={styles.error} name='title' component='div' />
             </div>
 

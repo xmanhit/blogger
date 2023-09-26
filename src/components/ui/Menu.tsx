@@ -2,8 +2,15 @@ import { connect } from 'react-redux'
 import styles from '../../styles/Global.module.css'
 import { currentUser } from '../../services'
 import { Link } from 'react-router-dom'
+import { IUser } from '../../models'
 
-const Menu: React.FC<any> = ({ user, isActive, setActive }) => {
+interface IMenuProps {
+  user: IUser | null
+  isActive: boolean
+  setActive: any
+}
+
+const Menu: React.FC<IMenuProps> = ({ user, isActive, setActive }) => {
   return (
     <div className={`${styles.menuWrapper} ${isActive ? styles.active : ''}`}>
       <div className={styles.menu}>
@@ -19,7 +26,7 @@ const Menu: React.FC<any> = ({ user, isActive, setActive }) => {
               <hr className={styles.hr} />
             </li>
             <li className={styles.item}>
-              <Link to='/new' className={styles.link}>
+              <Link onClick={() => setActive(false)} to='/new' className={styles.link}>
                 Create Post
               </Link>
             </li>
@@ -31,8 +38,8 @@ const Menu: React.FC<any> = ({ user, isActive, setActive }) => {
             <li className={styles.itemHr}>
               <hr className={styles.hr} />
             </li>
-            <li onClick={() => setActive(false)} className={styles.item}>
-              <Link to='/me/signout' className={styles.link}>
+            <li className={styles.item}>
+              <Link onClick={() => setActive(false)} to='/me/signout' className={styles.link}>
                 Sign Out
               </Link>
             </li>

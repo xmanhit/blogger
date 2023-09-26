@@ -102,7 +102,7 @@ function* handleSetArticleDetails(action: ReturnType<typeof setArticleDetailsReq
     yield put(setArticleDetailsSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
-    yield put(setArticleDetailsFailure(response?.data))
+    yield put(setArticleDetailsFailure({ status: response?.status, data: response?.data }))
   }
 }
 

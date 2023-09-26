@@ -12,6 +12,18 @@
   .image,
   .wrapper {
     flex: 1;
+    svg {
+      width: 100%;
+      visibility: visible;
+    }
+    h1 {
+      font-size: 7.5em;
+      margin: 15px 0px;
+      font-weight: bold;
+    }
+    h2 {
+      font-weight: bold;
+    }
   }
   @media screen and (min-width: 768px) {
     flex-direction: row;
@@ -36,16 +48,4 @@
   &:active {
     background-color: rgba(var(--indigo-500), var(--alpha-10));
   }
-}
-svg {
-  width: 100%;
-  visibility: visible;
-}
-h1 {
-  font-size: 7.5em;
-  margin: 15px 0px;
-  font-weight: bold;
-}
-h2 {
-  font-weight: bold;
 }

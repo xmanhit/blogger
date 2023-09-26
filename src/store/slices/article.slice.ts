@@ -47,6 +47,10 @@ const articleSlice = createSlice({
       state.status.articles = 'failed'
     },
     // Set article details
+    /**Handle get article of click Link*/
+    setArticleDetails: (state, action: PayloadAction<IArticle>) => {
+      state.articleDetails = action.payload
+    },
     setArticleDetailsRequest: (state, _action: PayloadAction<string>) => {
       state.status.articleDetails = 'loading'
       state.errors = null
@@ -56,7 +60,7 @@ const articleSlice = createSlice({
       state.status.articleDetails = 'idle'
     },
     setArticleDetailsFailure: (state, action: PayloadAction<any>) => {
-      state.errors = action.payload.errors
+      state.errors = action.payload
       state.status.articleDetails = 'failed'
     },
     //  Create article
@@ -201,6 +205,7 @@ export const {
   setArticlesRequest,
   setArticlesSuccess,
   setArticlesFailure,
+  setArticleDetails,
   setArticleDetailsRequest,
   setArticleDetailsSuccess,
   setArticleDetailsFailure,
