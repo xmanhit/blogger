@@ -29,7 +29,7 @@ const Login: React.FC<ILoginProps> = ({ isAuthenticated, status, errors, clearRe
           <div className={styles.errorResponse}>
             <strong className={styles.title}>Unable to login.</strong>
             <p className={styles.message}>
-              If you haven't created an account, we recommend signing up with social authentication below.
+              Incorrect username or password. Please try again.
             </p>
           </div>
         )}

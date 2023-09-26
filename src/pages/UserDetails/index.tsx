@@ -8,6 +8,7 @@ import { IArticle, IUserDetailsProps } from '../../models'
 import { currentUser } from '../../services'
 import { CardArticle, Pagination } from '../../components/ui'
 import { setProfile, createProfileFollowUser, createProfileUnFollowUser } from '../../store/slices/profile.slice';
+import ArticlesLoading from '../../components/ui/ArticlesLoading'
 import styles from '../../styles/User.module.css'
 
 const UserDetails: React.FC<IUserDetailsProps> = ({
@@ -18,6 +19,7 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
   setProfile,
   total,
   limit,
+  isArticlesLoading,
   pagination,
   profile,
   createProfileFollowUser,
@@ -67,7 +69,7 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
             <span className={styles.userAvatar}>
               <img className={styles.userAvatarImg} width={128} height={128} src={profile.image} alt="" />
             </span>
-            {profile.username != user.username ?
+            {user && profile.username != user.username ?
               <div className={styles.userAction}>
                 {!profile.following ? <button onClick={handleFollow} className={styles.userFollow}>Follow</button> : <button onClick={handleUnFollow} className={styles.userFollow}>UnFollow</button>}
               </div> : <></>
@@ -84,18 +86,20 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
       </div>) : (
         <p>No articles available</p>
       )}
-      <ul className={styles.userList}>
+      <div className={styles.userList}>
+      {isArticlesLoading && <ArticlesLoading />}
+      {articles.length <= 0 && !isArticlesLoading && <div>No articles yet</div>}
         {articles ? (
           articles.map((article: IArticle) => (
-            <li key={article.slug}>
+            <div key={article.slug}>
               {article.author ? <CardArticle article={article} /> : <p>No author information available</p>}
-            </li>
+            </div>
           ))
         ) : (
           <li>No articles available</li>
         )}
         <Pagination total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
-      </ul>
+      </div>
     </div>
   )
 }
@@ -105,6 +109,7 @@ export default connect(
     user: currentUser(),
     articles: state.article.articles,
     total: state.article.total,
+    isArticlesLoading: state.article.status.articles === 'loading',
     limit: state.article.limit,
     profile: state.profile.profile
   }),
