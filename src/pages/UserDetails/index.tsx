@@ -22,6 +22,7 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
   isArticlesLoading,
   pagination,
   profile,
+  isLoading,
   createProfileFollowUser,
   createProfileUnFollowUser,
 }): JSX.Element => {
@@ -60,20 +61,26 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
     createProfileUnFollowUser({ username: profile.username })
     console.log(profile.following)
   }
-
+  console.log('isLoading',isLoading)
   return (
     <div className={styles.userBg}>
-      {articles ? (<div className={styles.userLayout}>
+      {profile ? (<div className={styles.userLayout}>
         <div className={styles.userContainer}>
           <div className={styles.userTop}>
             <span className={styles.userAvatar}>
-              <img className={styles.userAvatarImg} width={128} height={128} src={profile.image} alt="" />
+              {profile.image ? <img className={styles.userAvatarImg} width={128} height={128} src={profile.image} alt="" /> : 
+              <div></div>}
+              
             </span>
-            {user && profile.username != user.username ?
-              <div className={styles.userAction}>
-                {!profile.following ? <button onClick={handleFollow} className={styles.userFollow}>Follow</button> : <button onClick={handleUnFollow} className={styles.userFollow}>UnFollow</button>}
-              </div> : <></>
-            }
+            <div className={styles.userAction}>
+      {!isLoading && user && (profile.username !== user.username) && (
+        profile.following ? (
+          <button onClick={handleUnFollow} className={styles.userFollow}>Unfollow</button>
+        ) : (
+          <button onClick={handleFollow} className={styles.userFollow}>Follow</button>
+        )
+      )}
+    </div>
           </div>
           <div className={styles.userDetail} data-status-checked="true">
             <div className={styles.userUserName}>
@@ -111,7 +118,8 @@ export default connect(
     total: state.article.total,
     isArticlesLoading: state.article.status.articles === 'loading',
     limit: state.article.limit,
-    profile: state.profile.profile
+    profile: state.profile.profile,
+    isLoading: state.profile.isLoading
   }),
   { currentUserRequest, setArticlesRequest, setProfile, createProfileFollowUser, createProfileUnFollowUser }
 )(UserDetails)
