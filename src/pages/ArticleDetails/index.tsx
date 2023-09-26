@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { TbHeartPlus, TbHeartMinus, TbArchive } from 'react-icons/tb'
 import { FaRegComment, FaRegCommentDots, FaRegEdit } from 'react-icons/fa'
+import { PiSpinnerBold } from 'react-icons/pi'
+import { FcLike } from 'react-icons/fc'
 import { RootState } from '../../store'
 import {
   createArticleFavoriteRequest,
@@ -16,7 +18,6 @@ import { currentUser, isAuthenticated } from '../../services'
 import { formatDate, formatFullDate } from '../../utils'
 import styles from '../../styles/Global.module.css'
 import { countComments } from '../../store/selectors'
-import { PiSpinnerBold } from 'react-icons/pi'
 
 const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   status,
@@ -153,7 +154,9 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
               <div className={styles.favorites}>
                 <span className={`${styles.favorite} ${article.favorited ? styles.remove : styles.add}`}>
                   <span className={styles.count}>{article.favoritesCount}</span>
-                  <span className={styles.icon}>{'❤️‍🔥'}</span>
+                  <span className={styles.icon}>
+                    <FcLike />
+                  </span>
                 </span>
               </div>
             </div>

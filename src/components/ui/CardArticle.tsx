@@ -1,11 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { PiSpinnerBold } from 'react-icons/pi'
+import { FcDislike, FcLike } from 'react-icons/fc'
 import { IArticleProps } from '../../models'
 import { timeSince } from '../../utils'
-import { connect } from 'react-redux'
 import { createArticleFavoriteRequest, deleteArticleFavoriteRequest } from '../../store/slices/article.slice'
 import { currentUser, isAuthenticated } from '../../services'
 import styles from '../../styles/Global.module.css'
-import { PiSpinnerBold } from 'react-icons/pi'
 
 const CardArticle: React.FC<IArticleProps> = ({
   user,
@@ -47,7 +48,7 @@ const CardArticle: React.FC<IArticleProps> = ({
           {status?.favorite === 'loading' ? (
             <PiSpinnerBold className={styles.spinner} />
           ) : (
-            <span className={styles.icon}>{favorited ? '💔' : '❤️‍🔥'}</span>
+            <span className={styles.icon}>{favorited ? <FcDislike /> : <FcLike />}</span>
           )}
         </button>
       </div>
