@@ -30,7 +30,6 @@ const TagInput: React.FC<any> = ({
       addTagData(event)
     }
   }
-  console.log(tagData)
 
   return (
     <>

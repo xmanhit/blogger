@@ -1,4 +1,7 @@
 @supports (--css: variables) {
+  body {
+    background-color: rgba(var(--black), var(--alpha-10));
+  }
   .container {
     width: 100%;
     max-width: 50rem;
@@ -166,6 +169,7 @@
   .main {
     margin: 3.5rem auto;
     padding-top: 1rem;
+    min-height: 100vh;
     .nav {
       .list {
         display: flex;
@@ -467,7 +471,6 @@
   .footer {
     position: sticky;
     bottom: 0;
-    /* border-radius: var(--rounded); */
     background-color: rgba(var(--gray-900), var(--alpha-10));
     .link {
       display: flex;
@@ -801,9 +804,8 @@
         background-color: transparent;
       }
       .count {
-        font-size: 0.9rem;
-        padding: 0;
-        margin-left: 0;
+        font-size: 0.8rem;
+        margin-bottom: 0.12rem;
         background-color: transparent;
       }
     }
@@ -814,28 +816,20 @@
 .favorite {
   display: flex;
   gap: 0.25rem;
+  padding: 0.25rem 0.25rem 0;
   align-items: center;
   border-radius: var(--rounded);
   color: rgba(var(--gray-100), var(--alpha-10));
   animation: 0.2s;
   .icon {
-    /* width: 2rem; */
-    /* height: 2rem; */
     vertical-align: middle;
-    /* border-radius: 50%; */
-    /* line-height: 2rem; */
-    /* text-align: center; */
-    /* background-color: rgba(var(--dark), var(--alpha-10)); */
     font-size: 1.3em;
   }
   .count {
     vertical-align: middle;
     font-size: 0.8rem;
     line-height: 0.8rem;
-    margin-top: 0.25rem;
-    padding: 0 0 0 0.25rem;
-    /* background-color: rgba(var(--dark), var(--alpha-10)); */
-    /* margin-left: -0.6rem; */
+    margin-bottom: 0.12rem;
     border-radius: 0 var(--rounded) var(--rounded) 0;
   }
 }
@@ -855,8 +849,6 @@
 
   .action {
     color: white;
-    display: flex;
-    align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
     border-radius: var(--rounded);
@@ -872,7 +864,9 @@
     .icon {
       font-size: 1.5rem;
       line-height: 1.5rem;
-      vertical-align: middletabContainer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       .spinner {
         font-size: 1.5rem;
       }

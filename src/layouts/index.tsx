@@ -1,6 +1,6 @@
 import Header from './Header'
 import Footer from './Footer'
-import { Outlet } from 'react-router-dom'
+import { Outlet, ScrollRestoration } from 'react-router-dom'
 import styles from '../styles/Global.module.css'
 
 const Layout: React.FC = () => {
@@ -11,6 +11,7 @@ const Layout: React.FC = () => {
         <Outlet />
       </main>
       <Footer />
+      <ScrollRestoration />
     </>
   )
 }

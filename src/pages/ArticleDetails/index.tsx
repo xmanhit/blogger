@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { TbHeartPlus, TbHeartMinus, TbArchive } from 'react-icons/tb'
 import { FaRegComment, FaRegCommentDots, FaRegEdit } from 'react-icons/fa'
+import { PiSpinnerBold } from 'react-icons/pi'
+import { FcLike } from 'react-icons/fc'
 import { RootState } from '../../store'
 import {
   createArticleFavoriteRequest,
@@ -16,7 +18,7 @@ import { currentUser, isAuthenticated } from '../../services'
 import { formatDate, formatFullDate } from '../../utils'
 import styles from '../../styles/Global.module.css'
 import { countComments } from '../../store/selectors'
-import { PiSpinnerBold } from 'react-icons/pi'
+import NotFound from '../NotFound'
 
 const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   status,
@@ -36,21 +38,10 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   const { slug, author } = useParams()
 
   useEffect(() => {
-    if (slug) {
+    if (slug && article === null) {
       setArticleDetailsRequest(slug)
     }
   }, [])
-
-  useEffect(() => {
-    if (article?.author) {
-      if (article?.author?.username !== author) {
-        console.warn(
-          'Sửa tên author trên link làm cái gì. Chẳng có nghĩa lý gì đâu :P',
-          'Nếu bạn là author bài viết này thì không cho bạn sửa xóa ở đây luôn nhé!'
-        )
-      }
-    }
-  }, [article?.author.username])
 
   const handleFavorite = () => {
     if (!isAuthenticated) {
@@ -70,6 +61,10 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
 
   if (isLoading) {
     return <div>Loading...</div>
+  }
+
+  if (errors?.status === 404) {
+    return <NotFound />
   }
 
   const handleDeleteArticle = () => {
@@ -153,7 +148,9 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
               <div className={styles.favorites}>
                 <span className={`${styles.favorite} ${article.favorited ? styles.remove : styles.add}`}>
                   <span className={styles.count}>{article.favoritesCount}</span>
-                  <span className={styles.icon}>{'❤️‍🔥'}</span>
+                  <span className={styles.icon}>
+                    <FcLike />
+                  </span>
                 </span>
               </div>
             </div>
