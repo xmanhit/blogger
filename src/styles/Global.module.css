@@ -1,4 +1,7 @@
 @supports (--css: variables) {
+  body {
+    background-color: rgba(var(--black), var(--alpha-10));
+  }
   .container {
     width: 100%;
     max-width: 50rem;
