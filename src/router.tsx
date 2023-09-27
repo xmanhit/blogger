@@ -37,12 +37,31 @@ const router = createBrowserRouter([
           return { Component: ArticleDetails.default }
         },
       },
+      // {
+      //   path: ':username',
+      //   lazy: async () => {
+      //     const UserDetails = await import('./pages/UserDetails')
+      //     return { Component: UserDetails.default }
+      //   },
+      // },
       {
         path: ':username',
-        lazy: async () => {
-          const UserDetails = await import('./pages/UserDetails')
-          return { Component: UserDetails.default }
-        },
+        children: [
+          {
+            index: true,
+            lazy: async () => {
+              const UserDetails = await import('./pages/UserDetails')
+              return { Component: UserDetails.default }
+            },
+          },
+          {
+            path: 'favorites',
+            lazy: async () => {
+              const UserFavorites = await import('./pages/UserFavorites')
+              return { Component: UserFavorites.default }
+            },
+          },
+        ]
       },
       {
         path: 'me',

@@ -35,6 +35,8 @@ const Home: React.FC<IHomeProps> = ({
   const page: number = Number(searchParams.get('page')) || 1
 
   let { isFollowing } = useLoaderData() as { isFollowing: boolean }
+
+  console.log(isFollowing)
   useEffect(() => {
     if (tagList.length === 0) {
       setTagsRequest()

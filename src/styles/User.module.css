@@ -41,6 +41,23 @@
               display: inline-block;
               vertical-align: bottom;
             }
+            .img {
+              border-radius: 100%;
+              width: 128px;
+              height: 128px;
+              display: inline-block;
+              vertical-align: bottom; /* Makes it a circle (assuming the image is a circular avatar) */
+              animation: loading-spin 1s infinite linear; /* Apply a spinning animation */
+              background-image: linear-gradient(
+                to right,
+                rgba(var(--gray-800), var(--alpha-6)) 20%,
+                rgba(var(--gray-800), var(--alpha-3)) 40%,
+                rgba(var(--gray-800), var(--alpha-3)) 60%,
+                rgba(var(--gray-800), var(--alpha-6)) 80%
+              );
+              background-size: 200% 200%;
+              color: transparent; /* Hide the background initially */
+            }
           }
           .userAction {
             display: flex;
@@ -66,6 +83,21 @@
           padding: 1.5rem;
           .userUserName {
             margin-bottom: 0.5rem;
+            .name {
+              width: 150px; /* Adjust the width as needed */
+              display: inline-flex;
+              min-height: 40px;
+              align-items: center;/* Adjust the height as needed */
+              background-image: linear-gradient(
+                to right,
+                rgba(var(--gray-800), var(--alpha-6)) 20%,
+                rgba(var(--gray-800), var(--alpha-3)) 40%,
+                rgba(var(--gray-800), var(--alpha-3)) 60%,
+                rgba(var(--gray-800), var(--alpha-6)) 80%
+              );
+              background-size: 200% 200%; /* Background color for the loading name */
+              margin-top: 10px; /* Adjust the margin as needed */
+            }
             .userUserNameText {
               line-height: 1.25;
               font-size: 1.875rem;
@@ -85,6 +117,20 @@
       gap: 0.5rem;
     }
   }
+
+  /* Keyframes for the spinning animation */
+  @keyframes loading-spin {
+    0% {
+      color: red;
+      transform: rotate(0deg);
+    }
+    100% {
+      color: red;
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Style for the loading name */
 
   /* User Setting */
   .userSettingForm {
@@ -163,16 +209,15 @@
     -webkit-animation: spin 2s infinite linear;
     animation: spin 2s infinite linear;
   }
-
 }
 @media (min-width: 769px) and (max-width: 992px) {
-  .userSettingForm{
+  .userSettingForm {
     margin-bottom: 17rem;
   }
 }
 
 @media (min-width: 600px) and (max-width: 768.99999999999999px) {
-  .userSettingForm{
+  .userSettingForm {
     margin-bottom: 7rem;
   }
 }
