@@ -19,6 +19,7 @@ import { formatDate, formatFullDate } from '../../utils'
 import styles from '../../styles/Global.module.css'
 import { countComments } from '../../store/selectors'
 import NotFound from '../NotFound'
+import ArticleDetailsLoading from '../../components/ui/ArticleDetailsLoading'
 
 const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   status,
@@ -60,7 +61,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <ArticleDetailsLoading />
   }
 
   if (errors?.status === 404) {
@@ -96,7 +97,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
                 )}
               </span>
             </button>
-            <a className={`${styles.action} ${styles.comment}`} href='#comments' title='Comments'>
+            <Link className={`${styles.action} ${styles.comment}`} to='#comments' title='Comments'>
               <span className={styles.icon}>
                 {countComments ? (
                   <FaRegCommentDots className={styles.icon} />
@@ -104,7 +105,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
                   <FaRegComment className={styles.icon} />
                 )}
               </span>
-            </a>
+            </Link>
             {article.author.username === user?.username && (
               <>
                 <Link className={`${styles.action} ${styles.edit}`} to={`/${slug}/edit`} title='Edit'>
