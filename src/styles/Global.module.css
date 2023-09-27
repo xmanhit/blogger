@@ -74,7 +74,7 @@
             visibility: hidden;
             transition: visibility 0.15s ease-out;
             &::before {
-              content: "";
+              content: '';
               position: absolute;
               top: -0.5rem;
               right: 0.7rem;
@@ -714,13 +714,13 @@
           color: white;
           padding: 0.5rem;
           cursor: pointer;
-          &:hover{
+          &:hover {
             background-color: #007bff;
           }
         }
       }
     }
-
+  }
   .spinner {
     vertical-align: middle;
     font-size: 1.25rem;

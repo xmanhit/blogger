@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { currentUserRequest, updateRequest } from '../../store/slices/auth.slice'
 import { currentUser } from '../../services'
 import { IUserSettingProps } from '../../models'
-import styles from '../../styles/Global.module.css'
+import styles from '../../styles/User.module.css'
 
 const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, updateRequest }): JSX.Element => {
   const [updatedUser, setUpdatedUser] = useState({
@@ -73,11 +73,12 @@ const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, up
         </div>
         <div className={styles.userSettingField}>
           <label className={styles.labelSetting}>Password</label>
-          <input maxLength={30} className={styles.inputSetting} onChange={handleInputChange} placeholder="johndoe" value={updatedUser.password} size={30} type="text" name="password" id="password" />
+          <input maxLength={30} className={styles.inputSetting} onChange={handleInputChange} placeholder="Password" value={updatedUser.password} size={30} type="text" name="password" id="password" />
         </div>
         <div className={styles.userSettingField}>
           <label className={styles.labelSetting}>Bio</label>
-          <input maxLength={30} className={styles.inputSetting} onChange={handleInputChange} placeholder="johndoe" value={updatedUser.bio} size={200} type="text" name="bio" id="bio" />
+          {/* <input maxLength={30} className={styles.inputSetting} onChange={handleInputChange} placeholder="Bio" value={updatedUser.bio} size={200} type="text" name="bio" id="bio" /> */}
+          <textarea name="bio" id='bio' className={styles.inputSetting} placeholder="Bio" value={updatedUser.bio} cols="30" rows="8"></textarea>
         </div>
         <div className={styles.userSettingField}>
           <label className={styles.labelSetting}>Profile image</label>

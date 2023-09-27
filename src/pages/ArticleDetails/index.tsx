@@ -68,6 +68,10 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
     return <NotFound />
   }
 
+  if (errors?.status === 404) {
+    return <NotFound />
+  }
+
   const handleDeleteArticle = () => {
     deleteArticleRequest(slug)
     if (isDeleted) {
@@ -97,6 +101,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
                 )}
               </span>
             </button>
+
             <Link className={`${styles.action} ${styles.comment}`} to='#comments' title='Comments'>
               <span className={styles.icon}>
                 {countComments ? (
@@ -105,6 +110,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
                   <FaRegComment className={styles.icon} />
                 )}
               </span>
+
             </Link>
             {article.author.username === user?.username && (
               <>
