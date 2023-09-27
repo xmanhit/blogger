@@ -111,4 +111,9 @@
   a:active {
     color: rgba(var(--indigo-400), var(--alpha-10));
   }
+
+  button {
+    border: none;
+    background-color: transparent;
+  }
 }

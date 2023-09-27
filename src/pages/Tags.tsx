@@ -1,23 +1,23 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
-import { RootState } from '../../store'
-import { setArticlesRequest, setTagsRequest } from '../../store/slices/article.slice'
-import { CardArticle, Pagination } from '../../components/ui'
-import { IArticle, ITagsProps } from '../../models'
-import TagList from '../../components/ui/TagList'
-import styles from '../../styles/Global.module.css'
+import { RootState } from '../store'
+import { setArticlesRequest, setTagsRequest } from '../store/slices/article.slice'
+import { CardArticle, Pagination } from '../components/ui'
+import { IArticle, ITagsProps } from '../models'
+import TagList from '../components/ui/TagList'
+import styles from '../styles/Global.module.css'
+import ArticlesLoading from '../components/ui/ArticlesLoading'
 
 const Tags: React.FC<ITagsProps> = ({
   setTagsRequest,
   setArticlesRequest,
-  isLoadingTags,
+  isTagsLoading,
   isLoading,
   tagList,
   articles,
   total,
   limit,
-  pagination,
 }) => {
   const { tag } = useParams()
   let [searchParams, setSearchParams] = useSearchParams()
@@ -39,19 +39,15 @@ const Tags: React.FC<ITagsProps> = ({
       <div className={styles.titleWrapper}>
         <h1 className={styles.title}>{tag}</h1>
       </div>
-      {isLoadingTags && <div>Tags Loading...</div>}
-      <TagList tagList={tagList} tagActive={tag} />
+      <TagList tagList={tagList} tagActive={tag} isTagsLoading={isTagsLoading} />
 
       <div className={styles.articleWrapper}>
-        {isLoading && <div>Articles Loading...</div>}
+        {isLoading && <ArticlesLoading />}
         {articles.length <= 0 && !isLoading && <div>No articles yet</div>}
         {articles?.map((article: IArticle) => (
           <CardArticle key={article.slug} article={article} />
         ))}
       </div>
-
-      {isLoading && <div>Articles Loading...</div>}
-      {articles.length <= 0 && !isLoading && <div>No articles yet</div>}
 
       <Pagination total={total} limit={limit} page={page} setSearchParams={setSearchParams} />
     </section>
@@ -62,7 +58,7 @@ export default connect(
   (state: RootState) => ({
     tagList: state.article.tagList,
     isLoading: state.article.status.articles === 'loading',
-    isLoadingTags: state.article.status.tagList === 'loading',
+    isTagsLoading: state.article.status.tagList === 'loading',
     articles: state.article.articles,
     total: state.article.total,
     limit: state.article.limit,

@@ -1,11 +1,11 @@
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CommentForm from '../form/CommentForm'
 import CommentList from './CommentList'
 import { RootState } from '../../store'
 import { countComments } from '../../store/selectors'
-import styles from '../../styles/Global.module.css'
 import { isAuthenticated } from '../../services'
-import { Link } from 'react-router-dom'
+import styles from '../../styles/Global.module.css'
 
 const Comments: React.FC<{ countComments?: number; isAuthenticated: boolean }> = ({
   isAuthenticated,

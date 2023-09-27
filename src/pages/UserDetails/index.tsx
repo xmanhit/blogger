@@ -18,7 +18,6 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
   setProfile,
   total,
   limit,
-  pagination,
   profile,
   createProfileFollowUser,
   createProfileUnFollowUser,

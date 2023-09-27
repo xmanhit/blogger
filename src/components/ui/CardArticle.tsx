@@ -1,19 +1,26 @@
 import { Link, useNavigate } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { PiSpinnerBold } from 'react-icons/pi'
+import { FcDislike, FcLike } from 'react-icons/fc'
 import { IArticleProps } from '../../models'
 import { timeSince } from '../../utils'
-import { connect } from 'react-redux'
-import { createArticleFavoriteRequest, deleteArticleFavoriteRequest } from '../../store/slices/article.slice'
+import {
+  createArticleFavoriteRequest,
+  deleteArticleFavoriteRequest,
+  setArticleDetails,
+} from '../../store/slices/article.slice'
 import { currentUser, isAuthenticated } from '../../services'
 import styles from '../../styles/Global.module.css'
-import { PiSpinnerBold } from 'react-icons/pi'
 
 const CardArticle: React.FC<IArticleProps> = ({
   user,
   isAuthenticated,
-  article: { slug, title, description, tagList, createdAt, favorited, favoritesCount, author, status },
+  article,
+  setArticleDetails,
   createArticleFavoriteRequest,
   deleteArticleFavoriteRequest,
 }) => {
+  const { slug, title, description, tagList, createdAt, favorited, favoritesCount, author, status } = article
   const navigate = useNavigate()
 
   const handleFavorite = () => {
@@ -28,6 +35,11 @@ const CardArticle: React.FC<IArticleProps> = ({
       deleteArticleFavoriteRequest(slug)
     }
   }
+
+  const handleSetArticleDetails = () => {
+    setArticleDetails(article)
+  }
+
   return (
     <article className={styles.article}>
       <div className={styles.author}>
@@ -47,15 +59,16 @@ const CardArticle: React.FC<IArticleProps> = ({
           {status?.favorite === 'loading' ? (
             <PiSpinnerBold className={styles.spinner} />
           ) : (
-            <span className={styles.icon}>{favorited ? '💔' : '❤️‍🔥'}</span>
+            <span className={styles.icon}>{favorited ? <FcDislike /> : <FcLike />}</span>
           )}
         </button>
       </div>
       <div className={styles.post}>
-        <Link to={`/${author.username}/${slug}`}>
+        <Link onClick={handleSetArticleDetails} to={`/${author.username}/${slug}`}>
           <h3 className={styles.title}>{title}</h3>
-          <p className={styles.desc}>{description}</p>
         </Link>
+
+        <p className={styles.desc}>{description}</p>
 
         <div className={styles.tagList}>
           {tagList?.map((tag: string) => (
@@ -75,6 +88,7 @@ export default connect(
     user: currentUser(),
   }),
   {
+    setArticleDetails,
     createArticleFavoriteRequest,
     deleteArticleFavoriteRequest,
   }

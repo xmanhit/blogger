@@ -72,7 +72,12 @@ function* handleCreateArticleFavorite(action: ReturnType<typeof createArticleFav
     yield put(createArticleFavoriteSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
-    yield put(createArticleFavoriteFailure(response?.data))
+    yield put(
+      createArticleFavoriteFailure({
+        slug: action.payload,
+        errors: response?.data,
+      })
+    )
   }
 }
 
@@ -97,7 +102,7 @@ function* handleSetArticleDetails(action: ReturnType<typeof setArticleDetailsReq
     yield put(setArticleDetailsSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
-    yield put(setArticleDetailsFailure(response?.data))
+    yield put(setArticleDetailsFailure({ status: response?.status, data: response?.data }))
   }
 }
 
@@ -145,7 +150,7 @@ export function* watchArticle() {
   yield takeLatest(setTagsRequest, handleSetTags)
   yield takeLatest(setArticlesRequest, handleSetArticles)
   yield takeLatest(setArticleFollowingRequest, handleSetArticleFollowing)
-  yield takeLatest(createArticleFavoriteRequest, handleCreateArticleFavorite)
+  yield takeEvery(createArticleFavoriteRequest, handleCreateArticleFavorite)
   yield takeEvery(deleteArticleFavoriteRequest, handleDeleteArticleFavorite)
   yield takeLatest(setArticleDetailsRequest, handleSetArticleDetails)
   yield takeLatest(createArticleRequest, handleCreateArticle)

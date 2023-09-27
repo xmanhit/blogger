@@ -1,14 +1,14 @@
+import { useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import * as Yup from 'yup'
+import { PiSpinnerBold } from 'react-icons/pi'
 import { RootState } from '../../store'
 import { createArticleCommentRequest } from '../../store/slices/comment.slice'
-import { currentUser, isAuthenticated } from '../../services'
+import { currentUser } from '../../services'
 import { ICommentFormProps } from '../../models'
 import styles from '../../styles/Global.module.css'
-import { PiSpinnerBold } from 'react-icons/pi'
-import { useState } from 'react'
 
 const CommentSchema = Yup.object().shape({
   comment: Yup.string()
@@ -25,8 +25,9 @@ const CommentForm: React.FC<ICommentFormProps> = ({ user, createArticleCommentRe
       <Formik
         initialValues={{ comment: '' }}
         validationSchema={CommentSchema}
-        onSubmit={({ comment }) => {
+        onSubmit={({ comment }, { resetForm }) => {
           slug && createArticleCommentRequest({ slug, comment: { body: comment } })
+          resetForm()
         }}
       >
         <Form className={styles.form}>

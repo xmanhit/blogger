@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom'
 import styles from '../../styles/Global.module.css'
 
-const Tag: React.FC<any> = ({ tag, tagActive }) => {
+interface Props {
+  tag: string
+  tagActive?: string
+}
+
+const Tag: React.FC<Props> = ({ tag, tagActive }) => {
   return (
     <Link className={`${styles.tab} ${tagActive === tag ? styles.active : ''}`} to={`/tags/${tag}`}>
       #{tag}

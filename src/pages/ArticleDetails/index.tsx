@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { TbHeartPlus, TbHeartMinus, TbArchive } from 'react-icons/tb'
 import { FaRegComment, FaRegCommentDots, FaRegEdit } from 'react-icons/fa'
+import { PiSpinnerBold } from 'react-icons/pi'
+import { FcLike } from 'react-icons/fc'
 import { RootState } from '../../store'
 import {
   createArticleFavoriteRequest,
@@ -16,6 +18,8 @@ import { currentUser, isAuthenticated } from '../../services'
 import { formatDate, formatFullDate } from '../../utils'
 import styles from '../../styles/Global.module.css'
 import { countComments } from '../../store/selectors'
+import NotFound from '../NotFound'
+import ArticleDetailsLoading from '../../components/ui/ArticleDetailsLoading'
 
 const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   status,
@@ -35,21 +39,10 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   const { slug, author } = useParams()
 
   useEffect(() => {
-    if (slug) {
+    if (slug && article === null) {
       setArticleDetailsRequest(slug)
     }
   }, [])
-
-  useEffect(() => {
-    if (article?.author) {
-      if (article?.author?.username !== author) {
-        console.warn(
-          'Sửa tên author trên link làm cái gì. Chẳng có nghĩa lý gì đâu :P',
-          'Nếu bạn là author bài viết này thì không cho bạn sửa xóa ở đây luôn nhé!'
-        )
-      }
-    }
-  }, [article?.author.username])
 
   const handleFavorite = () => {
     if (!isAuthenticated) {
@@ -68,7 +61,11 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <ArticleDetailsLoading />
+  }
+
+  if (errors?.status === 404) {
+    return <NotFound />
   }
 
   const handleDeleteArticle = () => {
@@ -87,18 +84,32 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
               className={`${styles.action} ${styles.btnFavorite}`}
               type='button'
               onClick={handleFavorite}
-              disabled={status?.favorite === 'loading'}
+              disabled={article.status?.favorite === 'loading'}
               title='Favorite'
             >
-              <span className={styles.icon}>{article.favorited ? <TbHeartMinus /> : <TbHeartPlus />}</span>
+              <span className={styles.icon}>
+                {article.status?.favorite === 'loading' ? (
+                  <PiSpinnerBold className={styles.spinner} />
+                ) : article.favorited ? (
+                  <TbHeartMinus className={styles.icon} />
+                ) : (
+                  <TbHeartPlus className={styles.icon} />
+                )}
+              </span>
             </button>
-            <a className={`${styles.action} ${styles.comment}`} href='#comments' title='Comments'>
-              <span className={styles.icon}>{countComments ? <FaRegCommentDots /> : <FaRegComment />}</span>
-            </a>
+            <Link className={`${styles.action} ${styles.comment}`} to='#comments' title='Comments'>
+              <span className={styles.icon}>
+                {countComments ? (
+                  <FaRegCommentDots className={styles.icon} />
+                ) : (
+                  <FaRegComment className={styles.icon} />
+                )}
+              </span>
+            </Link>
             {article.author.username === user?.username && (
               <>
                 <Link className={`${styles.action} ${styles.edit}`} to={`/${slug}/edit`} title='Edit'>
-                  <span className={styles.icon}>{<FaRegEdit />}</span>
+                  <span className={styles.icon}>{<FaRegEdit className={styles.icon} />}</span>
                 </Link>
                 <button
                   className={`${styles.action} ${styles.delete}`}
@@ -106,7 +117,14 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
                   onClick={handleDeleteArticle}
                   title='Delete'
                 >
-                  <span className={styles.icon}>{<TbArchive />}</span>
+                  <span className={styles.icon}>
+                    {' '}
+                    {status?.favorite === 'loading' ? (
+                      <PiSpinnerBold className={styles.spinner} />
+                    ) : (
+                      <TbArchive className={styles.icon} />
+                    )}
+                  </span>
                 </button>
               </>
             )}
@@ -131,7 +149,9 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
               <div className={styles.favorites}>
                 <span className={`${styles.favorite} ${article.favorited ? styles.remove : styles.add}`}>
                   <span className={styles.count}>{article.favoritesCount}</span>
-                  <span className={styles.icon}>{'❤️‍🔥'}</span>
+                  <span className={styles.icon}>
+                    <FcLike />
+                  </span>
                 </span>
               </div>
             </div>

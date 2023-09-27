@@ -1,5 +1,5 @@
-import { countComments } from './../store/selectors/index'
 import { AxiosResponse } from 'axios'
+import { SetURLSearchParams } from 'react-router-dom'
 import {
   clearLogin,
   clearRegister,
@@ -13,6 +13,8 @@ import {
   createArticleRequest,
   deleteArticleFavoriteRequest,
   deleteArticleRequest,
+  resetStatusFormArticle,
+  setArticleDetails,
   setArticleDetailsRequest,
   setArticleFollowingRequest,
   setArticlesRequest,
@@ -24,12 +26,11 @@ import {
   deleteArticleCommentRequest,
   setArticleCommentRequest,
 } from '../store/slices/comment.slice'
-import { SetURLSearchParams } from 'react-router-dom'
 import { RootState } from '../store'
 
 // token
 export type Token = string | null | undefined
-export type Status = 'loading' | 'idle' | 'failed'
+export type Status = 'loading' | 'idle' | 'succeeded' | 'failed'
 
 // login
 export interface ILoginCredentials {
@@ -205,19 +206,19 @@ export interface IHomeProps {
   setTagsRequest: typeof setTagsRequest
   setArticlesRequest: typeof setArticlesRequest
   setArticleFollowingRequest: typeof setArticleFollowingRequest
-  isLoadingTags: boolean
-  isLoading: boolean
+  isTagsLoading: boolean
+  isArticlesLoading: boolean
   tagList: string[]
   articles: IArticle[]
   limit: number
   total: number
-  pagination: number[]
 }
 
 export interface IArticleProps {
   user: IUser | null
   article: IArticle
   isAuthenticated: boolean
+  setArticleDetails: typeof setArticleDetails
   createArticleFavoriteRequest: typeof createArticleFavoriteRequest
   deleteArticleFavoriteRequest: typeof deleteArticleFavoriteRequest
 }
@@ -244,10 +245,10 @@ export interface IArticleDetailsProps {
 
 export interface IArticleFormProps {
   isLoading: boolean
-  isActionLoading: boolean
-  isActionSuccess: boolean
-  status: any
+  isLoadingFormArticle: boolean
+  isSucceededFormArticle: boolean
   article: IArticle | null
+  resetStatusFormArticle: typeof resetStatusFormArticle
   setArticleDetailsRequest: typeof setArticleDetailsRequest
   createArticleRequest: typeof createArticleRequest
   updateArticleRequest: typeof updateArticleRequest
@@ -277,13 +278,12 @@ export interface IHeaderProps {
 export interface ITagsProps {
   setTagsRequest: typeof setTagsRequest
   setArticlesRequest: typeof setArticlesRequest
-  isLoadingTags: boolean
+  isTagsLoading: boolean
   isLoading: boolean
   tagList: string[]
   articles: IArticle[]
   total: number
   limit: number
-  pagination: number[]
 }
 
 export interface IUserDetailsProps {
@@ -293,7 +293,6 @@ export interface IUserDetailsProps {
   setArticlesRequest: typeof setArticlesRequest
   total: number
   limit: number
-  pagination: number[]
 }
 
 export interface IUserSettingProps {

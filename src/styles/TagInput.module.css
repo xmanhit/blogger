@@ -1,0 +1,58 @@
+.tagInput {
+  font-size: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  min-height: 2rem;
+  /* border: 1px solid #d6d8da; */
+  border-radius: var(--rounded);
+}
+
+.tagInput input {
+  flex: 1;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.tagInput input:focus {
+  outline: transparent;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.tag {
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  color: white;
+  font-size: 0.8rem;
+  list-style: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--rounded);
+  background-color: rgba(var(--gray-800), var(--alpha-10));
+}
+
+.tagTitle {
+  font-size: 0.8rem;
+}
+
+.tagCloseIcon {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  text-align: center;
+  font-size: 1.25rem;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  &:hover {
+    color: rgba(var(--error-500), var(--alpha-10));
+  }
+}
