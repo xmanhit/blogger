@@ -15,6 +15,7 @@ import { isLoadingFormArticle, isSucceededFormArticle } from '../../store/select
 import TagInput from './TagInput'
 import styles from '../../styles/ArticleForm.module.css'
 import { PiSpinnerBold } from 'react-icons/pi'
+import MyEditor from './MyEditor'
 
 const SignUpSchema = Yup.object().shape({
   title: Yup.string()
@@ -160,6 +161,7 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
               name='body'
               as='textarea'
               rows={8}
+              // component={MyEditor}
               placeholder='Write your post contnet here...'
             />
             <ErrorMessage className={styles.error} name='body' component='div' />
