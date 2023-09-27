@@ -963,7 +963,7 @@
         .avatar {
           border: 1px solid rgba(var(--white), var(--alpha-2));
           border-radius: 50%;
-          width: 2rem;
+          min-width: 2rem;
           height: 2rem;
           object-fit: cover;
         }
