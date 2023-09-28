@@ -1,0 +1,25 @@
+.signout {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  .btnSignout {
+    font-family: inherit;
+    color: white;
+    font-weight: 600;
+    padding: 1rem 1.25rem;
+    border-radius: var(--rounded);
+    background-color: rgba(var(--indigo-600), var(--alpha-10));
+    transition: 0.2s;
+    &:hover {
+      background-color: rgba(var(--indigo-500), var(--alpha-10));
+    }
+    &:active {
+      background-color: rgba(var(--indigo-800), var(--alpha-10));
+    }
+  }
+}

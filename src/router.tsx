@@ -89,10 +89,9 @@ const router = createBrowserRouter([
           },
           {
             path: 'signout',
-            loader: () => {
-              clearItem('token')
-              clearItem('currentUser')
-              return redirect('/login')
+            lazy: async () => {
+              const Signout = await import('./pages/Signout')
+              return { Component: Signout.default, title: 'Signout' }
             },
           },
           {
