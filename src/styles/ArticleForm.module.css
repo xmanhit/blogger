@@ -71,6 +71,10 @@
   .body {
     font-size: 1rem;
   }
+  > .field {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(var(--gray-800), var(--alpha-10));
+  }
 }
 .submit {
   font-weight: 500;

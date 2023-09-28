@@ -17,7 +17,7 @@ const CommentSchema = Yup.object().shape({
     .max(500, 'Must be 500 characters or less'),
 })
 
-const CommentForm: React.FC<ICommentFormProps> = ({ user, createArticleCommentRequest, status, errors }) => {
+const CommentForm: React.FC<ICommentFormProps> = ({ user, createArticleCommentRequest, status }) => {
   const { slug } = useParams()
   const [displayButton, setDisplayButton] = useState(false)
   return (

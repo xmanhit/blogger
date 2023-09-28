@@ -15,7 +15,7 @@ import { isLoadingFormArticle, isSucceededFormArticle } from '../../store/select
 import TagInput from './TagInput'
 import styles from '../../styles/ArticleForm.module.css'
 import { PiSpinnerBold } from 'react-icons/pi'
-import MyEditor from './MyEditor'
+// import MyEditor from './MyEditor'
 
 const SignUpSchema = Yup.object().shape({
   title: Yup.string()
@@ -39,7 +39,7 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
   setArticleDetailsRequest,
   createArticleRequest,
   updateArticleRequest,
-  errors,
+  // errors,
 }) => {
   const navigate = useNavigate()
   const location = useLocation()
@@ -104,7 +104,7 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
         body: (slug && article?.body) || '',
       }}
       validationSchema={SignUpSchema}
-      onSubmit={({ title, description, body, tagList }, { resetForm }) => {
+      onSubmit={({ title, description, body, tagList }) => {
         if (lastPath === 'new') {
           createArticleRequest({
             article: { title, description, body, tagList },
@@ -116,7 +116,6 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
             article: { title, description, body, tagList },
           })
         }
-        resetForm()
       }}
     >
       <Form>
@@ -148,7 +147,7 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
                 className={`${styles.input} ${styles.desc}`}
                 name='description'
                 as='textarea'
-                rows={4}
+                rows={2}
                 placeholder='Write your post description here...'
               />
               <ErrorMessage className={styles.error} name='description' component='div' />
