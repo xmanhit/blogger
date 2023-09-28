@@ -87,7 +87,7 @@
               width: 150px; /* Adjust the width as needed */
               display: inline-flex;
               min-height: 40px;
-              align-items: center;/* Adjust the height as needed */
+              align-items: center; /* Adjust the height as needed */
               background-image: linear-gradient(
                 to right,
                 rgba(var(--gray-800), var(--alpha-6)) 20%,
@@ -163,7 +163,7 @@
           background-color: black;
           border: 1.5px solid black;
           color: white;
-          border-radius: 0.5px;
+          border-radius: var(--rounded);
         }
         .userAvatarRowSetting {
           display: flex;
