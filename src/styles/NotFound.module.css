@@ -17,7 +17,7 @@
         margin: 15px 0px;
         font-weight: bold;
       }
-      h2 {
+      .title {
         font-weight: bold;
       }
     }
@@ -42,11 +42,6 @@
   .image,
   .wrapper {
     flex: 1;
-    svg {
-      width: 100%;
-      visibility: visible;
-    }
-
   }
   @media screen and (min-width: 768px) {
     flex-direction: row;

@@ -7,13 +7,12 @@ import { setArticlesRequest } from '../../store/slices/article.slice'
 import { IArticle, IUserDetailsProps } from '../../models'
 import { currentUser } from '../../services'
 import { CardArticle, Pagination } from '../../components/ui'
-import { setProfile, createProfileFollowUser, createProfileUnFollowUser } from '../../store/slices/profile.slice';
+import { setProfile, createProfileFollowUser, createProfileUnFollowUser } from '../../store/slices/profile.slice'
 import { IProfile } from '../../models'
 import ArticlesLoading from '../../components/ui/ArticlesLoading'
 import UserLoading from '../../components/ui/UserLoading'
 import styles from '../../styles/User.module.css'
 import global from '../../styles/Global.module.css'
-
 
 const UserDetails: React.FC<IUserDetailsProps> = ({
   user,
@@ -30,9 +29,9 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
   createProfileUnFollowUser,
 }): JSX.Element => {
   let [searchParams, setSearchParams] = useSearchParams()
-  let [getProfile, setGetProfile] = useState<IProfile | undefined>(undefined);
+  let [getProfile, setGetProfile] = useState<IProfile | undefined>(undefined)
 
-  const isFavorites = window.location.pathname === '/favorites';
+  const isFavorites = window.location.pathname === '/favorites'
   const page: number = Number(searchParams.get('page')) || 1
   const param = useParams()
   useEffect(() => {
@@ -46,13 +45,12 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
     profile = undefined
   }, [param])
 
-  let author = '';
-
+  let author = ''
 
   if (param?.username) {
-    author = param.username;
+    author = param.username
   } else if (user?.username) {
-    author = user.username;
+    author = user.username
   }
 
   useLayoutEffect(() => {
@@ -61,12 +59,12 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
       profile: {
         username: author,
       },
-    });
-  }, [author]);
+    })
+  }, [author])
 
   useEffect(() => {
-    setGetProfile((prevProfile) => profile as IProfile ?? prevProfile);
-  }, [profile]);
+    setGetProfile((prevProfile) => (profile as IProfile) ?? prevProfile)
+  }, [profile])
 
   useEffect(() => {
     const offset = (page - 1) * limit
@@ -79,14 +77,13 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
     }
   }, [user?.username, page, isFavorites])
 
-
   const username = profile?.username
 
   const handleFollow = () => {
     createProfileFollowUser({
       username,
       profile: {},
-    });
+    })
   }
 
   const handleUnFollow = () => {
@@ -96,64 +93,72 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
     })
   }
 
-
   return (
     <div className={styles.userBg}>
-      {getProfile ? (<div className={styles.userLayout}>
-        <div className={styles.userContainer}>
-          <div className={styles.userTop}>
-            <span className={styles.userAvatar}>
-              {getProfile['image'] ? <img className={styles.userAvatarImg} width={128} height={128} src={getProfile['image']} alt="" /> :
-                <div></div>}
-
-            </span>
-            <div className={styles.userAction}>
-              {!isLoading && user && (getProfile['username'] !== user['username']) && (
-                getProfile?.profile?.following ? (
-                  <button onClick={handleUnFollow} className={styles.userFollow}>Unfollow</button>
+      {getProfile ? (
+        <div className={styles.userLayout}>
+          <div className={styles.userContainer}>
+            <div className={styles.userTop}>
+              <span className={styles.userAvatar}>
+                {getProfile['image'] ? (
+                  <img className={styles.userAvatarImg} width={128} height={128} src={getProfile['image']} alt='' />
                 ) : (
-                  <button onClick={handleFollow} className={styles.userFollow}>Follow</button>
-                )
-              )}
+                  <div></div>
+                )}
+              </span>
+              <div className={styles.userAction}>
+                {!isLoading &&
+                  user &&
+                  getProfile['username'] !== user['username'] &&
+                  (getProfile?.profile?.following ? (
+                    <button onClick={handleUnFollow} className={styles.userFollow}>
+                      Unfollow
+                    </button>
+                  ) : (
+                    <button onClick={handleFollow} className={styles.userFollow}>
+                      Follow
+                    </button>
+                  ))}
+              </div>
             </div>
-          </div>
-          <div className={styles.userDetail} data-status-checked="true">
-            <div className={styles.userUserName}>
-              <h1 className={styles.userUserNameText}>
-                {getProfile['username']}
-              </h1>
+            <div className={styles.userDetail} data-status-checked='true'>
+              <div className={styles.userUserName}>
+                <h1 className={styles.userUserNameText}>{getProfile['username']}</h1>
+              </div>
             </div>
           </div>
         </div>
-      </div>) : (
+      ) : (
         <UserLoading />
       )}
       <nav className={global.nav}>
-        {user && getProfile && <ul className={global.list}>
-          <li className={global.item}>
-            <NavLink
-              className={({ isActive, isPending }) =>
-                (isPending ? global.pending : isActive ? global.active : '') + ' ' + global.link
-              }
-              onClick={(e) => {
-                  e.preventDefault();
-              }}
-              to={getProfile['username'] === user['username'] ? `/me` : `/${author}`}
-            >
-              My Articles
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={({ isActive, isPending }) =>
-                (isPending ? global.pending : isActive ? global.active : '') + ' ' + global.link
-              }
-              to={`/${author}/favorites`}
-            >
-              Favorited Articles
-            </NavLink>
-          </li>
-        </ul>}
+        {user && getProfile && (
+          <ul className={global.list}>
+            <li className={global.item}>
+              <NavLink
+                className={({ isActive, isPending }) =>
+                  (isPending ? global.pending : isActive ? global.active : '') + ' ' + global.link
+                }
+                onClick={(e) => {
+                  e.preventDefault()
+                }}
+                to={getProfile['username'] === user['username'] ? `/me` : `/${author}`}
+              >
+                My Articles
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive, isPending }) =>
+                  (isPending ? global.pending : isActive ? global.active : '') + ' ' + global.link
+                }
+                to={`/${author}/favorites`}
+              >
+                Favorited Articles
+              </NavLink>
+            </li>
+          </ul>
+        )}
       </nav>
       <div className={styles.userList}>
         {isArticlesLoading && <ArticlesLoading />}
@@ -181,7 +186,7 @@ export default connect(
     isArticlesLoading: state.article.status.articles === 'loading',
     limit: state.article.limit,
     profile: state.profile.profile,
-    isLoading: state.profile.isLoading
+    isLoading: state.profile.isLoading,
   }),
   { currentUserRequest, setArticlesRequest, setProfile, createProfileFollowUser, createProfileUnFollowUser }
 )(UserDetails)

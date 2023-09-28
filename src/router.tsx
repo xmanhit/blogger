@@ -37,13 +37,6 @@ const router = createBrowserRouter([
           return { Component: ArticleDetails.default }
         },
       },
-      // {
-      //   path: ':username',
-      //   lazy: async () => {
-      //     const UserDetails = await import('./pages/UserDetails')
-      //     return { Component: UserDetails.default }
-      //   },
-      // },
       {
         path: ':username',
         children: [
@@ -61,7 +54,7 @@ const router = createBrowserRouter([
               return { Component: UserFavorites.default }
             },
           },
-        ]
+        ],
       },
       {
         path: 'me',
