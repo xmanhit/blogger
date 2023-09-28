@@ -4,8 +4,9 @@ import { currentUserRequest, updateRequest } from '../store/slices/auth.slice'
 import { currentUser } from '../services'
 import { IUserSettingProps } from '../models'
 import styles from '../styles/User.module.css'
+import { RootState } from '../store'
 
-const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, updateRequest }): JSX.Element => {
+const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, updateRequest }) => {
   const [updatedUser, setUpdatedUser] = useState({
     email: user?.email || '',
     password: '',
@@ -118,6 +119,7 @@ const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, up
             value={updatedUser.bio}
             cols={30}
             rows={8}
+            onChange={handleInputChange}
           ></textarea>
         </div>
         <div className={styles.userSettingField}>
@@ -140,8 +142,9 @@ const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, up
 }
 
 export default connect(
-  () => ({
+  (state: RootState) => ({
     user: currentUser(),
+    errors: state.auth.errors,
   }),
   { currentUserRequest, updateRequest }
 )(UserSetting)

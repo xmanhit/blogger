@@ -52,7 +52,7 @@ export const authSlice = createSlice({
       state.status.currentUser = 'idle'
     },
     currentUserFailure: (state, action: PayloadAction<any>): void => {
-      state.errors.currentUser = action.payload.errors
+      state.errors.currentUser = action.payload
       state.status.currentUser = 'failed'
     },
     // Register

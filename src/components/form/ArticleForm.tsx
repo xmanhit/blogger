@@ -49,7 +49,7 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
   useEffect(() => {
     if (isSucceededFormArticle) {
       resetStatusFormArticle()
-      navigate(-1)
+      navigate(`/${article?.author.username}/${article?.slug}`, { replace: true })
     }
   }, [isSucceededFormArticle])
 

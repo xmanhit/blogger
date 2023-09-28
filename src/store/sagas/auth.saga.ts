@@ -63,7 +63,6 @@ export function* handleCurrentUser() {
   try {
     const response: AxiosResponse<{ user: IUser }> = yield call(getCurrentUser)
     const user: IUser = response.data.user
-
     if (!!user) {
       yield put(currentUserSuccess(user))
     } else {
@@ -71,7 +70,7 @@ export function* handleCurrentUser() {
     }
   } catch (error) {
     const { response } = error as AxiosError
-    yield put(currentUserFailure(response?.data))
+    yield put(currentUserFailure({ status: response?.status, errors: response?.data }))
   }
 }
 

@@ -4,11 +4,10 @@ import styles from '../styles/Signout.module.css'
 
 const Signout: React.FC = () => {
   const navigate = useNavigate()
-
   const handleSigout = () => {
     clearItem('token')
     clearItem('currentUser')
-    navigate(-1)
+    return navigate('/', { replace: true })
   }
 
   return (
