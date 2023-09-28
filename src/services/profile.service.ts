@@ -1,17 +1,15 @@
 import { axiosPrivate } from '../https-common'
 import { IProfile } from '../models'
-import { GetProfile, CreateProfileFollow } from '../models'
+import { GetProfile, CreateProfileFollow, DeleteUnfollowUser } from '../models'
 
 export const getProfile: GetProfile = (username) => {
-  console.log('getProfile',username)
   return axiosPrivate.get<IProfile>(`/profiles/${username.username}`)
 }
 
 export const postFollowUser: CreateProfileFollow = (username) => {
-  console.log('CreateProfileFollow',username)
   return axiosPrivate.post<IProfile>(`/profiles/${username.username}/follow`)
 }
 
-export const deleteUnfollowUser: CreateProfileFollow = (username) => {
+export const deleteUnfollowUser: DeleteUnfollowUser = (username) => {
   return axiosPrivate.delete<IProfile>(`/profiles/${username.username}/follow`)
 }

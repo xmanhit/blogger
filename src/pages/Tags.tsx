@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { RootState } from '../store'
 import { setArticlesRequest, setTagsRequest } from '../store/slices/article.slice'
 import { CardArticle, Pagination } from '../components/ui'

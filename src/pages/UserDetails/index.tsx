@@ -8,16 +8,12 @@ import { IArticle, IUserDetailsProps } from '../../models'
 import { currentUser } from '../../services'
 import { CardArticle, Pagination } from '../../components/ui'
 import { setProfile, createProfileFollowUser, createProfileUnFollowUser } from '../../store/slices/profile.slice';
+import { IProfile } from '../../models'
 import ArticlesLoading from '../../components/ui/ArticlesLoading'
 import UserLoading from '../../components/ui/UserLoading'
 import styles from '../../styles/User.module.css'
 import global from '../../styles/Global.module.css'
 
-export const UserLoader: LoaderFunction = ({ request }) => {
-  const url: URL = new URL(request.url)
-  const isFavorites: boolean = url.pathname === '/favorites'
-  return { isFavorites }
-}
 
 const UserDetails: React.FC<IUserDetailsProps> = ({
   user,
@@ -28,18 +24,17 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
   total,
   limit,
   isArticlesLoading,
-  pagination,
   profile,
   isLoading,
   createProfileFollowUser,
   createProfileUnFollowUser,
 }): JSX.Element => {
   let [searchParams, setSearchParams] = useSearchParams()
-  let [getProfile, setGetProfile] = useState()
+  let [getProfile, setGetProfile] = useState<IProfile | undefined>(undefined);
 
   const isFavorites = window.location.pathname === '/favorites';
   const page: number = Number(searchParams.get('page')) || 1
-  let param = useParams()
+  const param = useParams()
   useEffect(() => {
     if (!user) {
       currentUserRequest()
@@ -51,22 +46,27 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
     profile = undefined
   }, [param])
 
-  let author = ''
-  if (param && Object.keys(param).length !== 0) {
+  let author = '';
+
+
+  if (param?.username) {
     author = param.username;
-  } else {
+  } else if (user?.username) {
     author = user.username;
   }
 
   useLayoutEffect(() => {
-    setProfile({ username: author })
-
-  }, [author])
+    setProfile({
+      username: author,
+      profile: {
+        username: author,
+      },
+    });
+  }, [author]);
 
   useEffect(() => {
-    setGetProfile(profile)
-  }, [profile])
-
+    setGetProfile((prevProfile) => profile as IProfile ?? prevProfile);
+  }, [profile]);
 
   useEffect(() => {
     const offset = (page - 1) * limit
@@ -79,13 +79,23 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
     }
   }, [user?.username, page, isFavorites])
 
+
+  const username = profile?.username
+
   const handleFollow = () => {
-    createProfileFollowUser({ username: profile.username })
+    createProfileFollowUser({
+      username,
+      profile: {},
+    });
   }
 
   const handleUnFollow = () => {
-    createProfileUnFollowUser({ username: profile.username })
+    createProfileUnFollowUser({
+      username,
+      profile: {},
+    })
   }
+
 
   return (
     <div className={styles.userBg}>
@@ -93,13 +103,13 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
         <div className={styles.userContainer}>
           <div className={styles.userTop}>
             <span className={styles.userAvatar}>
-              {getProfile.image ? <img className={styles.userAvatarImg} width={128} height={128} src={getProfile.image} alt="" /> :
+              {getProfile['image'] ? <img className={styles.userAvatarImg} width={128} height={128} src={getProfile['image']} alt="" /> :
                 <div></div>}
 
             </span>
             <div className={styles.userAction}>
-              {!isLoading && user && (getProfile.username !== user.username) && (
-                getProfile.following ? (
+              {!isLoading && user && (getProfile['username'] !== user['username']) && (
+                getProfile?.profile?.following ? (
                   <button onClick={handleUnFollow} className={styles.userFollow}>Unfollow</button>
                 ) : (
                   <button onClick={handleFollow} className={styles.userFollow}>Follow</button>
@@ -110,7 +120,7 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
           <div className={styles.userDetail} data-status-checked="true">
             <div className={styles.userUserName}>
               <h1 className={styles.userUserNameText}>
-                {getProfile.username}
+                {getProfile['username']}
               </h1>
             </div>
           </div>
@@ -122,18 +132,14 @@ const UserDetails: React.FC<IUserDetailsProps> = ({
         {user && getProfile && <ul className={global.list}>
           <li className={global.item}>
             <NavLink
-            onClick={(e) => {
-              if (isActive) {
-                e.preventDefault();
-              }
-            }} 
               className={({ isActive, isPending }) =>
-                (isPending ? global.pending : isActive ? global.active : '' ) + ' ' + global.link
+                (isPending ? global.pending : isActive ? global.active : '') + ' ' + global.link
               }
-              
-              to={getProfile.username == user.username ? `/me` : `/${author}`}
+              onClick={(e) => {
+                  e.preventDefault();
+              }}
+              to={getProfile['username'] === user['username'] ? `/me` : `/${author}`}
             >
-              
               My Articles
             </NavLink>
           </li>

@@ -26,6 +26,11 @@ import {
   deleteArticleCommentRequest,
   setArticleCommentRequest,
 } from '../store/slices/comment.slice'
+import{
+  setProfile,
+  createProfileFollowUser,
+  createProfileUnFollowUser,
+} from '../store/slices/profile.slice'
 import { RootState } from '../store'
 
 // token
@@ -81,18 +86,6 @@ export interface IUserInfo {
 
 export type UpdateUser = (parameter: { user: IUserInfo }) => Promise<AxiosResponse<IUser>>
 // profile
-
-export interface Profile {
-  username: string
-  bio?: string
-  image: string
-  following: boolean
-}
-export interface IProfile {
-  profile: IUserInfo
-  isLoading: boolean,
-  isActionLoading: string,
-}
 
 export type Profile = (username: string) => Promise<AxiosResponse<IProfile>>
 
@@ -286,13 +279,29 @@ export interface ITagsProps {
   limit: number
 }
 
+// export interface IUserDetailsProps {
+//   user: IUser | null
+//   articles: IArticle[]
+//   currentUserRequest: typeof currentUserRequest
+//   setArticlesRequest: typeof setArticlesRequest
+//   total: number
+//   limit: number
+// }
+
 export interface IUserDetailsProps {
   user: IUser | null
   articles: IArticle[]
   currentUserRequest: typeof currentUserRequest
   setArticlesRequest: typeof setArticlesRequest
+  setProfile: typeof setProfile; 
   total: number
   limit: number
+  isArticlesLoading: boolean
+  // profile?: IProfile
+  profile?: IProfile | { [key: string]: any }
+  isLoading: boolean | undefined; // If isLoading can be undefined
+  createProfileFollowUser: typeof createProfileFollowUser 
+  createProfileUnFollowUser: typeof createProfileUnFollowUser
 }
 
 export interface IUserSettingProps {
@@ -353,19 +362,28 @@ export interface ICommentState {
   errors: any
 }
 
-export interface Profile {
-  username: string
-  bio?: string
-  image: string
-  following: boolean
-}
+// export interface Profile {
+//   username: string
+//   bio?: string
+//   image: string
+//   following: boolean
+// }
 export interface IProfile {
-  profile: IUserInfo
-  isLoading: boolean,
-  isActionLoading: string,
+  username?: string,
+  image?: string,
+  profile: {
+    email?: string;
+    password?: string;
+    username?: string;
+    bio?: string;
+    image?: string;
+    token?: string;
+    following?: string;
+  },
+  isLoading?: boolean,
+  isActionLoading?: any,
+  errors?: any,
 }
-
-export type Profile = (username: string) => Promise<AxiosResponse<IProfile>>
 
 export type GetProfile = (params: {
   username: string
@@ -374,6 +392,12 @@ export type GetProfile = (params: {
 export type CreateProfileFollow = (params: {
   username: string
 }) => Promise<AxiosResponse<IProfile>>
+
+export type DeleteUnfollowUser = (params: {
+  username: string
+}) => Promise<AxiosResponse<IProfile>>
+
+
 
   export interface IOptions {
   weekday?: 'long' | 'short' | 'narrow'
