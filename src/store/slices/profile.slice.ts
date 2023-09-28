@@ -1,14 +1,18 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Profile, IProfile } from '../../models';
+import { IProfile } from '../../models';
 export const initialState : IProfile = {
+  username: 'idle',
+  image: 'idle',
   profile: {
-    username: '',
-    bio: '',
-    image: '',
-    following: '',
+    email: 'idle',
+    password: 'idle',
+    username: 'idle',
+    bio: 'idle',
+    image: 'idle',
+    following: 'idle',
   },
-  isLoading: false,
-  isActionLoading: '',
+  isLoading: true,
+  isActionLoading: 'idle',
   errors: {},
 };
 
@@ -18,9 +22,8 @@ export const profileSlice = createSlice({
   reducers: {
     setProfile: (state, _action: PayloadAction<IProfile>) => {
       state.isLoading = true
-      // state.profile =[]
+      state.profile ={}
       state.errors = {}
-      console.log(_action)
     },
     setProfileSuccess: (state, action: PayloadAction<any>) => {
       state.profile = action.payload.profile;
@@ -41,6 +44,7 @@ export const profileSlice = createSlice({
     createProfileFollowUserSuccess: (state, action: PayloadAction<any>) => {
       state.profile = action.payload.profile;
       state.isActionLoading = ''
+      state.isLoading = false;
     },
     createProfileFollowUserFailure: (state, _action: PayloadAction<any>) => {
       state.isActionLoading = ''
@@ -48,11 +52,11 @@ export const profileSlice = createSlice({
 
 
     // unfollowUser: (state, action: PayloadAction<any>) => {},
-    createProfileUnFollowUser: (state, action: PayloadAction<string>) => {
-      state.isActionLoading = action.payload
-      console.log(state)
+    createProfileUnFollowUser: (state, _action: PayloadAction<IProfile>) => {
+
+      state.isActionLoading = _action.payload
     },
-    createProfileUnFollowUserSuccess: (state, action: PayloadAction<IProfile>) => {
+    createProfileUnFollowUserSuccess: (state, action: PayloadAction<any>) => {
       state.profile = action.payload.profile;
       state.isActionLoading = ''
     },

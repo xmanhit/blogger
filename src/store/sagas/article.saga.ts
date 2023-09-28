@@ -59,7 +59,6 @@ function* handleSetArticles(action: ReturnType<typeof setArticlesRequest>) {
       articles: IArticle[]
       articlesCount: number
     }> = yield call<GetArticles>(getArticles, action.payload)
-    console.log(response)
     yield put(setArticlesSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
