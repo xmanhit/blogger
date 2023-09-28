@@ -19,6 +19,10 @@ const Register: React.FC<IRegisterProps> = ({ isAuthenticated, clearLogin }) => 
   const navigate = useNavigate()
 
   useEffect(() => {
+    document.title = 'Blogger | Register'
+  }, [])
+
+  useEffect(() => {
     if (isAuthenticated) navigate('/')
   }, [isAuthenticated])
 

@@ -36,6 +36,7 @@ const Home: React.FC<IHomeProps> = ({
 
   let { isFollowing } = useLoaderData() as { isFollowing: boolean }
   useEffect(() => {
+    document.title = 'Blogger | Home'
     if (tagList.length === 0) {
       setTagsRequest()
     }

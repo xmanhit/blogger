@@ -50,7 +50,7 @@ const router = createBrowserRouter([
           {
             path: 'favorites',
             lazy: async () => {
-              const UserFavorites = await import('./pages/UserFavorites')
+              const UserFavorites = await import('./pages/UserFavorite')
               return { Component: UserFavorites.default, title: 'Favorites' }
             },
           },
@@ -76,14 +76,14 @@ const router = createBrowserRouter([
           {
             path: 'favorites',
             lazy: async () => {
-              const UserFavorites = await import('./pages/UserFavorites')
+              const UserFavorites = await import('./pages/UserFavorite')
               return { Component: UserFavorites.default, title: 'Favorites' }
             },
           },
           {
             path: 'settings',
             lazy: async () => {
-              const UserSetting = await import('./pages/UserSettings')
+              const UserSetting = await import('./pages/UserSetting')
               return { Component: UserSetting.default, title: 'Settings' }
             },
           },

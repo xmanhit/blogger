@@ -1,8 +1,13 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styles from '../styles/NotFound.module.css'
 import NotFoundIcon from '../assets/notfound.svg'
 
 const NotFound: React.FC = () => {
+  useEffect(() => {
+    document.title = 'Blogger | 404'
+  }, [])
+
   return (
     <main>
       <div className={styles.notfound}>

@@ -27,6 +27,7 @@ const Tags: React.FC<ITagsProps> = ({
     if (tagList.length === 0) {
       setTagsRequest()
     }
+    document.title = 'Blogger | Tag: ' + tag
   }, [])
 
   useEffect(() => {

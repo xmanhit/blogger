@@ -17,6 +17,10 @@ export const loginLoader: LoaderFunction = () => {
 }
 
 const Login: React.FC<ILoginProps> = ({ isAuthenticated, status, errors, clearRegister }) => {
+  useEffect(() => {
+    document.title = 'Blogger | Login'
+  }, [])
+
   const navigate = useNavigate()
   useEffect(() => {
     if (isAuthenticated) navigate('/')
@@ -28,9 +32,7 @@ const Login: React.FC<ILoginProps> = ({ isAuthenticated, status, errors, clearRe
         {status === 'failed' && errors && (
           <div className={styles.errorResponse}>
             <strong className={styles.title}>Unable to login.</strong>
-            <p className={styles.message}>
-              Incorrect username or password. Please try again.
-            </p>
+            <p className={styles.message}>Incorrect username or password. Please try again.</p>
           </div>
         )}
         <Link to={'/'} className={styles.logo}>
