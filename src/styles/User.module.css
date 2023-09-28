@@ -193,7 +193,8 @@
           border-color: transparent;
           box-shadow: 0 2px 5px var(--black, --alpha-5);
           color: white;
-          padding: 0.5rem;
+          padding: 0.8rem;
+          border-radius: var(--rounded);
           cursor: pointer;
           background-color: rgba(var(--indigo-400), var(--alpha-10));
           &:hover {
