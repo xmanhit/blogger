@@ -1,8 +1,8 @@
-import https, { axiosPrivate } from '../https-common'
+import { axiosPrivate } from '../https-common'
 import { CreateArticleComment, DeleteArticleComment, GetArticleComments } from '../models'
 
 export const getArticleComments: GetArticleComments = ({ slug }) => {
-  return https.get(`/articles/${slug}/comments`)
+  return axiosPrivate.get(`/articles/${slug}/comments`)
 }
 
 export const createArticleComment: CreateArticleComment = ({ slug, comment }) => {
