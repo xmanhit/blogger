@@ -190,6 +190,8 @@
           }
         }
         .buttonSetting {
+          font-family: inherit;
+          font-weight: 500;
           border-color: transparent;
           box-shadow: 0 2px 5px var(--black, --alpha-5);
           color: white;
