@@ -59,6 +59,8 @@ const Home: React.FC<IHomeProps> = ({
     }
   }, [isAuthenticated, page, isFollowing])
 
+  console.log(articles)
+
   if (!isArticlesLoading && page > maxPage && maxPage > limit) {
     return <NotFound />
   }

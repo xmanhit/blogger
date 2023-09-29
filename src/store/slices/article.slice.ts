@@ -69,7 +69,6 @@ const articleSlice = createSlice({
       state.errors = null
     },
     createArticleSuccess: (state, action: PayloadAction<any>) => {
-      state.articles.push(action.payload.article)
       state.articleDetails = action.payload.article
       state.status.createArticle = 'succeeded'
     },
@@ -96,7 +95,6 @@ const articleSlice = createSlice({
       state.errors = null
     },
     deleteArticleSuccess: (state, _action: PayloadAction<any>) => {
-      state.articles = state.articles.filter((p) => p.slug !== state.articleDetails?.slug)
       state.articleDetails = null
       state.status.deleteArticle = 'idle'
     },
