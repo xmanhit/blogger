@@ -6,7 +6,7 @@ import { IUserSettingProps } from '../models'
 import styles from '../styles/User.module.css'
 import { RootState } from '../store'
 
-const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, updateRequest, errors }) => {
+const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, updateRequest }) => {
   const [updatedUser, setUpdatedUser] = useState({
     email: user?.email || '',
     password: '',
