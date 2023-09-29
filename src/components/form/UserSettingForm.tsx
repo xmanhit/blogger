@@ -10,6 +10,7 @@ import { IUserSettingProps } from '../../models'
 import { currentUser } from '../../services'
 import { resetStatusUpdateUser, updateUserRequest } from '../../store/slices/auth.slice'
 import styles from '../../styles/User.module.css'
+import { textAreaAdjust } from '../../utils'
 
 const userSettingSchema = Yup.object().shape({
   username: Yup.string()
@@ -102,6 +103,7 @@ const userSettingForm: React.FC<IUserSettingProps> = ({
                 placeholder='Bio'
                 cols={30}
                 rows={8}
+                onKeyUp={textAreaAdjust}
               />
               <ErrorMessage component='div' name='bio' />
             </div>

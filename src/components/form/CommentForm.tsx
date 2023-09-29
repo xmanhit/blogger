@@ -8,6 +8,7 @@ import { RootState } from '../../store'
 import { createArticleCommentRequest } from '../../store/slices/comment.slice'
 import { currentUser } from '../../services'
 import { ICommentFormProps } from '../../models'
+import { textAreaAdjust } from '../../utils'
 import styles from '../../styles/Global.module.css'
 
 const CommentSchema = Yup.object().shape({
@@ -41,6 +42,7 @@ const CommentForm: React.FC<ICommentFormProps> = ({ user, createArticleCommentRe
                   as='textarea'
                   placeholder='Write your comment here...'
                   rows={5}
+                  onKeyUp={textAreaAdjust}
                   onFocus={() => {
                     setDisplayButton(true)
                   }}

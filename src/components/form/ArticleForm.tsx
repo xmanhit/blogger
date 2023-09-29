@@ -13,8 +13,9 @@ import { useEffect } from 'react'
 import { IArticleFormProps } from '../../models'
 import { isLoadingFormArticle, isSucceededFormArticle } from '../../store/selectors'
 import TagInput from './TagInput'
-import styles from '../../styles/ArticleForm.module.css'
 import { PiSpinnerBold } from 'react-icons/pi'
+import { textAreaAdjust } from '../../utils'
+import styles from '../../styles/ArticleForm.module.css'
 // import MyEditor from './MyEditor'
 
 const SignUpSchema = Yup.object().shape({
@@ -127,8 +128,9 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
                 name='title'
                 as='textarea'
                 rows={1}
-                placeholder='New post title here'
+                onKeyUp={textAreaAdjust}
                 onKeyPress={handleKeyPressTitle}
+                placeholder='New post title here'
               />
               <ErrorMessage className={styles.error} name='title' component='div' />
             </div>
@@ -148,6 +150,7 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
                 name='description'
                 as='textarea'
                 rows={2}
+                onKeyUp={textAreaAdjust}
                 placeholder='Write your post description here...'
               />
               <ErrorMessage className={styles.error} name='description' component='div' />
@@ -160,6 +163,7 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
               name='body'
               as='textarea'
               rows={8}
+              onKeyUp={textAreaAdjust}
               // component={MyEditor}
               placeholder='Write your post contnet here...'
             />

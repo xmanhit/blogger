@@ -152,13 +152,14 @@
           font-weight: 500;
         }
         .inputSetting {
+          overflow: hidden;
+          resize: none;
           outline: 0;
           line-height: 1.5;
           padding: 0.5em;
           font-family: inherit;
           font-size: 1rem;
           width: 100%;
-          resize: vertical;
           border-width: 1.5px;
           background-color: black;
           border: 1.5px solid black;
