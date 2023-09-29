@@ -70,9 +70,7 @@ const articleSlice = createSlice({
     },
     createArticleSuccess: (state, action: PayloadAction<any>) => {
       state.articles.push(action.payload.article)
-      if (state.articleDetails?.slug === action.payload.article.slug) {
-        state.articleDetails = action.payload.article
-      }
+      state.articleDetails = action.payload.article
       state.status.createArticle = 'succeeded'
     },
     createArticleFailure: (state, action: PayloadAction<any>) => {
@@ -84,14 +82,8 @@ const articleSlice = createSlice({
       state.status.updateArticle = 'loading'
       state.errors = null
     },
-    updateArticleSuccess: (state, action: PayloadAction<any>) => {
-      let index = state.articles.findIndex((e) => e.slug === action.payload.article.slug) // id should be unique.
-      if (index !== -1) {
-        state.articles[index] = action.payload.article
-      }
-      if (state.articleDetails?.slug === action.payload.article.slug) {
-        state.articleDetails = action.payload.article
-      }
+    updateArticleSuccess: (state, action: PayloadAction<IArticleResponse>) => {
+      state.articleDetails = action.payload.article
       state.status.updateArticle = 'succeeded'
     },
     updateArticleFailure: (state, action: PayloadAction<any>) => {

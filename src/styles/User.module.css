@@ -164,6 +164,9 @@
           border: 1.5px solid black;
           color: white;
           border-radius: var(--rounded);
+          &.fieldImage {
+            resize: none;
+          }
         }
         .userAvatarRowSetting {
           display: flex;

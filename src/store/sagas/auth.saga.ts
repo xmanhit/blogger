@@ -13,9 +13,9 @@ import {
   registerRequest,
   registerSuccess,
   registerFailure,
-  updateRequest,
-  updateFailure,
-  updateSuccess,
+  updateUserRequest,
+  updateUserFailure,
+  updateUserSuccess,
 } from '../slices/auth.slice'
 import { AxiosError, AxiosResponse } from 'axios'
 import { clearItem } from '../../services'
@@ -48,14 +48,14 @@ function* handlelogout() {
   yield put(logoutSuccess())
 }
 
-function* handleUpdate(action: ReturnType<typeof updateRequest>) {
+function* handleUpdate(action: ReturnType<typeof updateUserRequest>) {
   try {
     const response: AxiosResponse<{ user: IUser }> = yield call(updateUser, action.payload)
     const user: IUser = response.data.user
-    yield put(updateSuccess(user))
+    yield put(updateUserSuccess(user))
   } catch (error) {
     const { response } = error as AxiosError
-    yield put(updateFailure(response?.data))
+    yield put(updateUserFailure({ status: response?.status, data: response?.data }))
   }
 }
 
@@ -79,6 +79,6 @@ export function* watchAuth() {
   yield takeLatest(currentUserRequest, handleCurrentUser)
   yield takeLatest(registerRequest, handleRegister)
   yield takeLatest(loginRequest, handleLogin)
-  yield takeLatest(updateRequest, handleUpdate)
+  yield takeLatest(updateUserRequest, handleUpdate)
   yield takeLatest(logoutRequest, handlelogout)
 }

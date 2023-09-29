@@ -72,15 +72,15 @@ export const authSlice = createSlice({
       state.status.register = 'failed'
     },
     // Update
-    updateRequest: (state, _action: PayloadAction<{ user: IUserInfo }>): void => {
+    updateUserRequest: (state, _action: PayloadAction<{ user: IUserInfo }>): void => {
       state.status.update = 'loading'
       state.errors.update = null
     },
-    updateSuccess: (state, _action: PayloadAction<IUser>): void => {
+    updateUserSuccess: (state, _action: PayloadAction<IUser>): void => {
       state.status.update = 'idle'
     },
-    updateFailure: (state, action: PayloadAction<any>): void => {
-      state.errors.update = action.payload.errors
+    updateUserFailure: (state, action: PayloadAction<any>): void => {
+      state.errors.update = action.payload
       state.status.update = 'failed'
     },
   },
@@ -100,8 +100,8 @@ export const {
   registerRequest,
   registerSuccess,
   registerFailure,
-  updateRequest,
-  updateSuccess,
-  updateFailure,
+  updateUserRequest,
+  updateUserSuccess,
+  updateUserFailure,
 } = authSlice.actions
 export default authSlice.reducer

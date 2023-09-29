@@ -7,7 +7,7 @@ import {
   currentUserRequest,
   loginRequest,
   registerRequest,
-  updateRequest,
+  updateUserRequest,
 } from '../store/slices/auth.slice'
 import {
   createArticleFavoriteRequest,
@@ -281,8 +281,7 @@ export interface ITagsProps {
 
 export interface IUserSettingProps {
   user: IUser | null
-  currentUserRequest: typeof currentUserRequest
-  updateRequest: typeof updateRequest
+  updateUserRequest: typeof updateUserRequest
   errors: any
 }
 
