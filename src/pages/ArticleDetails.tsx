@@ -69,7 +69,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
       resetStatusFormArticle()
       setTimeout(function () {
         navigate('/', { replace: true })
-      }, 1000)
+      }, 500)
     }
   }
 
