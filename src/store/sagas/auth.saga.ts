@@ -55,8 +55,6 @@ function* handleUpdate(action: ReturnType<typeof updateRequest>) {
     yield put(updateSuccess(user))
   } catch (error) {
     const { response } = error as AxiosError
-    console.log(error)
-
     yield put(updateFailure(response?.data))
   }
 }

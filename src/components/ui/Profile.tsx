@@ -35,8 +35,6 @@ const Profile: React.FC<any> = ({
     return <ProfileLoading />
   }
 
-  console.log(status)
-
   return (
     <section className={styles.profile}>
       <header className={styles.header}>

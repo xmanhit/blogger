@@ -62,8 +62,6 @@ const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, up
     }
   }
 
-  console.log(errors)
-
   return (
     <>
       {/* {errors && (
