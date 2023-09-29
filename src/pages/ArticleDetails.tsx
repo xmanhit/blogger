@@ -67,7 +67,9 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
     deleteArticleRequest(slug)
     if (isDeleted) {
       resetStatusFormArticle()
-      navigate('/', { replace: true })
+      setTimeout(function () {
+        navigate('/', { replace: true })
+      }, 1000)
     }
   }
 
