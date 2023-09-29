@@ -781,6 +781,7 @@
           flex-direction: column;
           gap: 0.25rem;
           .date {
+            cursor: pointer;
             color: rgba(var(--gray-300), var(--alpha-8));
             font-size: 0.8rem;
           }
@@ -1022,6 +1023,7 @@
       font-size: 0.875rem;
     }
     .date {
+      cursor: pointer;
       color: rgba(var(--gray-300), var(--alpha-8));
       font-size: 0.8em;
     }
