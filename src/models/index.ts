@@ -265,6 +265,7 @@ export interface ICommentListProps {
 }
 
 export interface IHeaderProps {
+  status: any
   isAuthenticated: boolean
   currentUserRequest: typeof currentUserRequest
   user: IUser | null

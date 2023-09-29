@@ -4,10 +4,11 @@ import { connect } from 'react-redux'
 import { IHeaderProps } from '../models'
 import { currentUser, isAuthenticated } from '../services'
 import { currentUserRequest } from '../store/slices/auth.slice'
-import avatar from '../assets/avatar.jpg'
+import avatar from '../assets/logo.svg'
 import Logo from '../assets/logo.svg'
 import styles from '../styles/Global.module.css'
 import Menu from '../components/ui/Menu'
+import { RootState } from '../store'
 
 function useOutsideMenu(ref: any, setActive: any) {
   useEffect(() => {
@@ -23,7 +24,7 @@ function useOutsideMenu(ref: any, setActive: any) {
   }, [ref])
 }
 
-const Header: React.FC<IHeaderProps> = ({ isAuthenticated, currentUserRequest, user }) => {
+const Header: React.FC<IHeaderProps> = ({ status, isAuthenticated, currentUserRequest, user }) => {
   const wrapperRef = useRef(null)
   const [isActive, setActive] = useState(false)
 
@@ -58,7 +59,9 @@ const Header: React.FC<IHeaderProps> = ({ isAuthenticated, currentUserRequest, u
                   <Link className={styles.navLink} onClick={handleToggleMenu} to='/me'>
                     <div className={styles.avatarWrapper}>
                       <span
-                        style={{ backgroundImage: `url(${user?.image || avatar})` }}
+                        style={{
+                          backgroundImage: `url(${user?.image || status.currentUser !== 'loading' ? avatar : ''})`,
+                        }}
                         className={styles.avatar}
                       ></span>
                     </div>
@@ -88,7 +91,8 @@ const Header: React.FC<IHeaderProps> = ({ isAuthenticated, currentUserRequest, u
 }
 
 export default connect(
-  () => ({
+  (state: RootState) => ({
+    status: state.auth.status,
     isAuthenticated: isAuthenticated(),
     user: currentUser(),
   }),
