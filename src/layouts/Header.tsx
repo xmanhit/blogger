@@ -60,7 +60,7 @@ const Header: React.FC<IHeaderProps> = ({ status, isAuthenticated, currentUserRe
                     <div className={styles.avatarWrapper}>
                       <span
                         style={{
-                          backgroundImage: `url(${user?.image || status.currentUser !== 'loading' ? avatar : ''})`,
+                          backgroundImage: `url(${user?.image || status.currentUser !== 'loading' || avatar})`,
                         }}
                         className={styles.avatar}
                       ></span>
