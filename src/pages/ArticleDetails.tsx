@@ -76,7 +76,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   const handleDeleteArticle = () => {
     deleteArticleRequest(slug)
     if (isDeleted) {
-      navigate('/')
+      navigate('/', { replace: true })
     }
   }
 
