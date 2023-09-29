@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { ContentState, Editor, EditorState, convertToRaw } from 'draft-js'
-import draftToHtml from 'draftjs-to-html'
+import { ContentState, Editor, EditorState } from 'draft-js'
+// import draftToHtml from 'draftjs-to-html'
 import htmlToDraft from 'html-to-draftjs'
 import 'draft-js/dist/Draft.css'
 
@@ -9,8 +9,8 @@ const MyEditor: React.FC<any> = (
   form, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
   ...props
 ) => {
-  const { name, value, onChange, onBlur } = field
-  console.log(field)
+  const { value } = field
+  console.log(field, form)
   // console.log(form)
   // console.log(props)
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
