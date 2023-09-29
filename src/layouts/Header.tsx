@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { IHeaderProps } from '../models'
 import { currentUser, isAuthenticated } from '../services'
 import { currentUserRequest } from '../store/slices/auth.slice'
-import avatar from '../assets/logo.svg'
+import avatar from '../assets/giphy.gif'
 import Logo from '../assets/logo.svg'
 import styles from '../styles/Global.module.css'
 import Menu from '../components/ui/Menu'
@@ -60,7 +60,9 @@ const Header: React.FC<IHeaderProps> = ({ status, isAuthenticated, currentUserRe
                     <div className={styles.avatarWrapper}>
                       <span
                         style={{
-                          backgroundImage: `url(${user?.image || status.currentUser !== 'loading' || avatar})`,
+                          backgroundImage: `url(${
+                            user?.image || (status.currentUser === 'loading' && avatar) || avatar
+                          })`,
                         }}
                         className={styles.avatar}
                       ></span>
