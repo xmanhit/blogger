@@ -66,7 +66,7 @@ const CommentList: React.FC<ICommentListProps> = ({
                   </button>
                 )}
               </div>
-              <p>{comment.body}</p>
+              <p className={styles.body}>{comment.body}</p>
             </div>
           </li>
         ))}

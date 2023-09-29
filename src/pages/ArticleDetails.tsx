@@ -171,7 +171,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
                   </Link>
                 ))}
               </div>
-              <p style={{ whiteSpace: 'pre-line' }}>{article.body.replace(/(\\n)/g, '\n')}</p>
+              <p style={{ whiteSpace: 'pre-line', wordBreak: 'break-word' }}>{article.body.replace(/(\\n)/g, '\n')}</p>
             </div>
           </div>
           <hr className={styles.separator} />

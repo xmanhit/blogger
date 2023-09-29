@@ -27,7 +27,7 @@ const SignUpSchema = Yup.object().shape({
     .max(150, 'Your Description is Too Long!')
     .required('Your Description Required'),
   body: Yup.string().min(3, 'Your Body is Too Short!').required('Your Body is Required'),
-  tagList: Yup.array().max(4, 'Your Tag is Too Long!'),
+  tagList: Yup.array().of(Yup.string().max(50, 'Your Tag List is Too Long!')).max(4, 'Your Tag is Too Long!'),
 })
 
 const ArticleForm: React.FC<IArticleFormProps> = ({

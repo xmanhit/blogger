@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../store'
-import { currentUser } from '../../services'
+import { currentUser, isAuthenticated } from '../../services'
 import {
   followUserRequest,
   setProfileRequest,
@@ -13,6 +13,7 @@ import styles from '../../styles/Profile.module.css'
 import ProfileLoading from './ProfileLoading'
 import { PiSpinnerBold } from 'react-icons/pi'
 const Profile: React.FC<any> = ({
+  isAuthenticated,
   status,
   user,
   profile,
@@ -43,27 +44,28 @@ const Profile: React.FC<any> = ({
             <img className={styles.img} src={profile?.image} width={128} height={128} loading='lazy' alt='Avatar' />
           </span>
           <div className={styles.actions}>
-            {isMe ? (
-              <Link className={`${styles.btn} ${styles.edit}`} to={'/me/settings'}>
-                Edit Profile
-              </Link>
-            ) : profile?.following ? (
-              <button
-                disabled={status.unFollow === 'loading'}
-                onClick={() => unFollowUserRequest({ username: profile?.username })}
-                className={styles.btn}
-              >
-                UnFollow {status.unFollow === 'loading' && <PiSpinnerBold className={styles.spinner} />}
-              </button>
-            ) : (
-              <button
-                disabled={status.follow === 'loading'}
-                onClick={() => followUserRequest({ username: profile?.username })}
-                className={styles.btn}
-              >
-                Follow {status.follow === 'loading' && <PiSpinnerBold className={styles.spinner} />}
-              </button>
-            )}
+            {isAuthenticated &&
+              (isMe ? (
+                <Link className={`${styles.btn} ${styles.edit}`} to={'/me/settings'}>
+                  Edit Profile
+                </Link>
+              ) : profile?.following ? (
+                <button
+                  disabled={status.unFollow === 'loading'}
+                  onClick={() => unFollowUserRequest({ username: profile?.username })}
+                  className={styles.btn}
+                >
+                  UnFollow {status.unFollow === 'loading' && <PiSpinnerBold className={styles.spinner} />}
+                </button>
+              ) : (
+                <button
+                  disabled={status.follow === 'loading'}
+                  onClick={() => followUserRequest({ username: profile?.username })}
+                  className={styles.btn}
+                >
+                  Follow {status.follow === 'loading' && <PiSpinnerBold className={styles.spinner} />}
+                </button>
+              ))}
           </div>
         </div>
         <div className={styles.details}>
@@ -77,6 +79,7 @@ const Profile: React.FC<any> = ({
 
 export default connect(
   (state: RootState) => ({
+    isAuthenticated: isAuthenticated(),
     user: currentUser(),
     status: state.profile.status,
     profile: state.profile.profile,

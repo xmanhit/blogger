@@ -1,20 +1,44 @@
-import { useState } from 'react'
-import { EditorState } from 'draft-js'
-import { Editor } from 'react-draft-wysiwyg'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-// import 'draft-js/dist/Draft.css'
+import { useEffect, useState } from 'react'
+import { ContentState, Editor, EditorState, convertToRaw } from 'draft-js'
+import draftToHtml from 'draftjs-to-html'
+import htmlToDraft from 'html-to-draftjs'
+import 'draft-js/dist/Draft.css'
 
-const MyEditor = () => {
+const MyEditor: React.FC<any> = (
+  field, // { name, value, onChange, onBlur }
+  form, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+  ...props
+) => {
+  const { name, value, onChange, onBlur } = field
+  console.log(field)
+  // console.log(form)
+  // console.log(props)
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
+  console.log(value)
+
+  useEffect(() => {
+    if (value) {
+      setEditorState(htmlToDraftBlocks(value))
+    }
+  }, [])
+  // console.log(convertToRaw(editorState.getCurrentContent()))
+
   return (
     <Editor
-      defaultEditorState={editorState}
-      onEditorStateChange={setEditorState}
-      wrapperClassName='wrapper-class'
-      editorClassName='editor-class'
-      toolbarClassName='toolbar-class'
+      {...props}
+      editorState={editorState}
+      onChange={setEditorState}
+      placeholder='Write your post contnet here...'
     />
   )
+}
+
+const htmlToDraftBlocks = (html: string) => {
+  const blocksFromHtml = htmlToDraft(html)
+  const { contentBlocks, entityMap } = blocksFromHtml
+  const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap)
+  const editorState = EditorState.createWithContent(contentState)
+  return editorState
 }
 
 export default MyEditor

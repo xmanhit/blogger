@@ -10,7 +10,7 @@ export default defineConfig({
       include: '**/*.svg',
     }),
   ],
-  // define: {
-  //   global: 'window',
-  // },
+  define: {
+    global: 'window',
+  },
 })

@@ -1,5 +1,6 @@
 import styles from '../../styles/Profile.module.css'
 import loading from '../../styles/Loading.module.css'
+import { isAuthenticated } from '../../services'
 
 const ProfileLoading: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ const ProfileLoading: React.FC = () => {
             <div className={loading.line}></div>
           </div>
           <div className={`${styles.actions} ${loading.actions}`}>
-            <div className={loading.line}></div>
+            {isAuthenticated() && <div className={loading.line}></div>}
           </div>
         </div>
         <div className={styles.details}>

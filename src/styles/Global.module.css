@@ -404,6 +404,7 @@
     flex-wrap: wrap;
     margin-bottom: 0.5rem;
     .tag {
+      word-break: break-all;
       color: rgba(var(--gray-300), var(--alpha-8));
       border-radius: var(--rounded);
       padding: 0.25rem 0.5rem;
@@ -989,6 +990,9 @@
             display: flex;
             gap: 0.25rem;
           }
+        }
+        .body {
+          word-break: break-all;
         }
       }
       .deleteButton {
