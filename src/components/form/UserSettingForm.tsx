@@ -34,8 +34,6 @@ const userSettingForm: React.FC<IUserSettingProps> = ({
   const navigate = useNavigate()
   const isUpdateUserSuccess = status.update === 'succeeded'
 
-  console.log(status)
-
   useEffect(() => {
     if (isUpdateUserSuccess) {
       resetStatusUpdateUser()
