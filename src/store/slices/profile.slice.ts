@@ -19,7 +19,7 @@ export const profileSlice = createSlice({
       state.status.profile = 'succeeded'
     },
     setProfileFailure: (state, action: PayloadAction<{ status?: number; data: any }>) => {
-      state.errors = action.payload
+      state.errors.profile = action.payload
       state.status.profile = 'failed'
     },
 
