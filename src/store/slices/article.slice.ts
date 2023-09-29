@@ -96,7 +96,7 @@ const articleSlice = createSlice({
     },
     deleteArticleSuccess: (state, _action: PayloadAction<any>) => {
       state.articleDetails = null
-      state.status.deleteArticle = 'idle'
+      state.status.deleteArticle = 'succeeded'
     },
     deleteArticleFailure: (state, action: PayloadAction<any>) => {
       state.errors = action.payload.errors
@@ -106,6 +106,7 @@ const articleSlice = createSlice({
     resetStatusFormArticle: (state) => {
       state.status.createArticle = 'idle'
       state.status.updateArticle = 'idle'
+      state.status.deleteArticle = 'idle'
     },
     // Create article favorite
     createArticleFavoriteRequest: (state, action: PayloadAction<string>) => {

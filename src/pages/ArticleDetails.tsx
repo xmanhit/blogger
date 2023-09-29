@@ -10,6 +10,7 @@ import {
   createArticleFavoriteRequest,
   deleteArticleFavoriteRequest,
   deleteArticleRequest,
+  resetStatusFormArticle,
   setArticleDetailsRequest,
 } from '../store/slices/article.slice'
 import { IArticleDetailsProps } from '../models'
@@ -29,6 +30,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   user,
   article,
   countComments,
+  resetStatusFormArticle,
   setArticleDetailsRequest,
   deleteArticleRequest,
   createArticleFavoriteRequest,
@@ -61,23 +63,20 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
     }
   }
 
+  const handleDeleteArticle = () => {
+    deleteArticleRequest(slug)
+    if (isDeleted) {
+      resetStatusFormArticle()
+      navigate('/', { replace: true })
+    }
+  }
+
   if (isLoading) {
     return <ArticleDetailsLoading />
   }
 
   if (errors?.status === 404) {
     return <NotFound />
-  }
-
-  if (errors?.status === 404) {
-    return <NotFound />
-  }
-
-  const handleDeleteArticle = () => {
-    deleteArticleRequest(slug)
-    if (isDeleted) {
-      navigate('/', { replace: true })
-    }
   }
 
   return (
@@ -196,6 +195,7 @@ export default connect(
     errors: state.article.errors,
   }),
   {
+    resetStatusFormArticle,
     createArticleFavoriteRequest,
     deleteArticleFavoriteRequest,
     setArticleDetailsRequest,

@@ -230,6 +230,7 @@ export interface IArticleDetailsProps {
   isLoading: boolean
   isDeleted: boolean
   isAuthenticated: boolean
+  resetStatusFormArticle: typeof resetStatusFormArticle
   setArticleDetailsRequest: typeof setArticleDetailsRequest
   deleteArticleRequest: typeof deleteArticleRequest
   createArticleFavoriteRequest: typeof createArticleFavoriteRequest
