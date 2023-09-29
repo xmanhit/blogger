@@ -98,6 +98,8 @@ const articleSlice = createSlice({
       state.errors = null
     },
     deleteArticleSuccess: (state, _action: PayloadAction<any>) => {
+      state.articles = state.articles.filter((p) => p.slug !== state.articleDetails?.slug)
+      state.articleDetails = null
       state.status.deleteArticle = 'idle'
     },
     deleteArticleFailure: (state, action: PayloadAction<any>) => {
