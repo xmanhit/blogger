@@ -37,7 +37,7 @@ const Tags: React.FC<ITagsProps> = ({
     setArticlesRequest({ tag, limit, offset })
   }, [tag, page])
 
-  if (!isLoading && page > maxPage) {
+  if (!isLoading && page > maxPage && maxPage > limit) {
     return <NotFound />
   }
 

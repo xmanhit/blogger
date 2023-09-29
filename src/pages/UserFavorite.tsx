@@ -21,7 +21,7 @@ const UserArticle: React.FC<any> = ({ isArticlesLoading, user, articles, limit, 
     setArticlesRequest({ favorited, limit, offset })
   }, [username, page])
 
-  if (!isArticlesLoading && page > maxPage) {
+  if (!isArticlesLoading && page > maxPage && maxPage > limit) {
     return <NotFound />
   }
 
