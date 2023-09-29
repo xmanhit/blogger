@@ -271,11 +271,13 @@
         }
       }
       .title {
+        word-break: break-all;
         font-size: 1.875rem;
         line-height: 2.5rem;
         animation: 0.2s;
       }
       .desc {
+        word-break: break-all;
         font-size: 1rem;
         line-height: 1.25rem;
         color: rgba(var(--gray-500), var(--alpha-10));
@@ -301,6 +303,7 @@
     border-radius: var(--rounded);
     border-top: 1rem solid rgba(var(--gray-800), var(--alpha-10));
     .title {
+      word-break: break-all;
       font-size: 1.875rem;
       color: rgba(var(--gray-100), var(--alpha-10));
       text-align: center;
@@ -502,6 +505,7 @@
     max-width: 40rem;
     padding: 3rem;
     .title {
+      word-break: break-all;
       font-size: 1.875rem;
     }
     .link {
@@ -566,6 +570,7 @@
       background-color: rgba(var(--error-400), var(--alpha-1));
       transition: 0.5s;
       .title {
+        word-break: break-all;
         font-weight: bolder;
       }
     }
@@ -753,6 +758,7 @@
         padding: 4rem;
       }
       .title {
+        word-break: break-all;
         font-size: 1.875rem;
       }
     }
