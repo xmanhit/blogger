@@ -70,7 +70,7 @@ const Profile: React.FC<any> = ({
         </div>
         <div className={styles.details}>
           <h1 className={styles.name}>{profile?.username}</h1>
-          {profile?.bio && <p className={styles.bio}>{profile.bio}</p>}
+          {profile?.bio ? <p className={styles.bio}>{profile.bio}</p> : <p className={styles.bio}>404 bio not found</p>}
         </div>
       </header>
     </section>
