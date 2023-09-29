@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { clearItem, getItem, storeItem } from './services'
+import { clearItem, getItem, sessionStoreItem, storeItem } from './services'
 import { IUser, Token } from './models'
 
 export default axios.create({
@@ -40,7 +40,7 @@ axiosPrivate.interceptors.response.use(
     const currentUser: IUser = response.data.user
 
     if (currentUser) {
-      storeItem({ currentUser: JSON.stringify(currentUser) })
+      sessionStoreItem({ currentUser: JSON.stringify(currentUser) })
       const token: Token = currentUser.token
       if (token) storeItem({ token })
     }
