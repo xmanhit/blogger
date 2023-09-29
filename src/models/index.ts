@@ -7,6 +7,7 @@ import {
   currentUserRequest,
   loginRequest,
   registerRequest,
+  resetStatusUpdateUser,
   updateUserRequest,
 } from '../store/slices/auth.slice'
 import {
@@ -280,7 +281,9 @@ export interface ITagsProps {
 }
 
 export interface IUserSettingProps {
+  status: any
   user: IUser | null
+  resetStatusUpdateUser: typeof resetStatusUpdateUser
   updateUserRequest: typeof updateUserRequest
   errors: any
 }

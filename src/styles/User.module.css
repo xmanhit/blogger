@@ -118,19 +118,19 @@
     }
   }
 
-  /* Keyframes for the spinning animation */
-  @keyframes loading-spin {
-    0% {
-      color: red;
-      transform: rotate(0deg);
-    }
-    100% {
-      color: red;
-      transform: rotate(360deg);
+  /* Style for the loading name */
+  .errorResponse {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: var(--rounded);
+    color: rgba(var(--error-400), var(--alpha-10));
+    background-color: rgba(var(--error-400), var(--alpha-1));
+    transition: 0.5s;
+    .title {
+      font-weight: bolder;
     }
   }
-
-  /* Style for the loading name */
 
   /* User Setting */
   .userSettingForm {
@@ -193,6 +193,7 @@
           }
         }
         .buttonSetting {
+          line-height: 1.5;
           font-family: inherit;
           font-weight: 500;
           border-color: transparent;
@@ -202,11 +203,16 @@
           border-radius: var(--rounded);
           cursor: pointer;
           background-color: rgba(var(--indigo-600), var(--alpha-10));
+          transition: 0.2s;
           &:hover {
             background-color: rgba(var(--indigo-500), var(--alpha-10));
           }
           &:active {
             background-color: rgba(var(--indigo-800), var(--alpha-10));
+          }
+          &:disabled {
+            cursor: not-allowed;
+            background-color: rgba(var(--gray-800), var(--alpha-10));
           }
         }
       }
@@ -219,14 +225,27 @@
     animation: spin 2s infinite linear;
   }
 }
-@media (min-width: 769px) and (max-width: 992px) {
-  .userSettingForm {
-    margin-bottom: 17rem;
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
   }
 }
 
-@media (min-width: 600px) and (max-width: 768.99999999999999px) {
-  .userSettingForm {
-    margin-bottom: 7rem;
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
   }
 }

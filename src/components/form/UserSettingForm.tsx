@@ -1,11 +1,14 @@
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
+import { PiSpinnerBold } from 'react-icons/pi'
 
 import { RootState } from '../../store'
 import { IUserSettingProps } from '../../models'
 import { currentUser } from '../../services'
-import { updateUserRequest } from '../../store/slices/auth.slice'
+import { resetStatusUpdateUser, updateUserRequest } from '../../store/slices/auth.slice'
 import styles from '../../styles/User.module.css'
 
 const userSettingSchema = Yup.object().shape({
@@ -21,7 +24,25 @@ const userSettingSchema = Yup.object().shape({
   bio: Yup.string().max(150, 'Bio must be at most 150 characters'),
 })
 
-const userSettingForm: React.FC<IUserSettingProps> = ({ user, updateUserRequest, errors }) => {
+const userSettingForm: React.FC<IUserSettingProps> = ({
+  status,
+  user,
+  resetStatusUpdateUser,
+  updateUserRequest,
+  errors,
+}) => {
+  const navigate = useNavigate()
+  const isUpdateUserSuccess = status.update === 'succeeded'
+
+  console.log(status)
+
+  useEffect(() => {
+    if (isUpdateUserSuccess) {
+      resetStatusUpdateUser()
+      navigate(`/me`, { replace: true })
+    }
+  }, [isUpdateUserSuccess])
+
   return (
     <Formik
       initialValues={{
@@ -37,7 +58,12 @@ const userSettingForm: React.FC<IUserSettingProps> = ({ user, updateUserRequest,
       }}
     >
       <>
-        {errors?.update?.status && <div className={styles.error}>{errors.update.data}</div>}
+        {errors?.update?.status && (
+          <div className={styles.errorResponse}>
+            <strong className={styles.title}>Unable to update.</strong>
+            <p>{errors?.update?.data}.</p>
+          </div>
+        )}
         <Form className={styles.userSettingForm}>
           <div className={styles.userSetting}>
             <h2>User</h2>
@@ -90,8 +116,8 @@ const userSettingForm: React.FC<IUserSettingProps> = ({ user, updateUserRequest,
               />
             </div>
             <div className={styles.userSettingField}>
-              <button type='submit' className={styles.buttonSetting}>
-                Save Profile Infomation
+              <button disabled={status.update === 'loading'} type='submit' className={styles.buttonSetting}>
+                Save Profile Infomation {status.update === 'loading' && <PiSpinnerBold className={styles.spinner} />}
               </button>
             </div>
           </div>
@@ -132,8 +158,9 @@ const fieldImage: React.FC<any> = ({ field, form, ...props }) => {
 
 export default connect(
   (state: RootState) => ({
+    status: state.auth.status,
     user: currentUser(),
     errors: state.auth.errors,
   }),
-  { updateUserRequest }
+  { resetStatusUpdateUser, updateUserRequest }
 )(userSettingForm)

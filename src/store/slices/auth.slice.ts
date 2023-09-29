@@ -72,12 +72,15 @@ export const authSlice = createSlice({
       state.status.register = 'failed'
     },
     // Update
+    resetStatusUpdateUser: (state): void => {
+      state.status.update = 'idle'
+    },
     updateUserRequest: (state, _action: PayloadAction<{ user: IUserInfo }>): void => {
       state.status.update = 'loading'
       state.errors.update = null
     },
     updateUserSuccess: (state, _action: PayloadAction<IUser>): void => {
-      state.status.update = 'idle'
+      state.status.update = 'succeeded'
     },
     updateUserFailure: (state, action: PayloadAction<any>): void => {
       state.errors.update = action.payload
@@ -100,6 +103,7 @@ export const {
   registerRequest,
   registerSuccess,
   registerFailure,
+  resetStatusUpdateUser,
   updateUserRequest,
   updateUserSuccess,
   updateUserFailure,
