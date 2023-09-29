@@ -23,7 +23,7 @@ const Login: React.FC<ILoginProps> = ({ isAuthenticated, status, errors, clearRe
 
   const navigate = useNavigate()
   useEffect(() => {
-    if (isAuthenticated) navigate('/')
+    if (isAuthenticated) navigate('/', { replace: true })
   }, [isAuthenticated])
 
   return (

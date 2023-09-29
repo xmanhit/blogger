@@ -23,7 +23,7 @@ const Register: React.FC<IRegisterProps> = ({ isAuthenticated, clearLogin }) => 
   }, [])
 
   useEffect(() => {
-    if (isAuthenticated) navigate('/')
+    if (isAuthenticated) navigate('/', { replace: true })
   }, [isAuthenticated])
 
   return (

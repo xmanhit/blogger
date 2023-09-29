@@ -48,7 +48,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   const handleFavorite = () => {
     if (!isAuthenticated) {
       console.warn('not authenticated')
-      navigate('/login')
+      navigate('/login', { replace: true })
     }
     if (!article) {
       return

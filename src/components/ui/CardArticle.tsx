@@ -26,7 +26,7 @@ const CardArticle: React.FC<IArticleProps> = ({
   const handleFavorite = () => {
     if (!isAuthenticated) {
       console.warn('not authenticated')
-      return navigate('/login')
+      return navigate('/login', { replace: true })
     }
 
     if (!favorited) {
