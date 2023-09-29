@@ -8,6 +8,7 @@ import { IArticle, ITagsProps } from '../models'
 import TagList from '../components/ui/TagList'
 import styles from '../styles/Global.module.css'
 import ArticlesLoading from '../components/ui/ArticlesLoading'
+import NotFound from './NotFound'
 
 const Tags: React.FC<ITagsProps> = ({
   setTagsRequest,
@@ -22,6 +23,7 @@ const Tags: React.FC<ITagsProps> = ({
   const { tag } = useParams()
   let [searchParams, setSearchParams] = useSearchParams()
   const page: number = Number(searchParams.get('page')) || 1
+  const maxPage: number = Math.ceil(total / limit)
 
   useEffect(() => {
     if (tagList.length === 0) {
@@ -34,6 +36,10 @@ const Tags: React.FC<ITagsProps> = ({
     const offset = (page - 1) * limit
     setArticlesRequest({ tag, limit, offset })
   }, [tag, page])
+
+  if (!isLoading && page > maxPage) {
+    return <NotFound />
+  }
 
   return (
     <section>

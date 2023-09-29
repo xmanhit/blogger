@@ -7,10 +7,12 @@ import { setArticlesRequest } from '../store/slices/article.slice'
 import { ArticlesLoading, CardArticle, Pagination } from '../components/ui'
 import styles from '../styles/Global.module.css'
 import { IArticle } from '../models'
+import NotFound from './NotFound'
 
 const UserArticle: React.FC<any> = ({ isArticlesLoading, user, articles, limit, total, setArticlesRequest }) => {
   let [searchParams, setSearchParams] = useSearchParams()
   const page: number = Number(searchParams.get('page')) || 1
+  const maxPage: number = Math.ceil(total / limit)
   const { username } = useParams()
 
   useEffect(() => {
@@ -18,6 +20,10 @@ const UserArticle: React.FC<any> = ({ isArticlesLoading, user, articles, limit, 
     const author = username || user.username
     setArticlesRequest({ author, limit, offset })
   }, [username, page])
+
+  if (!isArticlesLoading && page > maxPage) {
+    return <NotFound />
+  }
 
   return (
     <div className={styles.articleWrapper}>

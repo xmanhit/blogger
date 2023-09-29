@@ -8,6 +8,7 @@ import { ArticlesLoading, CardArticle, Pagination } from '../components/ui'
 import { isAuthenticated } from '../services'
 import TagList from '../components/ui/TagList'
 import styles from '../styles/Global.module.css'
+import NotFound from './NotFound'
 
 export const homeLoader: LoaderFunction = ({ request }) => {
   const url: URL = new URL(request.url)
@@ -32,6 +33,7 @@ const Home: React.FC<IHomeProps> = ({
 }): JSX.Element => {
   let [searchParams, setSearchParams] = useSearchParams()
   const page: number = Number(searchParams.get('page')) || 1
+  const maxPage: number = Math.ceil(total / limit)
 
   let { isFollowing } = useLoaderData() as { isFollowing: boolean }
   useEffect(() => {
@@ -56,6 +58,10 @@ const Home: React.FC<IHomeProps> = ({
       })
     }
   }, [isAuthenticated, page, isFollowing])
+
+  if (!isArticlesLoading && page > maxPage) {
+    return <NotFound />
+  }
 
   return (
     <div>
