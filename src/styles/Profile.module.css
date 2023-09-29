@@ -69,6 +69,7 @@
         font-size: 1.875rem;
       }
       .bio {
+        word-break: break-all;
         white-space: pre-wrap;
         font-size: 1rem;
       }
