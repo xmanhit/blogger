@@ -430,14 +430,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.25rem;
     .paginationItem {
       text-align: center;
       display: block;
       line-height: 2rem;
       height: 2rem;
       min-width: 2.5rem;
-      padding: 0 0.5rem;
+      padding: 0 0.25rem;
       border-radius: var(--rounded);
       &:hover {
         background-color: rgba(var(--gray-900), var(--alpha-10));
