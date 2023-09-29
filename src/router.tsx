@@ -1,5 +1,4 @@
-import { Outlet, createBrowserRouter, redirect } from 'react-router-dom'
-import { isAuthenticated } from './services'
+import { createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
