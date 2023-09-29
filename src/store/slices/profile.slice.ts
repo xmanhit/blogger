@@ -1,81 +1,66 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IProfile } from '../../models';
-export const initialState : IProfile = {
-  username: 'idle',
-  image: 'idle',
-  profile: {
-    email: 'idle',
-    password: 'idle',
-    username: 'idle',
-    bio: 'idle',
-    image: 'idle',
-    following: 'idle',
-  },
-  isLoading: true,
-  isActionLoading: 'idle',
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { IProfile, IProfileState } from '../../models'
+export const initialState: IProfileState = {
+  profile: {},
+  status: {},
   errors: {},
-};
+}
 
 export const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
-    setProfile: (state, _action: PayloadAction<IProfile>) => {
-      state.isLoading = true
-      state.profile ={}
-      state.errors = {}
+    setProfileRequest: (state, _action: PayloadAction<{ username: string }>) => {
+      state.errors.profile = null
+      state.status.profile = 'loading'
     },
-    setProfileSuccess: (state, action: PayloadAction<any>) => {
-      state.profile = action.payload.profile;
-      state.isLoading = false;
+    setProfileSuccess: (state, action: PayloadAction<{ profile: IProfile }>) => {
+      state.profile = action.payload.profile
+      state.status.profile = 'succeeded'
     },
-    setProfileFailure: (state, action: PayloadAction<any>) => {
-      state.errors = action.payload.errors
-      state.isLoading = false
-    },
-
-
-    // followUser: (state, action: PayloadAction<any>) => {},
-    createProfileFollowUser: (state, _action: PayloadAction<IProfile>) => {
-      state.isActionLoading = _action.payload
-      state.errors = {}
-      state.isLoading = true
-    },
-    createProfileFollowUserSuccess: (state, action: PayloadAction<any>) => {
-      state.profile = action.payload.profile;
-      state.isActionLoading = ''
-      state.isLoading = false;
-    },
-    createProfileFollowUserFailure: (state, _action: PayloadAction<any>) => {
-      state.isActionLoading = ''
+    setProfileFailure: (state, action: PayloadAction<{ status?: number; data: any }>) => {
+      state.errors = action.payload
+      state.status.profile = 'failed'
     },
 
-
-    // unfollowUser: (state, action: PayloadAction<any>) => {},
-    createProfileUnFollowUser: (state, _action: PayloadAction<IProfile>) => {
-
-      state.isActionLoading = _action.payload
+    followUserRequest: (state, _action: PayloadAction<any>) => {
+      state.errors.follow = null
+      state.status.follow = 'loading'
     },
-    createProfileUnFollowUserSuccess: (state, action: PayloadAction<any>) => {
-      state.profile = action.payload.profile;
-      state.isActionLoading = ''
+    followUserSuccess: (state, action: PayloadAction<{ profile: IProfile }>) => {
+      state.profile.following = action.payload.profile.following
+      state.status.follow = 'succeeded'
     },
-    createProfileUnFollowUserFailure: (state, _action: PayloadAction<any>) => {
-      state.isActionLoading = ''
+    followUserFailure: (state, action: PayloadAction<{ status?: number; data: any }>) => {
+      state.errors.follow = action.payload
+      state.status.follow = 'failed'
+    },
+
+    unFollowUserRequest: (state, _action: PayloadAction<{ username: string }>) => {
+      state.errors.unFollow = null
+      state.status.unFollow = 'loading'
+    },
+    unFollowUserSuccess: (state, action: PayloadAction<{ profile: IProfile }>) => {
+      state.profile.following = action.payload.profile.following
+      state.status.unFollow = 'succeeded'
+    },
+    unFollowUserFailure: (state, action: PayloadAction<any>) => {
+      state.errors.unFollow = action.payload
+      state.status.unFollow = 'failed'
     },
   },
-});
+})
 
-export const { 
-  setProfile, 
-  setProfileSuccess, 
-  setProfileFailure, 
-  createProfileFollowUser, 
-  createProfileFollowUserSuccess, 
-  createProfileFollowUserFailure, 
-  createProfileUnFollowUser,
-  createProfileUnFollowUserSuccess,
-  createProfileUnFollowUserFailure,
- } = profileSlice.actions;
+export const {
+  setProfileRequest,
+  setProfileSuccess,
+  setProfileFailure,
+  followUserRequest,
+  followUserSuccess,
+  followUserFailure,
+  unFollowUserRequest,
+  unFollowUserSuccess,
+  unFollowUserFailure,
+} = profileSlice.actions
 
 export default profileSlice.reducer

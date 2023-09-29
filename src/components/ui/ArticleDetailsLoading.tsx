@@ -5,7 +5,7 @@ import { FaRegComment } from 'react-icons/fa'
 
 const ArticleDetailsLoading = () => {
   return (
-    <div className={styles.layout}>
+    <div className={`${styles.articleDetailsLoading} ${styles.skeleton}`}>
       {isAuthenticated() && (
         <aside className={`${styles.aside} ${styles.actions}`}>
           <button className={`${styles.action} ${styles.btnFavorite}`} type='button' disabled={true} title='Favorite'>
@@ -36,8 +36,7 @@ const ArticleDetailsLoading = () => {
             </div>
             <div className={styles.favorites}>
               <span className={styles.favorite}>
-                <span className={styles.count}></span>
-                <span className={styles.icon}></span>
+                <div className={styles.line}></div>
               </span>
             </div>
           </div>
@@ -60,13 +59,11 @@ const ArticleDetailsLoading = () => {
             </div>
             <div className={styles.body}>
               <div className={styles.line}></div>
-              <div className={`${styles.line} ${styles.line7}`}></div>
+              <div className={styles.line}></div>
+              <div className={styles.line}></div>
               <div className={styles.line}></div>
               <div className={styles.line}></div>
               <div className={`${styles.line} ${styles.line5}`}></div>
-              <div className={styles.line}></div>
-              <div className={styles.line}></div>
-              <div className={`${styles.line} ${styles.line9}`}></div>
             </div>
           </div>
         </div>

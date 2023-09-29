@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { ICommentProps } from '../../models'
 import CommentForm from '../form/CommentForm'
 import CommentList from './CommentList'
 import { RootState } from '../../store'
@@ -7,13 +8,12 @@ import { countComments } from '../../store/selectors'
 import { isAuthenticated } from '../../services'
 import styles from '../../styles/Global.module.css'
 
-const Comments: React.FC<{ countComments?: number; isAuthenticated: boolean }> = ({
-  isAuthenticated,
-  countComments,
-}) => {
+const Comments: React.FC<ICommentProps> = ({ status, isAuthenticated, countComments }) => {
   return (
     <div className={styles.commentWrapper}>
-      <h2 className={styles.title}>Comments {!!countComments && `(${countComments})`}</h2>
+      <h2 className={styles.title}>
+        Comments {status.comment !== 'loading' && !!countComments && `(${countComments})`}
+      </h2>
       {isAuthenticated ? (
         <CommentForm />
       ) : (
@@ -35,6 +35,7 @@ const Comments: React.FC<{ countComments?: number; isAuthenticated: boolean }> =
 }
 
 export default connect((state: RootState) => ({
+  status: state.comment.status,
   isAuthenticated: isAuthenticated(),
   countComments: countComments(state),
 }))(Comments)

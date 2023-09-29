@@ -1,3 +1,4 @@
+import { AgnosticRouteObject, AgnosticRouteMatch } from '@remix-run/router'
 export function timeSince(date: Date): string {
   const today: Date = new Date()
   const seconds = Math.floor((+today - +date) / 1000)
@@ -56,4 +57,13 @@ export function formatFullDate(date: Date): string {
   }
   const formattedDate = date.toLocaleDateString('default', options)
   return formattedDate
+}
+
+export const isMatchRoutes = (routes: AgnosticRouteObject[], matches: AgnosticRouteMatch[]) => {
+  for (const route of routes) {
+    if (route.path === matches[0].route.path) {
+      return true
+    }
+  }
+  return false
 }

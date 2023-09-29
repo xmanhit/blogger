@@ -1,81 +1,51 @@
-import { IProfile } from '../../models'
 import {
-  setProfile,
+  setProfileRequest,
   setProfileSuccess,
   setProfileFailure,
-  createProfileFollowUser,
-  createProfileFollowUserSuccess,
-  createProfileFollowUserFailure,
-  createProfileUnFollowUser,
-  createProfileUnFollowUserSuccess,
-  createProfileUnFollowUserFailure,
+  followUserRequest,
+  followUserSuccess,
+  followUserFailure,
+  unFollowUserRequest,
+  unFollowUserSuccess,
+  unFollowUserFailure,
 } from '../slices/profile.slice'
-import { getProfile, postFollowUser, deleteUnfollowUser } from '../../services/profile.service'
+import { getProfile, followUser, deleteUnfollowUser } from '../../services/profile.service'
 import { AxiosError, AxiosResponse } from 'axios'
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { GetProfile, CreateProfileFollow, DeleteUnfollowUser } from '../../models'
+import { IProfile } from '../../models'
 
-function* handleSetProfile(action: ReturnType<typeof setProfile>) {
+function* handleSetProfile(action: ReturnType<typeof setProfileRequest>) {
   try {
-    const payloadUsername: string | undefined = action.payload.username
-    if (payloadUsername !== undefined) {
-      const response: AxiosResponse<IProfile> = yield call<GetProfile>(getProfile, { username: payloadUsername })
-
-      yield put(setProfileSuccess(response.data))
-    }
+    const response: AxiosResponse<{ profile: IProfile }> = yield call(getProfile, action.payload)
+    yield put(setProfileSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
-    yield put(setProfileFailure(response?.data))
+    yield put(setProfileFailure({ status: response?.status, data: response?.data }))
   }
 }
 
-function* handleCreateProfileFollowUser(action: ReturnType<typeof createProfileFollowUser>) {
+function* handleFollowerUser(action: ReturnType<typeof followUserRequest>) {
   try {
-    const payloadUsername: string | undefined = action.payload.username
-
-    // Check if payloadUsername is defined
-    if (payloadUsername !== undefined) {
-      const response: AxiosResponse<IProfile> = yield call<CreateProfileFollow>(postFollowUser, {
-        username: payloadUsername,
-      })
-      yield put(createProfileFollowUserSuccess(response.data))
-    } else {
-      // Handle the case where payloadUsername is undefined
-      console.log('Username is undefined. Skipping API call.')
-    }
+    const response: AxiosResponse<any> = yield call(followUser, action.payload)
+    yield put(followUserSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
-    yield put(createProfileFollowUserFailure(response?.data))
+    yield put(followUserFailure({ status: response?.status, data: response?.data }))
   }
 }
 
-function* handleCreateProfileUnFollowUser(action: ReturnType<typeof createProfileUnFollowUser>) {
+function* handleUnFollowUser(action: ReturnType<typeof unFollowUserRequest>) {
   try {
-    const payloadUsername: string | undefined = action.payload.username
-
-    // Check if payloadUsername is defined
-    if (payloadUsername !== undefined) {
-      const response: AxiosResponse<IProfile> = yield call<DeleteUnfollowUser>(deleteUnfollowUser, {
-        username: payloadUsername,
-      })
-      yield put(createProfileUnFollowUserSuccess(response.data))
-    } else {
-      console.log('Username is undefined. Skipping API call.')
-    }
+    const response: AxiosResponse<any> = yield call(deleteUnfollowUser, action.payload)
+    yield put(unFollowUserSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
-    yield put(createProfileUnFollowUserFailure(response?.data))
+    yield put(unFollowUserFailure({ status: response?.status, data: response?.data }))
   }
 }
 
 export function* watchProfile() {
-  yield takeLatest(setProfile, handleSetProfile)
-}
-
-export function* watchFollowProfile() {
-  yield takeLatest(createProfileFollowUser, handleCreateProfileFollowUser)
-}
-
-export function* watchUnFollowProfile() {
-  yield takeLatest(createProfileUnFollowUser, handleCreateProfileUnFollowUser)
+  yield takeLatest(setProfileRequest, handleSetProfile)
+  yield takeLatest(followUserRequest, handleFollowerUser)
+  yield takeLatest(unFollowUserRequest, handleUnFollowUser)
 }

@@ -6,7 +6,7 @@ import { IUserSettingProps } from '../models'
 import styles from '../styles/User.module.css'
 import { RootState } from '../store'
 
-const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, updateRequest }) => {
+const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, updateRequest, errors }) => {
   const [updatedUser, setUpdatedUser] = useState({
     email: user?.email || '',
     password: '',
@@ -62,82 +62,94 @@ const UserSetting: React.FC<IUserSettingProps> = ({ user, currentUserRequest, up
     }
   }
 
+  console.log(errors)
+
   return (
-    <form className={styles.userSettingForm}>
-      <div className={styles.userSetting}>
-        <h2>User</h2>
-        <div className={styles.userSettingField}>
-          <label className={styles.labelSetting}>Name</label>
-          <input
-            maxLength={30}
-            className={styles.inputSetting}
-            onChange={handleInputChange}
-            placeholder='John Doe'
-            value={updatedUser.username}
-            size={30}
-            type='text'
-            name='username'
-            id='username'
-          />
-        </div>
-        <div className={styles.userSettingField}>
-          <label className={styles.labelSetting}>Email</label>
-          <input
-            maxLength={50}
-            className={styles.inputSetting}
-            onChange={handleInputChange}
-            placeholder='john.doe@example.com'
-            value={updatedUser.email}
-            size={50}
-            type='text'
-            name='email'
-            id='email'
-          />
-        </div>
-        <div className={styles.userSettingField}>
-          <label className={styles.labelSetting}>Password</label>
-          <input
-            maxLength={30}
-            className={styles.inputSetting}
-            onChange={handleInputChange}
-            placeholder='Password'
-            value={updatedUser.password}
-            size={30}
-            type='text'
-            name='password'
-            id='password'
-          />
-        </div>
-        <div className={styles.userSettingField}>
-          <label className={styles.labelSetting}>Bio</label>
-          {/* <input maxLength={30} className={styles.inputSetting} onChange={handleInputChange} placeholder="Bio" value={updatedUser.bio} size={200} type="text" name="bio" id="bio" /> */}
-          <textarea
-            name='bio'
-            id='bio'
-            className={styles.inputSetting}
-            placeholder='Bio'
-            value={updatedUser.bio}
-            cols={30}
-            rows={8}
-            onChange={handleInputChange}
-          ></textarea>
-        </div>
-        <div className={styles.userSettingField}>
-          <label className={styles.labelSetting}>Profile image</label>
-          <div className={styles.userAvatarRowSetting}>
-            <span className={styles.userAvatarSetting}>
-              <img alt='anhnlv119 profile image' src={updatedUser.image} className={styles.imgSetting} loading='lazy' />
-            </span>
-            <input accept='image/*' type='file' name='image' onChange={handleImageChange} />
+    <>
+      {/* {errors && (
+        <div className={styles.error}>{errors}</div>
+      )} */}
+      <form className={styles.userSettingForm}>
+        <div className={styles.userSetting}>
+          <h2>User</h2>
+          <div className={styles.userSettingField}>
+            <label className={styles.labelSetting}>Name</label>
+            <input
+              maxLength={30}
+              className={styles.inputSetting}
+              onChange={handleInputChange}
+              placeholder='John Doe'
+              value={updatedUser.username}
+              size={30}
+              type='text'
+              name='username'
+              id='username'
+            />
+          </div>
+          <div className={styles.userSettingField}>
+            <label className={styles.labelSetting}>Email</label>
+            <input
+              maxLength={50}
+              className={styles.inputSetting}
+              onChange={handleInputChange}
+              placeholder='john.doe@example.com'
+              value={updatedUser.email}
+              size={50}
+              type='text'
+              name='email'
+              id='email'
+            />
+          </div>
+          <div className={styles.userSettingField}>
+            <label className={styles.labelSetting}>Password</label>
+            <input
+              maxLength={30}
+              className={styles.inputSetting}
+              onChange={handleInputChange}
+              placeholder='Password'
+              value={updatedUser.password}
+              size={30}
+              type='text'
+              name='password'
+              id='password'
+            />
+          </div>
+          <div className={styles.userSettingField}>
+            <label className={styles.labelSetting}>Bio</label>
+            {/* <input maxLength={30} className={styles.inputSetting} onChange={handleInputChange} placeholder="Bio" value={updatedUser.bio} size={200} type="text" name="bio" id="bio" /> */}
+            <textarea
+              name='bio'
+              id='bio'
+              className={styles.inputSetting}
+              placeholder='Bio'
+              value={updatedUser.bio}
+              cols={30}
+              rows={8}
+              onChange={handleInputChange}
+            ></textarea>
+          </div>
+          <div className={styles.userSettingField}>
+            <label className={styles.labelSetting}>Profile image</label>
+            <div className={styles.userAvatarRowSetting}>
+              <span className={styles.userAvatarSetting}>
+                <img
+                  alt='anhnlv119 profile image'
+                  src={updatedUser.image}
+                  className={styles.imgSetting}
+                  loading='lazy'
+                />
+              </span>
+              <input accept='image/*' type='file' name='image' onChange={handleImageChange} />
+            </div>
+          </div>
+          <div className={styles.userSettingField}>
+            <button onClick={handleUpdateClick} className={styles.buttonSetting}>
+              Submit to update
+            </button>
           </div>
         </div>
-        <div className={styles.userSettingField}>
-          <button onClick={handleUpdateClick} className={styles.buttonSetting}>
-            Submit to update
-          </button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </>
   )
 }
 

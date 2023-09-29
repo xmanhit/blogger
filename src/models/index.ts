@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios'
+import { AgnosticRouteObject, AgnosticRouteMatch } from '@remix-run/router'
 import { SetURLSearchParams } from 'react-router-dom'
 import {
   clearLogin,
@@ -26,7 +27,6 @@ import {
   deleteArticleCommentRequest,
   setArticleCommentRequest,
 } from '../store/slices/comment.slice'
-import { setProfile, createProfileFollowUser, createProfileUnFollowUser } from '../store/slices/profile.slice'
 import { RootState } from '../store'
 
 // token
@@ -82,8 +82,12 @@ export interface IUserInfo {
 
 export type UpdateUser = (parameter: { user: IUserInfo }) => Promise<AxiosResponse<IUser>>
 // profile
-
-export type Profile = (username: string) => Promise<AxiosResponse<IProfile>>
+export interface IProfile {
+  username: string
+  bio?: string
+  image: string
+  following: boolean
+}
 
 // articles
 export interface IArticle {
@@ -275,31 +279,6 @@ export interface ITagsProps {
   limit: number
 }
 
-// export interface IUserDetailsProps {
-//   user: IUser | null
-//   articles: IArticle[]
-//   currentUserRequest: typeof currentUserRequest
-//   setArticlesRequest: typeof setArticlesRequest
-//   total: number
-//   limit: number
-// }
-
-export interface IUserDetailsProps {
-  user: IUser | null
-  articles: IArticle[]
-  currentUserRequest: typeof currentUserRequest
-  setArticlesRequest: typeof setArticlesRequest
-  setProfile: typeof setProfile
-  total: number
-  limit: number
-  isArticlesLoading: boolean
-  // profile?: IProfile
-  profile?: IProfile | { [key: string]: any }
-  isLoading: boolean | undefined // If isLoading can be undefined
-  createProfileFollowUser: typeof createProfileFollowUser
-  createProfileUnFollowUser: typeof createProfileUnFollowUser
-}
-
 export interface IUserSettingProps {
   user: IUser | null
   currentUserRequest: typeof currentUserRequest
@@ -312,6 +291,12 @@ export interface IPaginationProps {
   limit: number
   page: number
   setSearchParams: SetURLSearchParams
+}
+
+export interface ICommentProps {
+  status: any
+  isAuthenticated: boolean
+  countComments?: number
 }
 
 // State
@@ -359,34 +344,22 @@ export interface ICommentState {
   errors: any
 }
 
-// export interface Profile {
-//   username: string
-//   bio?: string
-//   image: string
-//   following: boolean
-// }
-export interface IProfile {
-  username?: string
-  image?: string
+export interface IProfileState {
   profile: {
-    email?: string
-    password?: string
     username?: string
-    bio?: string
+    email?: string
     image?: string
+    bio?: string
     token?: string
-    following?: string
+    following?: boolean
   }
-  isLoading?: boolean
-  isActionLoading?: any
+  status: {
+    profile?: Status
+    follow?: Status
+    unFollow?: Status
+  }
   errors?: any
 }
-
-export type GetProfile = (params: { username: string }) => Promise<AxiosResponse<IProfile>>
-
-export type CreateProfileFollow = (params: { username: string }) => Promise<AxiosResponse<IProfile>>
-
-export type DeleteUnfollowUser = (params: { username: string }) => Promise<AxiosResponse<IProfile>>
 
 export interface IOptions {
   weekday?: 'long' | 'short' | 'narrow'
@@ -397,3 +370,5 @@ export interface IOptions {
   minute?: 'numeric'
   second?: 'numeric'
 }
+
+export type IsMatchRoutes = (routes: AgnosticRouteObject[], matches: AgnosticRouteMatch[]) => boolean

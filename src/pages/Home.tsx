@@ -4,11 +4,10 @@ import { RootState } from '../store'
 import { setArticleFollowingRequest, setArticlesRequest, setTagsRequest } from '../store/slices/article.slice'
 import { LoaderFunction, NavLink, redirect, useLoaderData, useSearchParams } from 'react-router-dom'
 import { IArticle, IHomeProps } from '../models'
-import { CardArticle, Pagination } from '../components/ui'
+import { ArticlesLoading, CardArticle, Pagination } from '../components/ui'
 import { isAuthenticated } from '../services'
 import TagList from '../components/ui/TagList'
 import styles from '../styles/Global.module.css'
-import ArticlesLoading from '../components/ui/ArticlesLoading'
 
 export const homeLoader: LoaderFunction = ({ request }) => {
   const url: URL = new URL(request.url)

@@ -39,12 +39,16 @@ const router = createBrowserRouter([
       },
       {
         path: ':username',
+        lazy: async () => {
+          const UserDetails = await import('./pages/UserDetails')
+          return { Component: UserDetails.default, title: 'User' }
+        },
         children: [
           {
             index: true,
             lazy: async () => {
-              const UserDetails = await import('./pages/UserDetails')
-              return { Component: UserDetails.default, title: 'User' }
+              const UserArticle = await import('./pages/UserArticle')
+              return { Component: UserArticle.default, title: 'User Articles' }
             },
           },
           {
@@ -58,19 +62,16 @@ const router = createBrowserRouter([
       },
       {
         path: 'me',
-        loader: async () => {
-          if (!isAuthenticated()) {
-            return redirect('/login')
-          }
-          return null
+        lazy: async () => {
+          const { meLoader, default: UserDetails } = await import('./pages/UserDetails')
+          return { loader: meLoader, Component: UserDetails, title: 'Me' }
         },
-        element: <Outlet />,
         children: [
           {
             index: true,
             lazy: async () => {
-              const UserDetails = await import('./pages/UserDetails')
-              return { Component: UserDetails.default, title: 'Me' }
+              const UserArticle = await import('./pages/UserArticle')
+              return { Component: UserArticle.default, title: 'User Articles' }
             },
           },
           {

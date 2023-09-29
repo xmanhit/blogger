@@ -3,7 +3,7 @@ import styles from '../../styles/Loading.module.css'
 const ArticlesLoading = () => {
   return (
     <>
-      <article className={styles.article}>
+      <article className={`${styles.article} ${styles.skeleton}`}>
         <div className={styles.author}>
           <div className={styles.link}>
             <div className={styles.avatar}></div>
@@ -35,7 +35,7 @@ const ArticlesLoading = () => {
           </div>
         </div>
       </article>
-      <article className={styles.article}>
+      <article className={`${styles.article} ${styles.skeleton}`}>
         <div className={styles.author}>
           <div className={styles.link}>
             <div className={styles.avatar}></div>

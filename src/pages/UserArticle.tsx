@@ -15,8 +15,8 @@ const UserArticle: React.FC<any> = ({ isArticlesLoading, user, articles, limit, 
 
   useEffect(() => {
     const offset = (page - 1) * limit
-    const favorited = username || user.username
-    setArticlesRequest({ favorited, limit, offset })
+    const author = username || user.username
+    setArticlesRequest({ author, limit, offset })
   }, [username, page])
 
   return (

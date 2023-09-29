@@ -1,0 +1,33 @@
+.UserDetails {
+  .nav {
+    .list {
+      display: flex;
+      padding: 0.5rem 0;
+      list-style: none;
+      .link {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        font-size: 1.125rem;
+        font-weight: 400;
+        color: white;
+        border-radius: var(--rounded) var(--rounded) 0 0;
+        border-bottom: 3px solid transparent;
+        transition: 0.2s;
+        &.active {
+          font-weight: 700;
+          border-bottom: 3px solid rgba(var(--indigo-500), var(--alpha-6));
+          /* background-color: rgba(var(--indigo-600), var(--alpha-2)); */
+        }
+        &:hover {
+          color: rgba(var(--indigo-300), var(--alpha-10));
+        }
+        &:active {
+          color: rgba(var(--indigo-400), var(--alpha-10));
+        }
+        &:focus {
+          border-bottom: 3px solid rgba(var(--indigo-500), var(--alpha-10));
+        }
+      }
+    }
+  }
+}
