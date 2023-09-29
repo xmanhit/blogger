@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { LoaderFunction, NavLink, Outlet, matchRoutes, redirect, useLocation, useParams } from 'react-router-dom'
 import { RootState } from '../store'
-import { isAuthenticated } from '../services'
+import { currentUser, isAuthenticated } from '../services'
 import { isMatchRoutes } from '../utils'
 import Profile from '../components/ui/Profile'
 import styles from '../styles/UserDetails.module.css'
@@ -15,7 +15,7 @@ export const meLoader: LoaderFunction = async () => {
   return null
 }
 
-const UserDetails: React.FC<any> = ({ errors }) => {
+const UserDetails: React.FC<any> = ({ user, errors }) => {
   const { username } = useParams()
   const currentLocation = useLocation()
   const someRoutes = [
@@ -28,7 +28,7 @@ const UserDetails: React.FC<any> = ({ errors }) => {
   const isMatchPaths = (matches && isMatchRoutes(someRoutes, matches)) || false
 
   useEffect(() => {
-    document.title = `Blogger | ${username}`
+    document.title = `Blogger | ${username || user.username}`
   }, [])
 
   if (errors.profile?.status === 404) {
@@ -75,4 +75,4 @@ const UserDetails: React.FC<any> = ({ errors }) => {
   )
 }
 
-export default connect((state: RootState) => ({ errors: state.profile.errors }))(UserDetails)
+export default connect((state: RootState) => ({ user: currentUser(), errors: state.profile.errors }))(UserDetails)
