@@ -37,8 +37,6 @@ const articleSlice = createSlice({
       state.errors = null
     },
     setArticlesSuccess: (state, action: PayloadAction<any>) => {
-      console.log(action.payload)
-
       state.articles = action.payload.articles
       state.total = action.payload.articlesCount
       state.status.articles = 'idle'
