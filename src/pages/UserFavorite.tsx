@@ -16,6 +16,10 @@ const UserArticle: React.FC<any> = ({ isArticlesLoading, user, articles, limit, 
   const { username } = useParams()
 
   useEffect(() => {
+    document.title = 'Blogger | Favorited Articles'
+  }, [])
+
+  useEffect(() => {
     const offset = (page - 1) * limit
     const favorited = username || user.username
     setArticlesRequest({ favorited, limit, offset })

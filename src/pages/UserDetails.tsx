@@ -6,6 +6,7 @@ import { isMatchRoutes } from '../utils'
 import Profile from '../components/ui/Profile'
 import styles from '../styles/UserDetails.module.css'
 import NotFound from './NotFound'
+import { useEffect } from 'react'
 
 export const meLoader: LoaderFunction = async () => {
   if (!isAuthenticated()) {
@@ -25,6 +26,10 @@ const UserDetails: React.FC<any> = ({ errors }) => {
   ]
   const matches = matchRoutes(someRoutes, currentLocation)
   const isMatchPaths = (matches && isMatchRoutes(someRoutes, matches)) || false
+
+  useEffect(() => {
+    document.title = `Blogger | ${username}`
+  }, [])
 
   if (errors.profile?.status === 404) {
     return <NotFound />

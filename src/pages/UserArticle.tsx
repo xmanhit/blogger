@@ -16,6 +16,10 @@ const UserArticle: React.FC<any> = ({ isArticlesLoading, user, articles, limit, 
   const { username } = useParams()
 
   useEffect(() => {
+    document.title = 'Blogger | My Articles'
+  }, [])
+
+  useEffect(() => {
     const offset = (page - 1) * limit
     const author = username || user.username
     setArticlesRequest({ author, limit, offset })
