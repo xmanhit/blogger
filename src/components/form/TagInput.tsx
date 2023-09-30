@@ -48,7 +48,7 @@ const TagInput: React.FC<any> = ({
         )}
         <input name={field.name} type='text' {...props} onKeyUp={handleKeyUpTag} />
       </div>
-      {errors[field.name] && <div className='error'>{errors[field.name]}</div>}
+      {errors[field.name] && <div className={styles.error}>{errors[field.name]}</div>}
     </>
   )
 }

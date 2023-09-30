@@ -9,8 +9,8 @@ import { RootState } from '../../store'
 import { IUserSettingProps } from '../../models'
 import { currentUser } from '../../services'
 import { resetStatusUpdateUser, updateUserRequest } from '../../store/slices/auth.slice'
-import styles from '../../styles/User.module.css'
 import { textAreaAdjust } from '../../utils'
+import styles from '../../styles/User.module.css'
 
 const userSettingSchema = Yup.object().shape({
   username: Yup.string()
@@ -69,7 +69,7 @@ const userSettingForm: React.FC<IUserSettingProps> = ({
             <div className={styles.userSettingField}>
               <label className={styles.labelSetting}>Name</label>
               <Field className={styles.inputSetting} placeholder='John Doe' type='text' name='username' id='username' />
-              <ErrorMessage component='div' name='username' />
+              <ErrorMessage className={styles.error} component='div' name='username' />
             </div>
             <div className={styles.userSettingField}>
               <label className={styles.labelSetting}>Email</label>
@@ -80,7 +80,7 @@ const userSettingForm: React.FC<IUserSettingProps> = ({
                 name='email'
                 id='email'
               />
-              <ErrorMessage component='div' name='email' />
+              <ErrorMessage className={styles.error} component='div' name='email' />
             </div>
             <div className={styles.userSettingField}>
               <label className={styles.labelSetting}>Password</label>
@@ -91,7 +91,7 @@ const userSettingForm: React.FC<IUserSettingProps> = ({
                 name='password'
                 id='password'
               />
-              <ErrorMessage component='div' name='password' />
+              <ErrorMessage className={styles.error} component='div' name='password' />
             </div>
             <div className={styles.userSettingField}>
               <label className={styles.labelSetting}>Bio</label>
@@ -105,7 +105,7 @@ const userSettingForm: React.FC<IUserSettingProps> = ({
                 rows={8}
                 onKeyUp={textAreaAdjust}
               />
-              <ErrorMessage component='div' name='bio' />
+              <ErrorMessage className={styles.error} component='div' name='bio' />
             </div>
             <div className={styles.userSettingField}>
               <Field

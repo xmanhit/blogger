@@ -56,3 +56,8 @@
     color: rgba(var(--error-500), var(--alpha-10));
   }
 }
+
+.error {
+  font-size: 0.875rem;
+  color: rgba(var(--error-400), var(--alpha-10));
+}
