@@ -280,7 +280,6 @@ export interface ITagsProps {
   articles: IArticle[]
   total: number
   limit: number
-  errors: any
 }
 
 export interface IUserSettingProps {
