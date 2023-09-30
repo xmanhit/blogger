@@ -37,7 +37,7 @@ const Tags: React.FC<ITagsProps> = ({
     setArticlesRequest({ tag, limit, offset })
   }, [tag, page])
 
-  if (!isLoading && page > maxPage && maxPage > limit) {
+  if ((!isLoading && page > maxPage && maxPage > limit) || (!isLoading && articles.length <= 0)) {
     return <NotFound />
   }
 
@@ -50,7 +50,6 @@ const Tags: React.FC<ITagsProps> = ({
 
       <div className={styles.articleWrapper}>
         {isLoading && <ArticlesLoading />}
-        {articles.length <= 0 && !isLoading && <div>No articles yet</div>}
         {articles?.map((article: IArticle) => (
           <CardArticle key={article.slug} article={article} />
         ))}
