@@ -10,8 +10,8 @@ import { PiSpinnerBold } from 'react-icons/pi'
 const SigInSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Your email is required.'),
   password: Yup.string()
-    .min(3, 'Your password is too short!')
-    .max(50, 'Your password is too long!')
+    .min(3, 'Password must be at least 3 characters')
+    .max(50, 'Password must be at most 50 characters')
     .required('Your password is required.'),
 })
 

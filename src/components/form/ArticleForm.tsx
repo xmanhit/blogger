@@ -20,15 +20,15 @@ import styles from '../../styles/ArticleForm.module.css'
 
 const SignUpSchema = Yup.object().shape({
   title: Yup.string()
-    .min(3, 'Your Title is Too Short!')
-    .max(50, 'Your Title is Too Long!')
+    .min(3, 'Title must be at least 3 characters')
+    .max(50, 'Title must be at most 50 characters')
     .required('Your Title is Required'),
   description: Yup.string()
-    .min(3, 'Your Description is Too Short!')
-    .max(150, 'Your Description is Too Long!')
+    .min(3, 'Description must be at least 3 characters')
+    .max(150, 'Description must be at most 150 characters')
     .required('Your Description Required'),
-  body: Yup.string().min(3, 'Your Body is Too Short!').required('Your Body is Required'),
-  tagList: Yup.array().of(Yup.string().max(50, 'Your Tag List is Too Long!')).max(4, 'Your Tag is Too Long!'),
+  body: Yup.string().min(3, 'Body must be at least 3 characters').required('Your Body is Required'),
+  tagList: Yup.array().of(Yup.string().max(50, 'Tag List must be at most 50')).max(4, 'Tag List must be at most 4'),
 })
 
 const ArticleForm: React.FC<IArticleFormProps> = ({

@@ -9,13 +9,13 @@ import styles from '../../styles/Global.module.css'
 
 const SignUpSchema = Yup.object().shape({
   username: Yup.string()
-    .min(3, 'Your username is too short!')
-    .max(50, 'Your username is too long!')
+    .min(3, 'Username must be at least 3 characters')
+    .max(50, 'Username must be at most 50 characters')
     .required('Your username is required'),
   email: Yup.string().email('Invalid email').required('Your email is required'),
   password: Yup.string()
-    .min(3, 'Your password is too short!')
-    .max(50, 'Your password is too long!')
+    .min(3, 'Password must be at least 3 characters')
+    .max(50, 'Password must be at most 50 characters')
     .required('Your password is required'),
 })
 

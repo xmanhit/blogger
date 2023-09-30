@@ -14,8 +14,8 @@ import styles from '../../styles/Global.module.css'
 const CommentSchema = Yup.object().shape({
   comment: Yup.string()
     .required('Your comment is required.')
-    .min(3, 'Must be at least 3 characters')
-    .max(500, 'Must be 500 characters or less'),
+    .min(3, 'Comment must be at least 3 characters')
+    .max(500, 'Comment must be 500 characters or less'),
 })
 
 const CommentForm: React.FC<ICommentFormProps> = ({ user, createArticleCommentRequest, status }) => {

@@ -22,7 +22,7 @@ const userSettingSchema = Yup.object().shape({
     .min(5, 'Password must be at least 5 characters')
     .max(30, 'Password must be at most 30 characters'),
   image: Yup.string(),
-  bio: Yup.string().max(552, 'Bio must be at most 552 characters'),
+  bio: Yup.string().max(500, 'Bio must be at most 500 characters'),
 })
 
 const userSettingForm: React.FC<IUserSettingProps> = ({
