@@ -19,8 +19,8 @@ const SignInForm: React.FC<ISignInProps> = ({ loginRequest, status }) => {
   return (
     <Formik
       initialValues={{
-        email: 'XManh@gmail.com',
-        password: '123',
+        email: '',
+        password: '',
       }}
       validationSchema={SigInSchema}
       onSubmit={({ email, password }) => {

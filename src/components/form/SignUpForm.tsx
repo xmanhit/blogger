@@ -23,9 +23,9 @@ const SignUpForm: React.FC<ISignUpProps> = ({ status, registerRequest, errors })
   return (
     <Formik
       initialValues={{
-        username: '123test',
-        email: '123test1@gmail.com',
-        password: '1234',
+        username: '',
+        email: '',
+        password: '',
       }}
       validationSchema={SignUpSchema}
       onSubmit={({ username, email, password }) => {
