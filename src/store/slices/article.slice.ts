@@ -43,7 +43,7 @@ const articleSlice = createSlice({
     },
     setArticlesFailure: (state, action: PayloadAction<any>) => {
       state.total = 0
-      state.errors = action.payload.errors
+      state.errors = action.payload
       state.status.articles = 'failed'
     },
     // Set article details

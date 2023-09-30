@@ -50,7 +50,7 @@ function* handleSetArticleFollowing(action: ReturnType<typeof setArticleFollowin
     yield put(setArticlesSuccess(response.data))
   } catch (error) {
     const { response } = error as AxiosError
-    yield put(setArticlesSuccess(response?.data))
+    yield put(setArticlesFailure(response?.data))
   }
 }
 function* handleSetArticles(action: ReturnType<typeof setArticlesRequest>) {
