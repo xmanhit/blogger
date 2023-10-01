@@ -31,6 +31,7 @@ const Pagination: React.FC<IPaginationProps> = ({ total, limit, page, setSearchP
     <ul className={styles.paginationContainer}>
       <li>
         <button
+          title='Previous'
           className={`${styles.paginationItem} ${styles.paginationButton}`}
           disabled={page === 1}
           onClick={onPrevious}
@@ -60,6 +61,7 @@ const Pagination: React.FC<IPaginationProps> = ({ total, limit, page, setSearchP
       })}
       <li>
         <button
+          title='Next'
           className={`${styles.paginationItem} ${styles.paginationButton}`}
           disabled={page === lastPage}
           onClick={onNext}

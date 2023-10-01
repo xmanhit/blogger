@@ -73,7 +73,9 @@ const TagList: React.FC<Props> = ({ isTagsLoading, tagList, tagActive }) => {
           </div>
           <ul className={styles.tabs} ref={tabRef} onScroll={handleScroll}>
             {tagList.map((tag: string) => (
-              <Tag key={tag} tag={tag} tagActive={tagActive} />
+              <li>
+                <Tag key={tag} tag={tag} tagActive={tagActive} />
+              </li>
             ))}
           </ul>
           <div className={`${isAt.start ? styles.active : ''} ${styles.rightArrow}`}>

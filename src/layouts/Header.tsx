@@ -44,7 +44,12 @@ const Header: React.FC<IHeaderProps> = ({ status, isAuthenticated, currentUserRe
     <header className={styles.header}>
       <div className={styles.container}>
         <nav className={styles.navbar}>
-          <Link className={`${styles.logo} ${styles.navLink}`} to='/' aria-label='logo'>
+          <Link
+            className={`${styles.logo} ${styles.navLink}`}
+            to='/'
+            title={user?.username || 'User'}
+            aria-label='logo'
+          >
             <Logo />
           </Link>
           <ul className={styles.navList}>
