@@ -73,8 +73,8 @@ const TagList: React.FC<Props> = ({ isTagsLoading, tagList, tagActive }) => {
           </div>
           <ul className={styles.tabs} ref={tabRef} onScroll={handleScroll}>
             {tagList.map((tag: string) => (
-              <li>
-                <Tag key={tag} tag={tag} tagActive={tagActive} />
+              <li key={tag}>
+                <Tag tag={tag} tagActive={tagActive} />
               </li>
             ))}
           </ul>
