@@ -70,5 +70,8 @@ export const isMatchRoutes = (routes: AgnosticRouteObject[], matches: AgnosticRo
 
 export const textAreaAdjust = (element: any) => {
   const height = element.target.scrollHeight
+  if (height > 600) {
+    return (element.target.style.height = `600px`)
+  }
   element.target.style.height = `${height}px`
 }

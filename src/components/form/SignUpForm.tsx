@@ -5,7 +5,7 @@ import { ISignUpProps } from '../../models'
 import { RootState } from '../../store'
 import { registerRequest } from '../../store/slices/auth.slice'
 import { PiSpinnerBold } from 'react-icons/pi'
-import styles from '../../styles/Global.module.css'
+import styles from '../../styles/Login.module.css'
 
 const SignUpSchema = Yup.object().shape({
   username: Yup.string()

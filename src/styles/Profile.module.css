@@ -1,3 +1,5 @@
+@import url('./Global.module.css');
+
 .profile {
   .header {
     position: relative;
@@ -50,12 +52,6 @@
             cursor: not-allowed;
             background-color: rgba(var(--gray-600), var(--alpha-10));
           }
-          .spinner {
-            vertical-align: middle;
-            font-size: 1.25rem;
-            -webkit-animation: spin 2s infinite linear;
-            animation: spin 2s infinite linear;
-          }
         }
       }
     }
@@ -74,29 +70,5 @@
         font-size: 1rem;
       }
     }
-  }
-}
-
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-
-@keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
   }
 }

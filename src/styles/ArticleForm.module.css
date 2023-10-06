@@ -1,4 +1,8 @@
-@import './Global.module.css'; /* Using a string */
+@import './Global.module.css';
+
+.formArticle {
+  margin-bottom: 1rem;
+}
 
 .formArticleHeader {
   padding: 0.5rem 0;
@@ -57,7 +61,6 @@
       resize: none;
       transition: none;
       scroll-snap-type: none;
-      overflow: hidden;
     }
   }
   .fieldGroup {

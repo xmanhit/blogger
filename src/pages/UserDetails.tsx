@@ -1,12 +1,12 @@
+import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { LoaderFunction, NavLink, Outlet, matchRoutes, redirect, useLocation, useParams } from 'react-router-dom'
 import { RootState } from '../store'
 import { currentUser, isAuthenticated } from '../services'
 import { isMatchRoutes } from '../utils'
 import Profile from '../components/ui/Profile'
-import styles from '../styles/UserDetails.module.css'
 import NotFound from './NotFound'
-import { useEffect } from 'react'
+import styles from '../styles/UserDetails.module.css'
 
 export const meLoader: LoaderFunction = async () => {
   if (!isAuthenticated()) {

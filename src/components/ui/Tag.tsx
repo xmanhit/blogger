@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import styles from '../../styles/Global.module.css'
+import styles from '../../styles/TagList.module.css'
 
 interface Props {
   tag: string

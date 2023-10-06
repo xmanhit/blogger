@@ -1,8 +1,8 @@
-import Tag from './Tag'
-import styles from '../../styles/Global.module.css'
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi2'
 import { useEffect, useRef, useState } from 'react'
+import Tag from './Tag'
 import TagsLoading from './TagsLoading'
+import styles from '../../styles/TagList.module.css'
 
 interface Props {
   isTagsLoading: boolean

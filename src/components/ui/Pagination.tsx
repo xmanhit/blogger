@@ -1,6 +1,6 @@
 import { IPaginationProps } from '../../models'
 import { usePagination, DOTS } from '../../hooks/usePagination'
-import styles from '../../styles/Global.module.css'
+import styles from '../../styles/Pagination.module.css'
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi'
 
 const Pagination: React.FC<IPaginationProps> = ({ total, limit, page, setSearchParams }) => {

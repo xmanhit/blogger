@@ -6,7 +6,7 @@ import { currentUser, isAuthenticated } from '../services'
 import { currentUserRequest } from '../store/slices/auth.slice'
 import avatar from '../assets/giphy.gif'
 import Logo from '../assets/logo.svg'
-import styles from '../styles/Global.module.css'
+import styles from '../styles/Header.module.css'
 import Menu from '../components/ui/Menu'
 import { RootState } from '../store'
 
@@ -44,7 +44,7 @@ const Header: React.FC<IHeaderProps> = ({ status, isAuthenticated, currentUserRe
     <header className={styles.header}>
       <div className={styles.container}>
         <nav className={styles.navbar}>
-          <Link className={`${styles.logo} ${styles.navLink}`} to='/' title='Blogger' aria-label='Blogger'>
+          <Link className={styles.navLink} to='/' title='Blogger' aria-label='Blogger'>
             <Logo />
           </Link>
           <ul className={styles.navList}>

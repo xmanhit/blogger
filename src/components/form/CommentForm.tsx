@@ -9,7 +9,7 @@ import { createArticleCommentRequest } from '../../store/slices/comment.slice'
 import { currentUser } from '../../services'
 import { ICommentFormProps } from '../../models'
 import { textAreaAdjust } from '../../utils'
-import styles from '../../styles/Global.module.css'
+import styles from '../../styles/Comments.module.css'
 
 const CommentSchema = Yup.object().shape({
   comment: Yup.string()
@@ -34,7 +34,7 @@ const CommentForm: React.FC<ICommentFormProps> = ({ user, createArticleCommentRe
         <Form className={styles.form}>
           <div className={styles.wrapper}>
             <img className={styles.avatar} src={user?.image} alt='Author' />
-            <div className={styles.formGroup}>
+            <div className={styles.formWrapper}>
               <div className={styles.formGroup}>
                 <Field
                   className={styles.formControl}

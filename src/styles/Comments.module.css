@@ -1,0 +1,163 @@
+@import url('./Global.module.css');
+
+/* comment */
+@supports (--css: variables) {
+  .commentWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+    @media screen and (min-width: 768px) {
+      padding: 4rem;
+    }
+    .form {
+      display: flex;
+      align-items: start;
+      flex-direction: column;
+      .wrapper {
+        display: flex;
+        flex-grow: 1;
+        width: 100%;
+        gap: 0.5rem;
+        .avatar {
+          border: 1px solid rgba(var(--white), var(--alpha-2));
+          border-radius: 50%;
+          width: 2rem;
+          height: 2rem;
+          object-fit: cover;
+        }
+      }
+      .formWrapper {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: 1rem;
+      }
+      .formGroup {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        flex: auto;
+        .formControl {
+          overflow: hidden;
+          resize: none;
+          outline: 0;
+          font-size: 1rem;
+          color: white;
+          padding: 0.5rem;
+          border-radius: var(--rounded);
+          background-color: black;
+          border: 2px solid rgba(var(--gray-800), var(--alpha-10));
+          transition: 0.2s;
+          &:focus {
+            border-color: rgba(var(--indigo-500), var(--alpha-10));
+            box-shadow: 0 0 0 1px rgba(var(--indigo-500), var(--alpha-10));
+          }
+        }
+      }
+      .submit {
+        width: fit-content;
+        line-height: 1.5;
+        font-size: 1rem;
+        padding: 0.75rem 2rem;
+        border: 0;
+        border-radius: var(--rounded);
+        color: white;
+        background-color: rgba(var(--indigo-600), var(--alpha-10));
+        &:hover {
+          background-color: rgba(var(--indigo-500), var(--alpha-10));
+        }
+        &:disabled {
+          cursor: not-allowed;
+          background-color: rgba(var(--gray-800), var(--alpha-10));
+        }
+      }
+    }
+  }
+
+  .commentListWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    .commentList {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      list-style: none;
+      .author {
+        .link {
+          display: inline-flex;
+          gap: 0.5rem;
+          align-items: center;
+          .avatar {
+            border: 1px solid rgba(var(--white), var(--alpha-2));
+            border-radius: 50%;
+            min-width: 2rem;
+            height: 2rem;
+            object-fit: cover;
+          }
+        }
+      }
+      .comment {
+        display: flex;
+        gap: 0.5rem;
+        .content {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          padding: 1rem;
+          border: 1px solid rgba(var(--gray-800), var(--alpha-10));
+          border-radius: var(--rounded);
+          .info {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            .nameWrapper {
+              display: flex;
+              gap: 0.25rem;
+            }
+          }
+          .body {
+            word-break: break-word;
+          }
+        }
+        .deleteButton {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: -0.625rem -0.625rem 0 0;
+          padding: 0.5rem;
+          font-size: 1rem;
+          min-width: 2rem;
+          min-height: 2rem;
+          border: none;
+          background-color: transparent;
+          border-radius: 50%;
+          color: rgba(var(--error-500), var(--alpha-10));
+          transition: 0.2s;
+          &:hover {
+            color: rgba(var(--error-400), var(--alpha-10));
+            background-color: rgba(var(--gray-800), var(--alpha-10));
+          }
+          .spinner {
+            font-size: 1rem;
+          }
+        }
+      }
+      .name,
+      .dot {
+        font-size: 0.875rem;
+      }
+      .dot {
+        color: rgba(var(--gray-600), var(--alpha-10));
+        font-size: 0.875rem;
+      }
+      .date {
+        cursor: pointer;
+        color: rgba(var(--gray-300), var(--alpha-8));
+        font-size: 0.8em;
+      }
+    }
+  }
+}

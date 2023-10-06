@@ -1,0 +1,105 @@
+@import url('./Global.module.css');
+@import url('./TagListInArticle.module.css');
+
+.cardArticle {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  gap: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--rounded);
+  background-color: rgba(var(--gray-900), var(--alpha-10));
+  .author {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .link {
+      display: inline-flex;
+      gap: 0.5rem;
+      align-items: center;
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+      }
+      .avatar {
+        border: 1px solid rgba(var(--white), var(--alpha-2));
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        object-fit: cover;
+      }
+      .name {
+        font-size: 0.875rem;
+        line-height: 0.875rem;
+      }
+    }
+    .spinner {
+      font-size: 1rem;
+      color: rgba(var(--error-500), var(--alpha-10));
+    }
+    .favorite {
+      display: flex;
+      gap: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      justify-content: center;
+      align-items: center;
+      animation: 0.2s;
+      border-radius: var(--rounded);
+      border: 1px solid transparent;
+      color: rgba(var(--gray-100), var(--alpha-10));
+      background-color: transparent;
+      &:hover {
+        background-color: rgba(var(--gray-800), var(--alpha-10));
+        border-color: rgba(var(--gray-800), var(--alpha-10));
+      }
+      &:active {
+        background-color: rgba(var(--indigo-800), var(--alpha-2));
+        border-color: rgba(var(--indigo-800), var(--alpha-2));
+      }
+
+      .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+      }
+      .count {
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+        border-radius: 0 var(--rounded) var(--rounded) 0;
+      }
+    }
+  }
+  .post {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    @media only screen and (min-width: 768px) {
+      margin: 0 2.5rem;
+    }
+  }
+  .title {
+    word-break: break-word;
+    font-size: 1.875rem;
+    line-height: 2.5rem;
+    animation: 0.2s;
+  }
+  .desc {
+    word-break: break-word;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    color: rgba(var(--gray-500), var(--alpha-10));
+  }
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    .time {
+      color: rgba(var(--gray-300), var(--alpha-8));
+      font-size: 0.8rem;
+      line-height: 0.8rem;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+@import url('./Global.module.css');
+
+.titleWrapper {
+  background-color: rgba(var(--gray-900), var(--alpha-10));
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: var(--rounded);
+  border-top: 1rem solid rgba(var(--gray-800), var(--alpha-10));
+  .title {
+    word-break: break-word;
+    font-size: 1.875rem;
+    color: rgba(var(--gray-100), var(--alpha-10));
+    text-align: center;
+  }
+}

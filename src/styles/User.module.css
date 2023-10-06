@@ -1,3 +1,5 @@
+@import url('./Global.module.css');
+
 @supports (--css: variables) {
   .userBg {
     min-height: 80vh;
@@ -222,35 +224,5 @@
       font-size: 0.875rem;
       color: rgba(var(--error-400), var(--alpha-10));
     }
-  }
-  .spinner {
-    vertical-align: middle;
-    font-size: 1.25rem;
-    -webkit-animation: spin 2s infinite linear;
-    animation: spin 2s infinite linear;
-  }
-}
-
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-
-@keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
   }
 }

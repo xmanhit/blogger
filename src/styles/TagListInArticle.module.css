@@ -1,0 +1,26 @@
+.tagList {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+  .tag {
+    word-break: break-word;
+    color: rgba(var(--gray-300), var(--alpha-8));
+    border-radius: var(--rounded);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    animation: 0.2s;
+    &:hover {
+      color: rgba(var(--gray-100), var(--alpha-10));
+      border: 1px solid rgba(var(--gray-800), var(--alpha-6));
+      background-color: rgba(var(--gray-800), var(--alpha-6));
+    }
+    &:active {
+      border: 1px solid rgba(var(--indigo-600), var(--alpha-1));
+      background-color: rgba(var(--indigo-600), var(--alpha-1));
+      color: rgba(var(--gray-100), var(--alpha-10));
+    }
+  }
+}

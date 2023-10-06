@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import styles from '../../styles/Global.module.css'
+import styles from '../../styles/Header.module.css'
 import { currentUser } from '../../services'
 import { Link } from 'react-router-dom'
 import { IUser } from '../../models'

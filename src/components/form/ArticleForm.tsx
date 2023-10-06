@@ -119,7 +119,7 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
         }
       }}
     >
-      <Form>
+      <Form className={styles.formArticle}>
         <div className={styles.formWrapper}>
           <div className={styles.fieldGroup}>
             <div className={styles.field}>

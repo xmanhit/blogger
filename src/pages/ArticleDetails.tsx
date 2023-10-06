@@ -17,10 +17,10 @@ import { IArticleDetailsProps } from '../models'
 import { Comments } from '../components/ui'
 import { currentUser, isAuthenticated } from '../services'
 import { formatDate, formatFullDate } from '../utils'
-import styles from '../styles/Global.module.css'
 import { countComments } from '../store/selectors'
-import NotFound from './NotFound'
 import ArticleDetailsLoading from '../components/ui/ArticleDetailsLoading'
+import NotFound from './NotFound'
+import styles from '../styles/ArticleDetails.module.css'
 
 const ArticleDetails: React.FC<IArticleDetailsProps> = ({
   status,
@@ -83,7 +83,7 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
 
   return (
     article && (
-      <div className={styles.layout}>
+      <div className={styles.layoutAside}>
         {isAuthenticated && (
           <aside className={`${styles.aside} ${styles.actions}`}>
             <button

@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { ISignInProps } from '../../models'
 import { RootState } from '../../store'
 import { loginRequest } from '../../store/slices/auth.slice'
-import styles from '../../styles/Global.module.css'
+import styles from '../../styles/Login.module.css'
 import { PiSpinnerBold } from 'react-icons/pi'
 
 const SigInSchema = Yup.object().shape({

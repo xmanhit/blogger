@@ -10,7 +10,7 @@ import {
   setArticleDetails,
 } from '../../store/slices/article.slice'
 import { currentUser, isAuthenticated } from '../../services'
-import styles from '../../styles/Global.module.css'
+import styles from '../../styles/CardArticle.module.css'
 
 const CardArticle: React.FC<IArticleProps> = ({
   user,
@@ -41,7 +41,7 @@ const CardArticle: React.FC<IArticleProps> = ({
   }
 
   return (
-    <article className={styles.article}>
+    <article className={styles.cardArticle}>
       <div className={styles.author}>
         <Link className={styles.link} to={user?.username === author.username ? '/me' : `/${author.username}`}>
           <img className={styles.avatar} src={author.image} alt={author.username} />
@@ -57,7 +57,9 @@ const CardArticle: React.FC<IArticleProps> = ({
         >
           <span className={styles.count}>{favoritesCount}</span>
           {status?.favorite === 'loading' ? (
-            <PiSpinnerBold className={styles.spinner} />
+            <span className={styles.icon}>
+              <PiSpinnerBold className={styles.spinner} />
+            </span>
           ) : (
             <span className={styles.icon}>{favorited ? <FcDislike /> : <FcLike />}</span>
           )}

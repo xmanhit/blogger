@@ -2,12 +2,12 @@ import { useEffect } from 'react'
 import { Link, LoaderFunction, redirect, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { ILoginProps } from '../models'
+import { RootState } from '../store'
 import SignInForm from '../components/form/SignInForm'
 import { clearRegister } from '../store/slices/auth.slice'
 import { isAuthenticated } from '../services'
 import Logo from '../assets/logo.svg'
-import styles from '../styles/Global.module.css'
-import { RootState } from '../store'
+import styles from '../styles/Login.module.css'
 
 export const loginLoader: LoaderFunction = () => {
   if (isAuthenticated()) {

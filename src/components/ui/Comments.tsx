@@ -6,7 +6,7 @@ import CommentList from './CommentList'
 import { RootState } from '../../store'
 import { countComments } from '../../store/selectors'
 import { isAuthenticated } from '../../services'
-import styles from '../../styles/Global.module.css'
+import styles from '../../styles/Comments.module.css'
 
 const Comments: React.FC<ICommentProps> = ({ status, isAuthenticated, countComments }) => {
   return (

@@ -8,7 +8,7 @@ import { currentUser } from '../../services'
 import { RootState } from '../../store'
 import { deleteArticleCommentRequest, setArticleCommentRequest } from '../../store/slices/comment.slice'
 import { formatDate, formatFullDate } from '../../utils'
-import styles from '../../styles/Global.module.css'
+import styles from '../../styles/Comments.module.css'
 
 const CommentList: React.FC<ICommentListProps> = ({
   user,

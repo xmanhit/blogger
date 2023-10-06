@@ -1,0 +1,92 @@
+/* tagList */
+.tabContainer {
+  position: relative;
+  .tabBar {
+    overflow: hidden;
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0;
+      padding: 0.5rem 0;
+      list-style: none;
+      overflow-x: scroll;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+      &.dragging {
+        scroll-behavior: auto;
+        cursor: pointer;
+      }
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      .tab {
+        display: inline-block;
+        height: 2rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+        line-height: 2rem;
+        padding: 0 0.6rem;
+        border-radius: var(--rounded);
+        border: 1px solid rgba(var(--gray-900), var(--alpha-6));
+        background-color: rgba(var(--gray-900), var(--alpha-6));
+        color: rgba(var(--gray-500), var(--alpha-10));
+        user-select: none;
+        white-space: nowrap;
+        text-decoration: none;
+        transition: 0.5s;
+        &:hover {
+          border: 1px solid rgba(var(--indigo-600), var(--alpha-3));
+          background-color: rgba(var(--indigo-600), var(--alpha-2));
+          color: rgba(var(--indigo-200), var(--alpha-10));
+        }
+      }
+      .tab.active {
+        border: 1px solid rgba(var(--indigo-500), var(--alpha-3));
+        background-color: rgba(var(--indigo-500), var(--alpha-3));
+        color: rgba(var(--indigo-100), var(--alpha-10));
+      }
+    }
+    .leftArrow {
+      background: linear-gradient(to right, #000 20%, transparent);
+    }
+    .rightArrow {
+      right: 0;
+      justify-content: flex-end;
+      background: linear-gradient(to left, #000 20%, transparent);
+    }
+    .leftArrow.active,
+    .rightArrow.active {
+      display: flex;
+    }
+    .leftArrow,
+    .rightArrow {
+      position: absolute;
+      width: 100px;
+      height: 100%;
+      top: 0;
+      display: none;
+      align-items: center;
+      padding: 0 0.6rem;
+      pointer-events: none;
+      .icon {
+        box-sizing: content-box;
+        width: 1.5em;
+        height: 1.5em;
+        padding: 0.5rem;
+        cursor: pointer;
+        border-radius: 50%;
+        pointer-events: auto;
+        border: 1px solid rgba(var(--gray-100), var(--alpha-0));
+        transition: 0.5s;
+        &:hover {
+          background-color: rgba(var(--gray-100), var(--alpha-1));
+        }
+        &:active {
+          border: 1px solid rgba(var(--gray-100), var(--alpha-1));
+          background-color: rgba(var(--gray-100), var(--alpha-2));
+        }
+      }
+    }
+  }
+}

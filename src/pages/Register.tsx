@@ -6,7 +6,7 @@ import SignUpForm from '../components/form/SignUpForm'
 import { clearLogin } from '../store/slices/auth.slice'
 import { isAuthenticated } from '../services'
 import Logo from '../assets/logo.svg'
-import styles from '../styles/Global.module.css'
+import styles from '../styles/Login.module.css'
 
 export const registerLoader: LoaderFunction = () => {
   if (isAuthenticated()) {

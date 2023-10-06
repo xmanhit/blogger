@@ -7,8 +7,8 @@ import { IArticle, IHomeProps } from '../models'
 import { ArticlesLoading, CardArticle, Pagination } from '../components/ui'
 import { isAuthenticated } from '../services'
 import TagList from '../components/ui/TagList'
-import styles from '../styles/Global.module.css'
 import NotFound from './NotFound'
+import styles from '../styles/Home.module.css'
 
 export const homeLoader: LoaderFunction = ({ request }) => {
   const url: URL = new URL(request.url)

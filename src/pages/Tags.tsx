@@ -6,9 +6,9 @@ import { setArticlesRequest, setTagsRequest } from '../store/slices/article.slic
 import { CardArticle, Pagination } from '../components/ui'
 import { IArticle, ITagsProps } from '../models'
 import TagList from '../components/ui/TagList'
-import styles from '../styles/Global.module.css'
 import ArticlesLoading from '../components/ui/ArticlesLoading'
 import NotFound from './NotFound'
+import styles from '../styles/Tags.module.css'
 
 const Tags: React.FC<ITagsProps> = ({
   setTagsRequest,
