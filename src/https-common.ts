@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { clearItem, getItem, sessionStoreItem, storeItem } from './services'
+import { clearItem, getItem, sessionClearItem, sessionStoreItem, storeItem } from './services'
 import { IUser, Token } from './models'
 
 export default axios.create({
@@ -51,7 +51,7 @@ axiosPrivate.interceptors.response.use(
     // Do something with response error
     if (error.response.status === 401) {
       clearItem('token')
-      clearItem('currentUser')
+      sessionClearItem('currentUser')
     }
     return Promise.reject(error)
   }
