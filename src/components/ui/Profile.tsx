@@ -55,7 +55,7 @@ const Profile: React.FC<any> = ({
                   onClick={() => unFollowUserRequest({ username: profile?.username })}
                   className={styles.btn}
                 >
-                  UnFollow {status.unFollow === 'loading' && <PiSpinnerBold className={styles.spinner} />}
+                  Unfollow {status.unFollow === 'loading' && <PiSpinnerBold className={styles.spinner} />}
                 </button>
               ) : (
                 <button
