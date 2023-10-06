@@ -11,7 +11,7 @@ import {
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { IArticleFormProps } from '../../models'
-import { isLoadingFormArticle, isSucceededFormArticle } from '../../store/selectors'
+import { isLoadingFormArticle, isSuccessedFormArticle } from '../../store/selectors'
 import TagInput from './TagInput'
 import { PiSpinnerBold } from 'react-icons/pi'
 import { textAreaAdjust } from '../../utils'
@@ -34,7 +34,7 @@ const SignUpSchema = Yup.object().shape({
 const ArticleForm: React.FC<IArticleFormProps> = ({
   isLoading,
   isLoadingFormArticle,
-  isSucceededFormArticle,
+  isSuccessedFormArticle,
   article,
   resetStatusFormArticle,
   setArticleDetailsRequest,
@@ -48,11 +48,11 @@ const ArticleForm: React.FC<IArticleFormProps> = ({
   const lastPath = location.pathname.substring(location.pathname.lastIndexOf('/') + 1)
 
   useEffect(() => {
-    if (isSucceededFormArticle) {
+    if (isSuccessedFormArticle) {
       resetStatusFormArticle()
       navigate(`/${article?.author.username}/${article?.slug}`, { replace: true })
     }
-  }, [isSucceededFormArticle])
+  }, [isSuccessedFormArticle])
 
   useEffect(() => {
     if (!article) {
@@ -182,7 +182,7 @@ export default connect(
   (state: RootState) => ({
     isLoading: state.article.status.articleDetails === 'loading',
     isLoadingFormArticle: isLoadingFormArticle(state),
-    isSucceededFormArticle: isSucceededFormArticle(state),
+    isSuccessedFormArticle: isSuccessedFormArticle(state),
     status: state.article.status,
     article: state.article.articleDetails,
     errors: state.auth.errors,
