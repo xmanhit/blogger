@@ -32,7 +32,7 @@ import { RootState } from '../store'
 
 // token
 export type Token = string | null | undefined
-export type Status = 'loading' | 'idle' | 'succeeded' | 'failed'
+export type Status = 'loading' | 'idle' | 'successed' | 'failed'
 
 // login
 export interface ILoginCredentials {
@@ -159,7 +159,7 @@ export type DeleteArticleFavorite = (slug: string) => Promise<AxiosResponse<IArt
 export type GetTags = () => Promise<AxiosResponse<{ tags: string[] }>>
 
 // localStorage
-export type StoreItem = (item: { [key: string]: any }) => void
+export type StoreItem = (item: { [key: string]: string }) => void
 export type GetItem = (item: string) => string | null
 export type ClearItem = (item: string) => void
 
@@ -241,7 +241,7 @@ export interface IArticleDetailsProps {
 export interface IArticleFormProps {
   isLoading: boolean
   isLoadingFormArticle: boolean
-  isSucceededFormArticle: boolean
+  isSuccessedFormArticle: boolean
   article: IArticle | null
   resetStatusFormArticle: typeof resetStatusFormArticle
   setArticleDetailsRequest: typeof setArticleDetailsRequest
@@ -305,6 +305,8 @@ export interface ICommentProps {
 
 // State
 export interface IAuthState {
+  isAuthenticated: boolean
+  currentUser: IUser | null
   errors: {
     login: IErrorCredentials | null
     register: IErrorCredentials | null

@@ -15,7 +15,6 @@ import {
 } from '../store/slices/article.slice'
 import { IArticleDetailsProps } from '../models'
 import { Comments } from '../components/ui'
-import { currentUser, isAuthenticated } from '../services'
 import { formatDate, formatFullDate } from '../utils'
 import { countComments } from '../store/selectors'
 import ArticleDetailsLoading from '../components/ui/ArticleDetailsLoading'
@@ -187,11 +186,11 @@ const ArticleDetails: React.FC<IArticleDetailsProps> = ({
 
 export default connect(
   (state: RootState) => ({
-    isAuthenticated: isAuthenticated(),
+    isAuthenticated: state.auth.isAuthenticated,
     isLoading: state.article.status.articleDetails === 'loading',
     isDeleted: state.article.status.deleteArticle === 'idle',
     status: state.article.status,
-    user: currentUser(),
+    user: state.auth.currentUser,
     article: state.article.articleDetails,
     countComments: countComments(state),
     errors: state.article.errors,

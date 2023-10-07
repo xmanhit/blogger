@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { IHeaderProps } from '../models'
-import { currentUser, isAuthenticated } from '../services'
 import { currentUserRequest } from '../store/slices/auth.slice'
 import avatar from '../assets/giphy.gif'
 import Logo from '../assets/logo.svg'
@@ -95,8 +94,8 @@ const Header: React.FC<IHeaderProps> = ({ status, isAuthenticated, currentUserRe
 export default connect(
   (state: RootState) => ({
     status: state.auth.status,
-    isAuthenticated: isAuthenticated(),
-    user: currentUser(),
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.currentUser,
   }),
   { currentUserRequest }
 )(Header)

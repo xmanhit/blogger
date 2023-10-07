@@ -70,7 +70,7 @@ const articleSlice = createSlice({
     },
     createArticleSuccess: (state, action: PayloadAction<any>) => {
       state.articleDetails = action.payload.article
-      state.status.createArticle = 'succeeded'
+      state.status.createArticle = 'successed'
     },
     createArticleFailure: (state, action: PayloadAction<any>) => {
       state.errors = action.payload.errors
@@ -83,7 +83,7 @@ const articleSlice = createSlice({
     },
     updateArticleSuccess: (state, action: PayloadAction<IArticleResponse>) => {
       state.articleDetails = action.payload.article
-      state.status.updateArticle = 'succeeded'
+      state.status.updateArticle = 'successed'
     },
     updateArticleFailure: (state, action: PayloadAction<any>) => {
       state.errors = action.payload.errors
@@ -96,7 +96,7 @@ const articleSlice = createSlice({
     },
     deleteArticleSuccess: (state, _action: PayloadAction<any>) => {
       state.articleDetails = null
-      state.status.deleteArticle = 'succeeded'
+      state.status.deleteArticle = 'successed'
     },
     deleteArticleFailure: (state, action: PayloadAction<any>) => {
       state.errors = action.payload.errors

@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { PiSpinnerBold } from 'react-icons/pi'
 import { FcDislike, FcLike } from 'react-icons/fc'
+import { RootState } from '../../store'
 import { IArticleProps } from '../../models'
 import { timeSince } from '../../utils'
 import {
@@ -9,7 +10,6 @@ import {
   deleteArticleFavoriteRequest,
   setArticleDetails,
 } from '../../store/slices/article.slice'
-import { currentUser, isAuthenticated } from '../../services'
 import styles from '../../styles/CardArticle.module.css'
 
 const CardArticle: React.FC<IArticleProps> = ({
@@ -85,9 +85,9 @@ const CardArticle: React.FC<IArticleProps> = ({
 }
 
 export default connect(
-  () => ({
-    isAuthenticated: isAuthenticated(),
-    user: currentUser(),
+  (state: RootState) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.currentUser,
   }),
   {
     setArticleDetails,

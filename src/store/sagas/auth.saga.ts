@@ -1,4 +1,6 @@
+import { AxiosError, AxiosResponse } from 'axios'
 import { call, put, takeLatest } from 'redux-saga/effects'
+import { clearItem, sessionClearItem } from '../../services'
 import { getCurrentUser, login, register, updateUser } from '../../services/auth.service'
 import { IUser, Login, Register } from '../../models'
 import {
@@ -17,8 +19,6 @@ import {
   updateUserFailure,
   updateUserSuccess,
 } from '../slices/auth.slice'
-import { AxiosError, AxiosResponse } from 'axios'
-import { clearItem } from '../../services'
 
 // Actions
 function* handleRegister(action: ReturnType<typeof registerRequest>) {
@@ -45,6 +45,7 @@ function* handleLogin(action: ReturnType<typeof loginRequest>) {
 
 function* handlelogout() {
   clearItem('token')
+  sessionClearItem('currentUser')
   yield put(logoutSuccess())
 }
 

@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useSearchParams, useParams } from 'react-router-dom'
 import { RootState } from '../store'
-import { currentUser } from '../services'
 import { setArticlesRequest } from '../store/slices/article.slice'
 import { ArticlesLoading, CardArticle, Pagination } from '../components/ui'
 import styles from '../styles/Global.module.css'
@@ -43,7 +42,7 @@ const UserArticle: React.FC<any> = ({ isArticlesLoading, user, articles, limit, 
 
 export default connect(
   (state: RootState) => ({
-    user: currentUser(),
+    user: state.auth.currentUser,
     isArticlesLoading: state.article.status.articles === 'loading',
     articles: state.article.articles,
     limit: state.article.limit,

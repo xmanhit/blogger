@@ -1,7 +1,10 @@
+import { currentUser, isAuthenticated } from './../../services/index'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { IAuthState, ILoginCredentials, IRegisterCredentials, IUser, IUserInfo } from '../../models'
 
 export const initialState: IAuthState = {
+  isAuthenticated: isAuthenticated(),
+  currentUser: currentUser(),
   errors: {
     login: null,
     register: null,
@@ -28,10 +31,12 @@ export const authSlice = createSlice({
     },
     loginRequest: (state, _action: PayloadAction<ILoginCredentials>): void => {
       state.status.login = 'loading'
+      state.isAuthenticated = false
       state.errors.login = null
     },
     loginSuccess: (state, _action: PayloadAction<IUser>): void => {
       state.status.login = 'idle'
+      state.isAuthenticated = true
     },
     loginFailure: (state, action: PayloadAction<any>): void => {
       state.errors.login = action.payload.errors
@@ -42,14 +47,18 @@ export const authSlice = createSlice({
       state.status.logout = 'loading'
     },
     logoutSuccess: (state): void => {
+      state.isAuthenticated = false
+      state.currentUser = null
       state.status.logout = 'idle'
     },
     // Current User
     currentUserRequest: (state) => {
+      state.errors.currentUser = null
       state.status.currentUser = 'loading'
     },
-    currentUserSuccess: (state, _action: PayloadAction<IUser>): void => {
+    currentUserSuccess: (state, action: PayloadAction<IUser>): void => {
       state.status.currentUser = 'idle'
+      state.currentUser = action.payload
     },
     currentUserFailure: (state, action: PayloadAction<any>): void => {
       state.errors.currentUser = action.payload
@@ -62,9 +71,13 @@ export const authSlice = createSlice({
     },
     registerRequest: (state, _action: PayloadAction<IRegisterCredentials>): void => {
       state.status.register = 'loading'
+      state.currentUser = null
       state.errors.register = null
+      state.isAuthenticated = false
     },
-    registerSuccess: (state, _action: PayloadAction<IUser>): void => {
+    registerSuccess: (state, action: PayloadAction<IUser>): void => {
+      state.isAuthenticated = true
+      state.currentUser = action.payload
       state.status.register = 'idle'
     },
     registerFailure: (state, action: PayloadAction<any>): void => {
@@ -73,14 +86,16 @@ export const authSlice = createSlice({
     },
     // Update
     resetStatusUpdateUser: (state): void => {
+      state.errors.update = null
       state.status.update = 'idle'
     },
     updateUserRequest: (state, _action: PayloadAction<{ user: IUserInfo }>): void => {
       state.status.update = 'loading'
       state.errors.update = null
     },
-    updateUserSuccess: (state, _action: PayloadAction<IUser>): void => {
-      state.status.update = 'succeeded'
+    updateUserSuccess: (state, action: PayloadAction<IUser>): void => {
+      state.currentUser = action.payload
+      state.status.update = 'successed'
     },
     updateUserFailure: (state, action: PayloadAction<any>): void => {
       state.errors.update = action.payload

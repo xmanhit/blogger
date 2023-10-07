@@ -9,6 +9,6 @@ export const isLoadingFormArticle = (state: any) => {
   return state.article.status.createArticle === 'loading' || state.article.status.updateArticle === 'loading'
 }
 
-export const isSucceededFormArticle = (state: any) => {
-  return state.article.status.createArticle === 'succeeded' || state.article.status.updateArticle === 'succeeded'
+export const isSuccessedFormArticle = (state: any) => {
+  return state.article.status.createArticle === 'successed' || state.article.status.updateArticle === 'successed'
 }

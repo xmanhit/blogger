@@ -1,7 +1,8 @@
 import { IoClose } from 'react-icons/io5'
 import styles from '../../styles/TagInput.module.css'
+import { FieldProps } from 'formik'
 
-const TagInput: React.FC<any> = ({
+const TagInput: React.FC<FieldProps> = ({
   field, // { name, value, onChange, onBlur }
   form, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
   ...props
@@ -48,7 +49,7 @@ const TagInput: React.FC<any> = ({
         )}
         <input name={field.name} type='text' {...props} onKeyUp={handleKeyUpTag} />
       </div>
-      {errors[field.name] && <div className={styles.error}>{errors[field.name]}</div>}
+      {errors[field.name] && <div className={styles.error}>{errors[field.name]?.toString()}</div>}
     </>
   )
 }

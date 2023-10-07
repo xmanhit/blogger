@@ -30,18 +30,18 @@ const Home: React.FC<IHomeProps> = ({
   articles,
   limit,
   total,
-}): JSX.Element => {
+}) => {
   let [searchParams, setSearchParams] = useSearchParams()
   const page: number = Number(searchParams.get('page')) || 1
   const maxPage: number = Math.ceil(total / limit)
-
   let { isFollowing } = useLoaderData() as { isFollowing: boolean }
+
   useEffect(() => {
     document.title = 'Blogger | Home'
-    if (tagList.length === 0) {
+    if (tagList.length === 0 && !isTagsLoading) {
       setTagsRequest()
     }
-  }, [])
+  }, [tagList, isTagsLoading])
 
   useEffect(() => {
     const offset = (page - 1) * limit
@@ -94,7 +94,7 @@ const Home: React.FC<IHomeProps> = ({
       )}
       <div className={styles.articleWrapper}>
         {isArticlesLoading && <ArticlesLoading />}
-        {articles.length <= 0 && !isArticlesLoading && <div>No articles yet</div>}
+        {articles.length === 0 && !isArticlesLoading && <div>No articles yet</div>}
         {articles?.map((article: IArticle) => (
           <CardArticle key={article.slug} article={article} />
         ))}
@@ -107,7 +107,7 @@ const Home: React.FC<IHomeProps> = ({
 
 export default connect(
   (state: RootState) => ({
-    isAuthenticated: isAuthenticated(),
+    isAuthenticated: state.auth.isAuthenticated,
     isArticlesLoading: state.article.status.articles === 'loading',
     isTagsLoading: state.article.status.tagList === 'loading',
     tagList: state.article.tagList,
