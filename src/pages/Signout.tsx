@@ -1,18 +1,19 @@
 import { useNavigate } from 'react-router-dom'
-import { clearItem } from '../services'
 import styles from '../styles/Signout.module.css'
 import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { logoutRequest } from '../store/slices/auth.slice'
 
 const Signout: React.FC = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     document.title = 'Blogger | Sign Out'
   }, [])
 
   const handleSigout = () => {
-    clearItem('token')
-    clearItem('currentUser')
+    dispatch(logoutRequest)
     return navigate('/', { replace: true })
   }
 
