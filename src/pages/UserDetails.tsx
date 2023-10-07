@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { LoaderFunction, NavLink, Outlet, matchRoutes, redirect, useLocation, useParams } from 'react-router-dom'
 import { RootState } from '../store'
-import { currentUser, isAuthenticated } from '../services'
+import { isAuthenticated } from '../services'
 import { isMatchRoutes } from '../utils'
 import Profile from '../components/ui/Profile'
 import NotFound from './NotFound'
@@ -75,4 +75,6 @@ const UserDetails: React.FC<any> = ({ user, errors }) => {
   )
 }
 
-export default connect((state: RootState) => ({ user: currentUser(), errors: state.profile.errors }))(UserDetails)
+export default connect((state: RootState) => ({ user: state.auth.currentUser, errors: state.profile.errors }))(
+  UserDetails
+)

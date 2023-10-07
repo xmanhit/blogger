@@ -4,7 +4,6 @@ import { Link, useParams } from 'react-router-dom'
 import { PiSpinnerBold } from 'react-icons/pi'
 import { MdOutlineDeleteOutline } from 'react-icons/md'
 import { IComment, ICommentListProps } from '../../models'
-import { currentUser } from '../../services'
 import { RootState } from '../../store'
 import { deleteArticleCommentRequest, setArticleCommentRequest } from '../../store/slices/comment.slice'
 import { formatDate, formatFullDate } from '../../utils'
@@ -77,7 +76,7 @@ const CommentList: React.FC<ICommentListProps> = ({
 
 export default connect(
   (state: RootState) => ({
-    user: currentUser(),
+    user: state.auth.currentUser,
     comments: state.comment.comments,
   }),
   { setArticleCommentRequest, deleteArticleCommentRequest }

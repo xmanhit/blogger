@@ -53,7 +53,7 @@ const Login: React.FC<ILoginProps> = ({ isAuthenticated, status, errors, clearRe
 
 export default connect(
   (state: RootState) => ({
-    isAuthenticated: isAuthenticated(),
+    isAuthenticated: state.auth.isAuthenticated,
     status: state.auth.status.login,
     errors: state.auth.errors.login,
   }),

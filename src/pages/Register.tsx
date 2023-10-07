@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link, LoaderFunction, redirect, useNavigate } from 'react-router-dom'
+import { RootState } from '../store'
 import { IRegisterProps } from '../models'
 import SignUpForm from '../components/form/SignUpForm'
 import { clearLogin } from '../store/slices/auth.slice'
@@ -46,8 +47,8 @@ const Register: React.FC<IRegisterProps> = ({ isAuthenticated, clearLogin }) => 
 }
 
 export default connect(
-  () => ({
-    isAuthenticated: isAuthenticated(),
+  (state: RootState) => ({
+    isAuthenticated: state.auth.isAuthenticated,
   }),
   { clearLogin }
 )(Register)

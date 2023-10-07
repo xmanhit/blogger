@@ -305,6 +305,8 @@ export interface ICommentProps {
 
 // State
 export interface IAuthState {
+  isAuthenticated: boolean
+  currentUser: IUser | null
   errors: {
     login: IErrorCredentials | null
     register: IErrorCredentials | null

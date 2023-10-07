@@ -6,7 +6,6 @@ import * as Yup from 'yup'
 import { PiSpinnerBold } from 'react-icons/pi'
 import { RootState } from '../../store'
 import { createArticleCommentRequest } from '../../store/slices/comment.slice'
-import { currentUser } from '../../services'
 import { ICommentFormProps } from '../../models'
 import { textAreaAdjust } from '../../utils'
 import styles from '../../styles/Comments.module.css'
@@ -64,7 +63,7 @@ const CommentForm: React.FC<ICommentFormProps> = ({ user, createArticleCommentRe
 
 export default connect(
   (state: RootState) => ({
-    user: currentUser(),
+    user: state.auth.currentUser,
     status: state.comment.status.createComment,
     errors: state.comment.errors,
   }),

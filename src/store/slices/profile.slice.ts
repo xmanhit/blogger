@@ -16,7 +16,7 @@ export const profileSlice = createSlice({
     },
     setProfileSuccess: (state, action: PayloadAction<{ profile: IProfile }>) => {
       state.profile = action.payload.profile
-      state.status.profile = 'succeeded'
+      state.status.profile = 'successed'
     },
     setProfileFailure: (state, action: PayloadAction<{ status?: number; data: any }>) => {
       state.errors.profile = action.payload
@@ -29,7 +29,7 @@ export const profileSlice = createSlice({
     },
     followUserSuccess: (state, action: PayloadAction<{ profile: IProfile }>) => {
       state.profile.following = action.payload.profile.following
-      state.status.follow = 'succeeded'
+      state.status.follow = 'successed'
     },
     followUserFailure: (state, action: PayloadAction<{ status?: number; data: any }>) => {
       state.errors.follow = action.payload
@@ -42,7 +42,7 @@ export const profileSlice = createSlice({
     },
     unFollowUserSuccess: (state, action: PayloadAction<{ profile: IProfile }>) => {
       state.profile.following = action.payload.profile.following
-      state.status.unFollow = 'succeeded'
+      state.status.unFollow = 'successed'
     },
     unFollowUserFailure: (state, action: PayloadAction<any>) => {
       state.errors.unFollow = action.payload

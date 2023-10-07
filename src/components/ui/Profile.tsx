@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../store'
-import { currentUser, isAuthenticated } from '../../services'
 import {
   followUserRequest,
   setProfileRequest,
@@ -79,8 +78,8 @@ const Profile: React.FC<any> = ({
 
 export default connect(
   (state: RootState) => ({
-    isAuthenticated: isAuthenticated(),
-    user: currentUser(),
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.currentUser,
     status: state.profile.status,
     profile: state.profile.profile,
   }),

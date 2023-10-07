@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
 import styles from '../../styles/Header.module.css'
-import { currentUser } from '../../services'
 import { Link } from 'react-router-dom'
 import { IUser } from '../../models'
+import { RootState } from '../../store'
 
 interface IMenuProps {
   user: IUser | null
@@ -50,6 +50,6 @@ const Menu: React.FC<IMenuProps> = ({ user, isActive, setActive }) => {
   )
 }
 
-export default connect(() => ({
-  user: currentUser(),
+export default connect((state: RootState) => ({
+  user: state.auth.currentUser,
 }))(Menu)

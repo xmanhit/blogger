@@ -7,7 +7,6 @@ import { PiSpinnerBold } from 'react-icons/pi'
 
 import { RootState } from '../../store'
 import { IUserSettingProps } from '../../models'
-import { currentUser } from '../../services'
 import { resetStatusUpdateUser, updateUserRequest } from '../../store/slices/auth.slice'
 import { textAreaAdjust } from '../../utils'
 import styles from '../../styles/User.module.css'
@@ -33,7 +32,7 @@ const userSettingForm: React.FC<IUserSettingProps> = ({
   errors,
 }) => {
   const navigate = useNavigate()
-  const isUpdateUserSuccess = status.update === 'succeeded'
+  const isUpdateUserSuccess = status.update === 'successed'
 
   useEffect(() => {
     if (isUpdateUserSuccess) {
@@ -159,7 +158,7 @@ const fieldImage: React.FC<any> = ({ field, form, ...props }) => {
 export default connect(
   (state: RootState) => ({
     status: state.auth.status,
-    user: currentUser(),
+    user: state.auth.currentUser,
     errors: state.auth.errors,
   }),
   { resetStatusUpdateUser, updateUserRequest }

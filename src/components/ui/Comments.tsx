@@ -5,7 +5,6 @@ import CommentForm from '../form/CommentForm'
 import CommentList from './CommentList'
 import { RootState } from '../../store'
 import { countComments } from '../../store/selectors'
-import { isAuthenticated } from '../../services'
 import styles from '../../styles/Comments.module.css'
 
 const Comments: React.FC<ICommentProps> = ({ status, isAuthenticated, countComments }) => {
@@ -36,6 +35,6 @@ const Comments: React.FC<ICommentProps> = ({ status, isAuthenticated, countComme
 
 export default connect((state: RootState) => ({
   status: state.comment.status,
-  isAuthenticated: isAuthenticated(),
+  isAuthenticated: state.auth.isAuthenticated,
   countComments: countComments(state),
 }))(Comments)
