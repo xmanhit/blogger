@@ -67,7 +67,7 @@
       }
       .count {
         font-size: 0.8rem;
-        margin-top: 0.25rem;
+        /*margin-top: 0.25rem;*/
         border-radius: 0 var(--rounded) var(--rounded) 0;
       }
     }
