@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { useSearchParams, useParams } from 'react-router-dom'
+import { useSearchParams, useParams, useLocation } from 'react-router-dom'
 import { RootState } from '../store'
 import { setArticlesRequest } from '../store/slices/article.slice'
 import { ArticlesLoading, CardArticle, Pagination } from '../components/ui'
@@ -10,6 +10,7 @@ import NotFound from './NotFound'
 
 const UserArticle: React.FC<any> = ({ isArticlesLoading, user, articles, limit, total, setArticlesRequest }) => {
   let [searchParams, setSearchParams] = useSearchParams()
+  const location = useLocation()
   const page: number = Number(searchParams.get('page')) || 1
   const maxPage: number = Math.ceil(total / limit)
   const { username } = useParams()
@@ -20,9 +21,15 @@ const UserArticle: React.FC<any> = ({ isArticlesLoading, user, articles, limit, 
 
   useEffect(() => {
     const offset = (page - 1) * limit
+    const tmp = location.pathname.split('/').pop()
     const author = username || user.username
-    setArticlesRequest({ author, limit, offset })
-  }, [username, page])
+    const isFavoritePage = tmp === 'favorites'
+    if (isFavoritePage) {
+      setArticlesRequest({ favorited: author, limit, offset })
+    } else {
+      setArticlesRequest({ author, limit, offset })
+    }
+  }, [username, location, page])
 
   if (!isArticlesLoading && page > maxPage && maxPage > limit) {
     return <NotFound />
