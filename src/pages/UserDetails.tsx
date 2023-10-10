@@ -17,15 +17,13 @@ export const meLoader: LoaderFunction = async () => {
 
 const UserDetails: React.FC<any> = ({ user, errors }) => {
   const { username } = useParams()
-  const currentLocation = useLocation()
   const someRoutes = [
     { path: '/me' },
     { path: '/me/favorites' },
     { path: `/${username}` },
     { path: `/${username}/favorites` },
   ]
-  const matches = matchRoutes(someRoutes, currentLocation)
-  const isMatchPaths = (matches && isMatchRoutes(someRoutes, matches)) || false
+  const isMatchPaths = isMatchRoutes(someRoutes)
 
   useEffect(() => {
     document.title = `Blogger | ${username || user.username}`

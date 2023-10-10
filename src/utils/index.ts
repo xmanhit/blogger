@@ -1,4 +1,5 @@
-import { AgnosticRouteObject, AgnosticRouteMatch } from '@remix-run/router'
+import { AgnosticRouteObject } from '@remix-run/router'
+import { matchRoutes, useLocation } from 'react-router-dom'
 export function timeSince(date: Date): string {
   const today: Date = new Date()
   const seconds = Math.floor((+today - +date) / 1000)
@@ -59,9 +60,12 @@ export function formatFullDate(date: Date): string {
   return formattedDate
 }
 
-export const isMatchRoutes = (routes: AgnosticRouteObject[], matches: AgnosticRouteMatch[]) => {
+export const isMatchRoutes = (routes: AgnosticRouteObject[]) => {
+  const currentLocation = useLocation()
+  const matches = matchRoutes(routes, currentLocation)
+
   for (const route of routes) {
-    if (route.path === matches[0].route.path) {
+    if (route.path === matches?.[0].route.path) {
       return true
     }
   }

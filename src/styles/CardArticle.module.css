@@ -44,7 +44,7 @@
       gap: 0.25rem;
       padding: 0.25rem 0.5rem;
       justify-content: center;
-      align-items: center;
+      align-items: flex-end;
       animation: 0.2s;
       border-radius: var(--rounded);
       border: 1px solid transparent;
