@@ -20,16 +20,20 @@ const UserArticle: React.FC<any> = ({ isArticlesLoading, user, articles, limit, 
   }, [])
 
   useEffect(() => {
+    if (!username && !user?.username) {
+      return
+    }
     const offset = (page - 1) * limit
     const tmp = location.pathname.split('/').pop()
-    const author = username || user.username
+    let author = username || user.username
     const isFavoritePage = tmp === 'favorites'
+
     if (isFavoritePage) {
       setArticlesRequest({ favorited: author, limit, offset })
     } else {
       setArticlesRequest({ author, limit, offset })
     }
-  }, [username, location, page])
+  }, [username, user?.username, location.pathname, page])
 
   if (!isArticlesLoading && page > maxPage && maxPage > limit) {
     return <NotFound />
@@ -50,7 +54,7 @@ const UserArticle: React.FC<any> = ({ isArticlesLoading, user, articles, limit, 
 export default connect(
   (state: RootState) => ({
     user: state.auth.currentUser,
-    isArticlesLoading: state.article.status.articles === 'loading',
+    isArticlesLoading: state.article.status.articles === 'loading' || state.auth.status.currentUser === 'loading',
     articles: state.article.articles,
     limit: state.article.limit,
     total: state.article.total,

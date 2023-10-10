@@ -12,6 +12,7 @@ import styles from '../../styles/Profile.module.css'
 import ProfileLoading from './ProfileLoading'
 import { PiSpinnerBold } from 'react-icons/pi'
 const Profile: React.FC<any> = ({
+  isProfileLoading,
   isAuthenticated,
   status,
   user,
@@ -25,13 +26,13 @@ const Profile: React.FC<any> = ({
   const isMe = !username
   useEffect(() => {
     if (isMe) {
-      setProfileSuccess({ profile: user })
+      user?.username && setProfileSuccess({ profile: user })
     } else {
       setProfileRequest({ username })
     }
-  }, [username])
+  }, [username, user?.username])
 
-  if (status.profile === 'loading') {
+  if (isProfileLoading) {
     return <ProfileLoading />
   }
 
@@ -81,6 +82,7 @@ export default connect(
     isAuthenticated: state.auth.isAuthenticated,
     user: state.auth.currentUser,
     status: state.profile.status,
+    isProfileLoading: state.profile.status.profile === 'loading' || state.auth.status.currentUser === 'loading',
     profile: state.profile.profile,
   }),
   { setProfileRequest, setProfileSuccess, followUserRequest, unFollowUserRequest }

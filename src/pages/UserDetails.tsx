@@ -17,17 +17,23 @@ export const meLoader: LoaderFunction = async () => {
 
 const UserDetails: React.FC<any> = ({ user, errors }) => {
   const { username } = useParams()
+
   const someRoutes = [
     { path: '/me' },
     { path: '/me/favorites' },
     { path: `/${username}` },
     { path: `/${username}/favorites` },
   ]
+
   const isMatchPaths = isMatchRoutes(someRoutes)
 
   useEffect(() => {
-    document.title = `Blogger | ${username || user.username}`
-  }, [])
+    if (!username && !user?.username) {
+      document.title = 'Blogger | Me'
+    } else {
+      document.title = `Blogger | ${username || user?.username}`
+    }
+  }, [username, user?.username])
 
   if (errors.profile?.status === 404) {
     return <NotFound />
